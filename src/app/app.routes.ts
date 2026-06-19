@@ -8,6 +8,7 @@ import { Gallery } from './page/gallery/gallery';
 import { Policy } from './page/policy/policy';
 import { Faqs } from './page/faqs/faqs';
 import { Calculator } from './page/calculator/calculator';
+import { adminGuard } from './guards/admin.guard';
 
 
 
@@ -168,7 +169,13 @@ export const routes: Routes = [
     },
   },
   {
+    path: 'dashboard/login',
+    loadComponent: () =>
+      import('./page/dashboard/login/login').then(m => m.DashboardLogin)
+  },
+  {
     path: 'homeDashboard',
+      canActivate: [adminGuard],
     loadComponent: () =>
       import('./page/dashboard/home/home').then(c => c.Home),
     title: 'Dashboard',

@@ -23,34 +23,35 @@ export class AuthPocketbaseService {
     return Array.from(bytes, b => chars[b % chars.length]).join('');
   }
   async login(email: string, password: string) {
-    try {
-      const authData = await this.pb.collection('users').authWithPassword(email, password);
-      
-      const role = authData.record['role'] || 'user';
-      const companyId = authData.record['companyId'] || '';
-      // Guarda la sesión
-      localStorage.setItem('token', this.pb.authStore.token);
-      localStorage.setItem('companyId', companyId);
-      localStorage.setItem('role', role);
-      localStorage.setItem('user', JSON.stringify(authData.record));
+  const authData = await this.pb.collection('users').authWithPassword(email, password);
 
-      return authData;
-    } catch (err) {
-      throw err;
-    }
-  }
+  const role = authData.record['role'] || 'user';
+  const companyId = authData.record['companyId'] || '';
+
+  localStorage.setItem('token', this.pb.authStore.token);
+  localStorage.setItem('companyId', companyId);
+  localStorage.setItem('role', role);
+  localStorage.setItem('user', JSON.stringify(authData.record));
+
+  return authData;
+}
 
   constructor(private router: Router) {
     this.pb = new PocketBase('https://db.buckapi.site:8091');
   }
 
   logout() {
-    this.pb.authStore.clear();
-    localStorage.clear();
-      localStorage.removeItem('user');
-    // Navigation is handled by the component
-  }
+  this.pb.authStore.clear();
 
+  localStorage.removeItem('token');
+  localStorage.removeItem('companyId');
+  localStorage.removeItem('role');
+  localStorage.removeItem('user');
+}
+logoutAdmin() {
+  localStorage.removeItem('cw_admin_session');
+  this.router.navigate(['/dashboard/login']);
+}
 
   get companyId() {
     return localStorage.getItem('companyId');

@@ -35,9 +35,9 @@
                                     <a href="/contact" (click)="goTo($event, '/contact')">Contact Us</a>
                                 </li>
                                 <li [class.active-link]="activeRoute === '/homeDashboard'">
-    <a href="/homeDashboard" (click)="goTo($event, '/homeDashboard')">
-        Dashboard
-    </a>
+    <a routerLink="/dashboard/login" class="admin-access">
+  Admin
+</a>
 </li>
                             </ul>
                         </nav>
@@ -66,10 +66,8 @@
                         (click)="goTo($event, '/gallery')">Our Work</a>
                     <a href="/contact" [class.active]="activeRoute === '/contact'"
                         (click)="goTo($event, '/contact')">Contact Us</a>
-                    <a href="/homeDashboard"
-   [class.active]="activeRoute === '/homeDashboard'"
-   (click)="goTo($event, '/homeDashboard')">
-   Dashboard
+                    <a routerLink="/dashboard/login">
+  Admin
 </a>
                     <div class="mobile-help-grid">
                         <button type="button" class="mobile-help-card" (click)="goTo($event, '/installer')">

@@ -183,12 +183,12 @@ button {
 }
 
 input:focus {
-  color: var(--white);
+  color: #000;
   outline: none;
 }
 
 input {
-  color: var(--white);
+  color: #000;
 }
 
 h1,

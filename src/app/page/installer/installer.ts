@@ -12,9 +12,6 @@ type ProjectAudience = 'residential' | 'commercial';
   styleUrl: './installer.scss',
 })
 export class Installer {
-  currentStep = 1;
-  totalSteps = 10;
-
   selectedAudience: ProjectAudience | null = null;
 
   constructor(private router: Router) {}
@@ -25,15 +22,6 @@ export class Installer {
 
   nextStep() {
     if (!this.selectedAudience) return;
-
     this.router.navigate(['/installer', this.selectedAudience]);
-  }
-
-  goToWizard(type: ProjectAudience) {
-    this.router.navigate(['/installer', type]);
-  }
-
-  getProgressSteps(): number[] {
-    return Array.from({ length: this.totalSteps }, (_, i) => i + 1);
   }
 }

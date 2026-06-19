@@ -1,9 +1,7 @@
 
   <section class="installer-page">
 
-    <div class="step-badge">
-      STEP {{ currentStep }} OF {{ totalSteps }}
-    </div>
+   
 
     <div class="wizard-card">
       
@@ -12,13 +10,7 @@
         <div class="wizard-content">
           <span class="eyebrow">FIND INSTALLER</span>
 
-          <div class="progress-dots">
-            @for (step of getProgressSteps(); track step) {
-              <span class="dot" [class.active]="step === currentStep">
-                {{ step }}
-              </span>
-            }
-          </div>
+         
 
           <h1>What type of project is this?</h1>
 
@@ -31,7 +23,7 @@
   type="button"
   class="type-card"
   [class.selected]="selectedAudience === 'residential'"
-  (click)="goToWizard('residential')">
+  (click)="selectAudience('residential')">
 
   <i class="ph ph-house-line"></i>
   <strong>Residential</strong>
@@ -42,7 +34,7 @@
   type="button"
   class="type-card"
   [class.selected]="selectedAudience === 'commercial'"
-  (click)="goToWizard('commercial')">
+  (click)="selectAudience('commercial')">
 
   <i class="ph ph-buildings"></i>
   <strong>Commercial</strong>

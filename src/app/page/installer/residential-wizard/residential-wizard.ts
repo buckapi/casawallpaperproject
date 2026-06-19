@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, AfterViewInit, ElementRef, ViewChild, NgZone } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import PocketBase from 'pocketbase';
+declare const google: any;
 
 @Component({
   selector: 'app-residential-wizard',
@@ -11,15 +13,47 @@ import { RouterLink } from '@angular/router';
   styleUrl: './residential-wizard.scss',
 })
 export class ResidentialWizard {
+  @ViewChild('locationInput') locationInput!: ElementRef<HTMLInputElement>;
+  private pb = new PocketBase('https://db.buckapi.site:8055');
+  isSubmitting = false;
+  submitError = '';
+  locationQuery = '';
+  requestSent = false;
+  selectedResidentialProjectType = '';
+  residentialProjectTypes = [
+    { label: 'Accent Wall / Mural', value: 'accent_wall_mural' },
+    { label: 'Single Room', value: 'single_room' },
+    { label: 'Multiple Rooms', value: 'multiple_rooms' },
+    { label: 'Bathroom', value: 'bathroom' },
+    { label: 'Bedroom', value: 'bedroom' },
+    { label: 'Living Room', value: 'living_room' },
+    { label: 'Dining Room', value: 'dining_room' },
+    { label: 'Hallway / Stairwell', value: 'hallway_stairwell' },
+    { label: 'Ceiling', value: 'ceiling' },
+    { label: 'Other', value: 'other' },
+  ];
+  selectedLocation: {
+    formattedAddress: string;
+    city: string;
+    state: string;
+    stateCode: string;
+    country: string;
+    countryCode: string;
+    zipCode: string | null;
+    lat: number;
+    lng: number;
+    placeId: string;
+  } | null = null;
   currentStep = 1;
-  totalSteps = 10;
+  totalSteps = 9;
 
-  selectedProjectType = '';
   selectedRoom = '';
   selectedCeilingHeight = '';
   selectedTimeline = '';
   selectedWallpaper = '';
-
+  locationError = '';
+  country = 'US';
+  state = '';
   zipCode = '';
   city = '';
 
@@ -49,11 +83,155 @@ export class ResidentialWizard {
     'No, I need to purchase wallpaper',
     'Help Me Find Wallpaper',
   ];
+  autocompleteInitialized = false;
+  uploadedPhotos: File[] = [];
+  photoPreviews: string[] = [];
+  photoError = '';
+  constructor(private ngZone: NgZone) { }
 
   nextStep() {
+    if (this.currentStep === 2 && !this.isLocationValid()) {
+      return;
+    }
+
     if (this.currentStep < this.totalSteps) {
       this.currentStep++;
+
+      if (this.currentStep === 2) {
+        setTimeout(() => {
+          this.initGoogleAutocomplete();
+        }, 300);
+      }
     }
+  }
+  getSelectedProjectTypeLabel(): string {
+    return this.residentialProjectTypes.find(
+      item => item.value === this.selectedResidentialProjectType
+    )?.label || '';
+  }
+  onPhotosSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+
+    if (!input.files?.length) return;
+
+    this.handlePhotos(Array.from(input.files));
+
+    input.value = '';
+  }
+
+  handlePhotos(files: File[]) {
+    this.photoError = '';
+
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+    const maxSize = 10 * 1024 * 1024;
+    const maxFiles = 6;
+
+    for (const file of files) {
+      if (!allowedTypes.includes(file.type)) {
+        this.photoError = 'Only JPG, PNG or WEBP images are allowed.';
+        continue;
+      }
+
+      if (file.size > maxSize) {
+        this.photoError = 'Each image must be 10MB or less.';
+        continue;
+      }
+
+      if (this.uploadedPhotos.length >= maxFiles) {
+        this.photoError = `You can upload up to ${maxFiles} photos.`;
+        break;
+      }
+
+      this.uploadedPhotos.push(file);
+
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        this.photoPreviews.push(reader.result as string);
+      };
+
+      reader.readAsDataURL(file);
+    }
+  }
+
+  removePhoto(index: number) {
+    this.uploadedPhotos.splice(index, 1);
+    this.photoPreviews.splice(index, 1);
+  }
+  initGoogleAutocomplete() {
+    if (this.autocompleteInitialized) return;
+    if (!this.locationInput?.nativeElement) return;
+
+    if (typeof google === 'undefined' || !google.maps?.places) {
+      console.error('Google Places API is not loaded.');
+      return;
+    }
+
+    this.autocompleteInitialized = true;
+
+    const autocomplete = new google.maps.places.Autocomplete(
+      this.locationInput.nativeElement,
+      {
+        types: ['geocode'],
+        componentRestrictions: {
+          country: 'us',
+        },
+        fields: [
+          'place_id',
+          'formatted_address',
+          'geometry',
+          'address_components',
+        ],
+      }
+    );
+
+    autocomplete.addListener('place_changed', () => {
+      this.ngZone.run(() => {
+        const place = autocomplete.getPlace();
+
+        if (!place.geometry?.location) {
+          this.locationError = 'Please select a valid location from the list.';
+          return;
+        }
+
+        const components = place.address_components || [];
+
+        const getComponent = (type: string, short = false) => {
+          const component = components.find((c: any) => c.types.includes(type));
+          return short ? component?.short_name || '' : component?.long_name || '';
+        };
+
+        const city =
+          getComponent('locality') ||
+          getComponent('postal_town') ||
+          getComponent('administrative_area_level_2');
+
+        const state = getComponent('administrative_area_level_1');
+        const stateCode = getComponent('administrative_area_level_1', true);
+        const country = getComponent('country');
+        const countryCode = getComponent('country', true);
+        const zipCode = getComponent('postal_code') || null;
+
+        this.selectedLocation = {
+          formattedAddress: place.formatted_address || this.locationQuery,
+          city,
+          state,
+          stateCode,
+          country,
+          countryCode,
+          zipCode,
+          lat: place.geometry.location.lat(),
+          lng: place.geometry.location.lng(),
+          placeId: place.place_id || '',
+        };
+
+        this.locationQuery = this.selectedLocation.formattedAddress;
+        this.city = `${city}, ${stateCode}`;
+        this.state = stateCode;
+        this.zipCode = zipCode || '';
+        this.locationError = '';
+      });
+    });
   }
 
   previousStep() {
@@ -70,20 +248,142 @@ export class ResidentialWizard {
     return Array.from({ length: this.totalSteps }, (_, i) => i + 1);
   }
 
-  submitRequest() {
+  /* submitRequest() {
     const payload = {
-      projectType: 'Residential',
-      location: this.zipCode || this.city,
-      room: this.selectedRoom,
-      ceilingHeight: this.selectedCeilingHeight,
-      timeline: this.selectedTimeline,
-      wallpaper: this.selectedWallpaper,
-      fullName: this.fullName,
-      email: this.email,
-      phone: this.phone,
-    };
+  projectType: 'Residential',
+  location: this.selectedLocation,
+  projectCategory: this.selectedResidentialProjectType,
+  projectCategoryLabel: this.getSelectedProjectTypeLabel(),
+  ceilingHeight: this.selectedCeilingHeight,
+  timeline: this.selectedTimeline,
+  wallpaper: this.selectedWallpaper,
+  photos: this.uploadedPhotos,
+  fullName: this.fullName,
+  email: this.email,
+  phone: this.phone,
+};
 
     console.log('Residential request:', payload);
+  } */
+ async submitRequest() {
+  if (this.isSubmitting) return;
+
+  if (!this.fullName.trim() || !this.phone.trim()) {
+    this.submitError = 'Please enter your name and phone number.';
+    return;
   }
 
+  try {
+    this.isSubmitting = true;
+    this.submitError = '';
+
+    const formData = new FormData();
+
+    formData.append('status', 'sent');
+    formData.append('city', this.selectedLocation?.city || this.city || '');
+    formData.append('zip_code', this.selectedLocation?.zipCode || this.zipCode || '');
+    formData.append('space_type', this.selectedResidentialProjectType || this.selectedRoom || '');
+    formData.append('wallpaper_type', this.selectedWallpaper || '');
+    formData.append('height_m', String(this.mapCeilingHeightToMeters()));
+    formData.append('desired_date', this.mapTimelineToDate());
+    formData.append('intention_level', this.mapTimelineToIntentionLevel());
+    formData.append('max_leads', '3');
+    formData.append('sold_leads', '0');
+    formData.append('is_available', 'true');
+    formData.append('client_name', this.fullName.trim());
+    formData.append('client_phone', this.phone.trim());
+
+    for (const photo of this.uploadedPhotos) {
+      formData.append('photos', photo);
+    }
+
+    const record = await this.pb.collection('requests').create(formData);
+
+console.log('Residential request created:', record);
+
+this.isSubmitting = false;
+this.requestSent = true;
+
+    // opcional: volver al inicio
+    // this.router.navigate(['/installer']);
+
+  } catch (error) {
+    console.error('Error creating request:', error);
+
+    this.submitError = 'We could not send your request. Please try again.';
+    this.isSubmitting = false;
+  }
+}
+  mapCeilingHeightToMeters(): number {
+  switch (this.selectedCeilingHeight) {
+    case '8 ft or less':
+      return 2.44;
+    case '9 - 10 ft':
+      return 3.05;
+    case 'Over 10 ft':
+      return 3.35;
+    default:
+      return 0;
+  }
+}
+
+mapTimelineToDate(): string {
+  const date = new Date();
+
+  switch (this.selectedTimeline) {
+    case 'ASAP':
+      date.setDate(date.getDate() + 3);
+      break;
+    case 'Within 1 - 2 Weeks':
+      date.setDate(date.getDate() + 14);
+      break;
+    case 'Within 1 Month':
+      date.setMonth(date.getMonth() + 1);
+      break;
+    default:
+      date.setMonth(date.getMonth() + 2);
+      break;
+  }
+
+  return date.toISOString();
+}
+
+mapTimelineToIntentionLevel(): string {
+  switch (this.selectedTimeline) {
+    case 'ASAP':
+      return 'high';
+    case 'Within 1 - 2 Weeks':
+      return 'medium';
+    case 'Within 1 Month':
+      return 'medium';
+    default:
+      return 'low';
+  }
+}
+  onZipInput() {
+    this.zipCode = this.zipCode.replace(/\D/g, '').slice(0, 5);
+
+    if (this.zipCode) {
+      this.city = '';
+    }
+
+    this.locationError = '';
+  }
+
+  onCityInput() {
+    if (this.city.trim()) {
+      this.zipCode = '';
+    }
+
+    this.locationError = '';
+  }
+
+  isLocationValid(): boolean {
+    if (this.selectedLocation) {
+      return true;
+    }
+
+    this.locationError = 'Please select a valid location from the suggestions.';
+    return false;
+  }
 }

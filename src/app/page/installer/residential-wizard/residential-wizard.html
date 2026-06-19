@@ -6,7 +6,7 @@
 
   <div class="wizard-card">
 
-    
+
 
     <main class="wizard-body">
 
@@ -16,280 +16,297 @@
 
         <div class="progress-dots">
           @for (step of getProgressSteps(); track step) {
-            <span
-              class="dot"
-              [class.active]="step === currentStep"
-              [class.done]="step < currentStep">
-              {{ step }}
-            </span>
+          <span class="dot" [class.active]="step === currentStep" [class.done]="step < currentStep">
+            {{ step }}
+          </span>
           }
         </div>
 
-        @switch (currentStep) {
+@if (requestSent) {
+  <div class="intro-icon">
+    <i class="ph ph-check-circle"></i>
+  </div>
 
-          @case (1) {
-            <div class="intro-icon">
-              <i class="ph ph-camera"></i>
-            </div>
+  <h1>Request sent!</h1>
 
-            <h1>Have photos ready.</h1>
+  <p class="description">
+    Your project request was sent successfully. Installers will review it and contact you soon.
+  </p>
 
-            <p class="description">
-              A few photos of your space will help installers provide accurate estimates.
-            </p>
+  <button
+    class="next-btn"
+    type="button"
+    routerLink="/installer">
+    Start another request
+  </button>
+} @else {
 
-            <button class="next-btn" type="button" (click)="nextStep()">
-              Continue <span>→</span>
-            </button>
-          }
+  @switch (currentStep) {
+        @case (1) {
+        <div class="intro-icon">
+          <i class="ph ph-camera"></i>
+        </div>
 
-          @case (2) {
-            <h1>What type of project is this?</h1>
+        <h1>Have photos ready.</h1>
 
-            <p class="description">
-              This helps us match you with the right installers.
-            </p>
+        <p class="description">
+          A few photos of your space will help installers provide accurate estimates.
+        </p>
 
-            <div class="type-grid">
-              <button
-                type="button"
-                class="type-card selected">
-                <i class="ph ph-house-line"></i>
-                <strong>Residential</strong>
-                <span>For your home</span>
-              </button>
-
-              <button
-                type="button"
-                class="type-card"
-                routerLink="/installer/commercial">
-                <i class="ph ph-buildings"></i>
-                <strong>Commercial</strong>
-                <span>For your business</span>
-              </button>
-            </div>
-          }
-
-          @case (3) {
-            <h1>Where is your project located?</h1>
-
-            <p class="description">
-              Enter the ZIP code or city of your project.
-            </p>
-
-            <div class="form-block">
-              <label>ZIP Code</label>
-              <input type="text" placeholder="e.g. 28203" [(ngModel)]="zipCode">
-
-              <div class="separator">OR</div>
-
-              <label>City</label>
-              <input type="text" placeholder="e.g. Charlotte, NC" [(ngModel)]="city">
-            </div>
-          }
-
-          @case (4) {
-            <h1>What type of project are you planning?</h1>
-
-            <p class="description">
-              Select the option that best describes your project.
-            </p>
-
-            <div class="option-grid">
-              @for (room of rooms; track room) {
-                <button
-                  type="button"
-                  class="option-btn"
-                  [class.selected]="selectedRoom === room"
-                  (click)="selectedRoom = room">
-                  {{ room }}
-                </button>
-              }
-            </div>
-          }
-
-          @case (5) {
-            <h1>What is your ceiling height?</h1>
-
-            <p class="description">
-              This helps installers plan your project accurately.
-            </p>
-
-            <div class="radio-list">
-              @for (item of ceilingHeights; track item) {
-                <button
-                  type="button"
-                  class="radio-option"
-                  [class.selected]="selectedCeilingHeight === item"
-                  (click)="selectedCeilingHeight = item">
-                  <span></span>
-                  {{ item }}
-                </button>
-              }
-            </div>
-          }
-
-          @case (6) {
-            <h1>When would you like the installation?</h1>
-
-            <p class="description">
-              Let us know your ideal timeline.
-            </p>
-
-            <div class="radio-list">
-              @for (item of timelines; track item) {
-                <button
-                  type="button"
-                  class="radio-option"
-                  [class.selected]="selectedTimeline === item"
-                  (click)="selectedTimeline = item">
-                  <span></span>
-                  {{ item }}
-                </button>
-              }
-            </div>
-          }
-
-          @case (7) {
-            <h1>Do you already have wallpaper?</h1>
-
-            <p class="description">
-              If not, we can help you find the perfect one.
-            </p>
-
-            <div class="radio-list">
-              @for (item of wallpaperOptions; track item) {
-                <button
-                  type="button"
-                  class="radio-option"
-                  [class.selected]="selectedWallpaper === item"
-                  (click)="selectedWallpaper = item">
-                  <span></span>
-                  {{ item }}
-                </button>
-              }
-            </div>
-          }
-
-          @case (8) {
-            <h1>Upload photos of your space</h1>
-
-            <p class="description">
-              Photos help installers understand your project and provide accurate estimates.
-            </p>
-
-            <div class="upload-box">
-              <i class="ph ph-cloud-arrow-up"></i>
-              <strong>Drag and drop photos here</strong>
-              <span>or click to browse</span>
-              <small>JPG, PNG up to 10MB each</small>
-            </div>
-          }
-
-          @case (9) {
-            <h1>Almost there! Review your project.</h1>
-
-            <p class="description">
-              Please confirm that everything looks correct.
-            </p>
-
-            <div class="review-card">
-              <div>
-                <strong>Project Type</strong>
-                <span>Residential</span>
-                <button type="button" (click)="goToStep(2)">Edit</button>
-              </div>
-
-              <div>
-                <strong>Location</strong>
-                <span>{{ zipCode || city || 'Not provided' }}</span>
-                <button type="button" (click)="goToStep(3)">Edit</button>
-              </div>
-
-              <div>
-                <strong>Project</strong>
-                <span>{{ selectedRoom || 'Not selected' }}</span>
-                <button type="button" (click)="goToStep(4)">Edit</button>
-              </div>
-
-              <div>
-                <strong>Ceiling Height</strong>
-                <span>{{ selectedCeilingHeight || 'Not selected' }}</span>
-                <button type="button" (click)="goToStep(5)">Edit</button>
-              </div>
-
-              <div>
-                <strong>Timeline</strong>
-                <span>{{ selectedTimeline || 'Not selected' }}</span>
-                <button type="button" (click)="goToStep(6)">Edit</button>
-              </div>
-
-              <div>
-                <strong>Wallpaper</strong>
-                <span>{{ selectedWallpaper || 'Not selected' }}</span>
-                <button type="button" (click)="goToStep(7)">Edit</button>
-              </div>
-            </div>
-          }
-
-          @case (10) {
-            <h1>Send your project request</h1>
-
-            <p class="description">
-              This will be sent to the installers you selected.
-            </p>
-
-            <div class="contact-grid">
-              <div class="form-block">
-                <label>Full Name</label>
-                <input type="text" placeholder="John Doe" [(ngModel)]="fullName">
-
-                <label>Email</label>
-                <input type="email" placeholder="john.doe@email.com" [(ngModel)]="email">
-
-                <label>Phone Number</label>
-                <input type="tel" placeholder="(704) 555-1234" [(ngModel)]="phone">
-              </div>
-
-              <div class="info-card">
-                <i class="ph ph-paper-plane-tilt"></i>
-                <h3>We'll do the rest!</h3>
-                <p>
-                  The best installers in your area will review your project and contact you soon.
-                </p>
-                <small>Usually within 24 hours.</small>
-              </div>
-            </div>
-          }
         }
 
-        <div class="actions">
-          <button
-            class="back-btn"
-            type="button"
-            [routerLink]="currentStep === 1 ? '/installer' : null"
+        @case (2) {
+
+        <h1>Where is your project located?</h1>
+
+        <p class="description">
+          Enter your ZIP code or city and state. We currently support projects across the United States.
+        </p>
+
+        <div class="form-block">
+          <label>Project Location</label>
+
+          <input #locationInput type="text" placeholder="ZIP Code, City or State" [(ngModel)]="locationQuery">
+
+          @if (locationError) {
+          <small class="field-error">
+            {{ locationError }}
+          </small>
+          }
+
+          <small class="helper-text">
+            Starting in North Carolina, expanding across the United States.
+          </small>
+        </div>
+        }
+
+
+        @case (3) {
+        <h1>What type of project are you planning?</h1>
+
+        <p class="description">
+          Select the option that best describes your project.
+        </p>
+
+        <div class="option-grid">
+          @for (project of residentialProjectTypes; track project.value) {
+          <button type="button" class="option-btn" [class.selected]="selectedResidentialProjectType === project.value"
+            (click)="selectedResidentialProjectType = project.value">
+            {{ project.label }}
+          </button>
+          }
+        </div>
+        }
+
+        @case (4) {
+        <h1>What is your ceiling height?</h1>
+
+        <p class="description">
+          This helps installers plan your project accurately.
+        </p>
+
+        <div class="radio-list">
+          @for (item of ceilingHeights; track item) {
+          <button type="button" class="radio-option" [class.selected]="selectedCeilingHeight === item"
+            (click)="selectedCeilingHeight = item">
+            <span></span>
+            {{ item }}
+          </button>
+          }
+        </div>
+        }
+
+        @case (5) {
+        <h1>When would you like the installation?</h1>
+
+        <p class="description">
+          Let us know your ideal timeline.
+        </p>
+
+        <div class="radio-list">
+          @for (item of timelines; track item) {
+          <button type="button" class="radio-option" [class.selected]="selectedTimeline === item"
+            (click)="selectedTimeline = item">
+            <span></span>
+            {{ item }}
+          </button>
+          }
+        </div>
+        }
+
+        @case (6) {
+        <h1>Do you already have wallpaper?</h1>
+
+        <p class="description">
+          If not, we can help you find the perfect one.
+        </p>
+
+        <div class="radio-list">
+          @for (item of wallpaperOptions; track item) {
+          <button type="button" class="radio-option" [class.selected]="selectedWallpaper === item"
+            (click)="selectedWallpaper = item">
+            <span></span>
+            {{ item }}
+          </button>
+          }
+        </div>
+        }
+
+        @case (7) {
+        <h1>Upload photos of your space</h1>
+
+        <p class="description">
+          Photos help installers understand your project and provide accurate estimates.
+        </p>
+
+        <label class="upload-box">
+          <input type="file" multiple accept="image/jpeg,image/png,image/webp" hidden
+            (change)="onPhotosSelected($event)">
+
+          <i class="ph ph-cloud-arrow-up"></i>
+          <strong>Upload photos here</strong>
+          <span>Click to browse</span>
+          <small>JPG, PNG or WEBP up to 10MB each</small>
+        </label>
+
+        @if (photoError) {
+        <small class="field-error">
+          {{ photoError }}
+        </small>
+        }
+
+        @if (photoPreviews.length > 0) {
+        <div class="photo-preview-grid">
+          @for (photo of photoPreviews; track photo; let i = $index) {
+          <div class="photo-preview-card">
+            <img [src]="photo" alt="Uploaded project photo">
+
+            <button type="button" class="remove-photo-btn" (click)="removePhoto(i)">
+              ×
+            </button>
+          </div>
+          }
+        </div>
+        }
+        }
+
+        @case (8) {
+        <h1>Almost there! Review your project.</h1>
+
+        <p class="description">
+          Please confirm that everything looks correct.
+        </p>
+
+        <div class="review-card">
+          <div>
+            <strong>Project Type</strong>
+            <span>Residential</span>
+            <button type="button" (click)="goToStep(2)">Edit</button>
+          </div>
+
+          <div>
+            <strong>Location</strong>
+            <span>{{ zipCode || city || 'Not provided' }}</span>
+            <button type="button" (click)="goToStep(3)">Edit</button>
+          </div>
+
+          <div>
+            <strong>Project</strong>
+            <span>{{ getSelectedProjectTypeLabel() || 'Not selected' }}</span>
+            <button type="button" (click)="goToStep(4)">Edit</button>
+          </div>
+
+          <div>
+            <strong>Ceiling Height</strong>
+            <span>{{ selectedCeilingHeight || 'Not selected' }}</span>
+            <button type="button" (click)="goToStep(5)">Edit</button>
+          </div>
+
+          <div>
+            <strong>Timeline</strong>
+            <span>{{ selectedTimeline || 'Not selected' }}</span>
+            <button type="button" (click)="goToStep(6)">Edit</button>
+          </div>
+
+          <div>
+            <strong>Wallpaper</strong>
+            <span>{{ selectedWallpaper || 'Not selected' }}</span>
+            <button type="button" (click)="goToStep(7)">Edit</button>
+          </div>
+          <div>
+            <strong>Photos</strong>
+            <span>{{ uploadedPhotos.length }} uploaded</span>
+            <button type="button" (click)="goToStep(7)">Edit</button>
+          </div>
+        </div>
+        }
+
+        @case (9) {
+        <h1>Send your project request</h1>
+
+        <p class="description">
+          This will be sent to the installers you selected.
+        </p>
+
+        <div class="contact-grid">
+          <div class="form-block">
+            <label>Full Name</label>
+            <input type="text" placeholder="John Doe" [(ngModel)]="fullName">
+
+            <label>Email</label>
+            <input type="email" placeholder="john.doe@email.com" [(ngModel)]="email">
+
+            <label>Phone Number</label>
+            <input type="tel" placeholder="(704) 555-1234" [(ngModel)]="phone">
+          </div>
+          @if (submitError) {
+  <small class="field-error">
+    {{ submitError }}
+  </small>
+}
+          <div class="info-card">
+            <i class="ph ph-paper-plane-tilt"></i>
+            <h3>We'll do the rest!</h3>
+            <p>
+              The best installers in your area will review your project and contact you soon.
+            </p>
+            <small>Usually within 24 hours.</small>
+          </div>
+        </div>
+        }
+        }
+
+        @if (!requestSent) {
+  <div class="actions">
+          <button class="back-btn" type="button" [routerLink]="currentStep === 1 ? '/installer' : null"
             (click)="currentStep > 1 && previousStep()">
             ← Back
           </button>
 
-          @if (currentStep < totalSteps && currentStep !== 1) {
-            <button class="next-btn" type="button" (click)="nextStep()">
-              Next <span>→</span>
+          @if (currentStep < 8) { <button class="next-btn" type="button" (click)="nextStep()">
+            Next <span>→</span>
             </button>
-          }
+            }
 
-          @if (currentStep === 9) {
+            @if (currentStep === 8) {
             <button class="next-btn" type="button" (click)="nextStep()">
               Looks Good <span>→</span>
             </button>
-          }
+            }
 
-          @if (currentStep === 10) {
-            <button class="next-btn" type="button" (click)="submitRequest()">
-              Send Project Request <span>→</span>
-            </button>
-          }
+            @if (currentStep === 9) {
+            <button
+  class="next-btn"
+  type="button"
+  [disabled]="isSubmitting"
+  (click)="submitRequest()">
+  {{ isSubmitting ? 'Sending...' : 'Send Project Request' }}
+  <span>→</span>
+</button>
+            }
         </div>
+      }
+    }
 
       </div>
 

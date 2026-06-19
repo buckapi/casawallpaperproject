@@ -1,0 +1,440 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.installer-page {
+  min-height: 100vh;
+  padding: 24px;
+  background: #f7f3ec;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.step-badge {
+  align-self: flex-start;
+  margin-left: max(24px, calc((100vw - 1120px) / 2));
+  margin-bottom: 10px;
+  background: #111;
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.wizard-card {
+  width: 100%;
+  max-width: 1120px;
+  background: #fff;
+  border: 1px solid #eadfD2;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 20px 55px rgba(60, 38, 16, 0.12);
+}
+
+.wizard-header {
+  height: 72px;
+  padding: 0 24px;
+  border-bottom: 1px solid #eee4d8;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  line-height: 1.1;
+
+  div:last-child {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.brand-icon {
+  width: 38px;
+  height: 38px;
+  border: 1px solid #bd7617;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+}
+
+.nav-menu {
+  display: flex;
+  gap: 24px;
+  font-size: 13px;
+
+  a {
+    color: #171717;
+    text-decoration: none;
+  }
+}
+
+.estimate-btn,
+.next-btn {
+  height: 44px;
+  border: 0;
+  border-radius: 6px;
+  background: #b86b08;
+  color: #fff;
+  font-weight: 700;
+  padding: 0 24px;
+  cursor: pointer;
+}
+
+.wizard-body {
+  min-height: 560px;
+  display: grid;
+  grid-template-columns: 52% 48%;
+}
+
+.wizard-content {
+  padding: 54px 64px;
+}
+
+.eyebrow {
+  display: block;
+  color: #a86518;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  margin-bottom: 28px;
+}
+
+.progress-dots {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 56px;
+}
+
+.dot {
+  width: 22px;
+  height: 22px;
+  border: 1px solid #d6cabe;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  color: #5d574f;
+  position: relative;
+
+  &:not(:last-child)::after {
+    content: "";
+    width: 10px;
+    height: 1px;
+    background: #d6cabe;
+    position: absolute;
+    left: 100%;
+    top: 50%;
+  }
+
+  &.active {
+    background: #b86b08;
+    border-color: #b86b08;
+    color: #fff;
+  }
+}
+
+h1 {
+  max-width: 380px;
+  margin: 0 0 18px;
+  font-size: 38px;
+  line-height: 1.05;
+  font-family: Georgia, serif;
+  color: #181512;
+}
+
+.description {
+  max-width: 300px;
+  margin-bottom: 32px;
+  color: #514a42;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.type-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  max-width: 440px;
+}
+
+.type-card {
+  min-height: 150px;
+  border: 1px solid #dfd2c3;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+
+  i {
+    font-size: 42px;
+  }
+
+  strong {
+    font-size: 16px;
+  }
+
+  span {
+    font-size: 13px;
+    color: #625b53;
+  }
+
+  &.selected {
+    border-color: #b86b08;
+    box-shadow: 0 10px 24px rgba(184, 107, 8, 0.16);
+  }
+}
+
+.actions {
+  margin-top: 48px;
+  max-width: 440px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.back-btn {
+  border: 0;
+  background: transparent;
+  color: #9b5c0e;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.next-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.wizard-image {
+  background:
+    linear-gradient(to right, #fff 0%, rgba(255,255,255,.8) 22%, rgba(255,255,255,0) 50%),
+    url('/assets/img/calculator-cover.jpg') center / cover no-repeat;
+}
+
+@media (max-width: 900px) {
+  .installer-page {
+    padding: 14px;
+  }
+
+  .nav-menu {
+    display: none;
+  }
+
+  .wizard-body {
+    grid-template-columns: 1fr;
+  }
+
+  .wizard-content {
+    padding: 36px 24px;
+  }
+
+  .wizard-image {
+    min-height: 260px;
+    order: -1;
+  }
+
+  h1 {
+    font-size: 31px;
+  }
+
+  .type-grid {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 430px) {
+  .installer-page {
+    min-height: auto;
+    padding: 10px;
+  }
+
+  .step-badge {
+    margin-left: 0;
+    margin-bottom: 8px;
+    font-size: 10px;
+    padding: 5px 9px;
+  }
+
+  .wizard-card {
+    border-radius: 10px;
+    box-shadow: none;
+  }
+
+  .wizard-header {
+    height: auto;
+    min-height: 62px;
+    padding: 12px 14px;
+  }
+
+  .brand {
+    font-size: 11px;
+  }
+
+  .brand-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+  }
+
+  .estimate-btn {
+    display: none;
+  }
+
+  .wizard-body {
+    min-height: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .wizard-image {
+    order: -1;
+    min-height: 150px;
+    background-position: center;
+  }
+
+  .wizard-content {
+    padding: 22px 16px 24px;
+  }
+
+  .eyebrow {
+    font-size: 10px;
+    margin-bottom: 16px;
+  }
+
+  .progress-dots {
+    gap: 5px;
+    margin-bottom: 28px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+  }
+
+  .progress-dots::-webkit-scrollbar {
+    display: none;
+  }
+
+  .dot {
+    width: 18px;
+    height: 18px;
+    min-width: 18px;
+    font-size: 9px;
+  }
+
+  .dot:not(:last-child)::after {
+    width: 5px;
+  }
+
+  h1 {
+    max-width: 100%;
+    font-size: 27px;
+    line-height: 1.08;
+    margin-bottom: 14px;
+  }
+
+  .description {
+    max-width: 100%;
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 22px;
+  }
+
+  .type-grid,
+  .option-grid,
+  .commercial-grid,
+  .contact-grid {
+    grid-template-columns: 1fr !important;
+    gap: 10px;
+    max-width: 100%;
+  }
+
+  .type-card {
+    min-height: 118px;
+  }
+
+  .type-card i {
+    font-size: 34px;
+  }
+
+  .commercial-option {
+    min-height: 78px;
+  }
+
+  .radio-list,
+  .checkbox-list,
+  .form-block,
+  .form-block.large,
+  .upload-box,
+  .review-card {
+    max-width: 100%;
+  }
+
+  .option-btn,
+  .radio-option,
+  .checkbox-option {
+    min-height: 44px;
+    font-size: 13px;
+    padding: 0 12px;
+  }
+
+  .form-block input,
+  .form-block textarea {
+    font-size: 14px;
+  }
+
+  .upload-box {
+    min-height: 150px;
+    padding: 20px;
+  }
+
+  .review-card div {
+    grid-template-columns: 1fr !important;
+    gap: 6px;
+    padding: 12px;
+  }
+
+  .contact-grid {
+    gap: 16px;
+  }
+
+  .info-card,
+  .help-card {
+    max-width: 100%;
+    padding: 20px;
+  }
+
+  .actions {
+    width: 100%;
+    max-width: 100%;
+    margin-top: 28px;
+    gap: 12px;
+  }
+
+  .back-btn {
+    min-width: 80px;
+    font-size: 13px;
+  }
+
+  .next-btn {
+    flex: 1;
+    min-width: 0;
+    height: 44px;
+    padding: 0 14px;
+    font-size: 13px;
+  }
+
+  .next-btn span {
+    margin-left: 8px;
+  }
+}

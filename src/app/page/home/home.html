@@ -1,0 +1,1021 @@
+<section class="cw-hero">
+    <div class="cw-hero-content">
+        <span class="cw-eyebrow">PREMIUM WALLPAPER INSTALLATION</span>
+
+        <h1>
+            Wallpaper <br>
+            <strong>Installation</strong>
+        </h1>
+
+        <p>
+            Designed to impress. <br>
+            Installed with care.
+        </p>
+
+        <div class="cw-actions">
+            <button type="button" class="cw-btn-primary" (click)="goTo($event, '/estimate')">
+                <i class="fas fa-calendar-check"></i>
+                Get Your Estimate
+                <i class="fas fa-chevron-right"></i>
+            </button>
+
+            <button type="button" class="cw-btn-light" (click)="goTo($event, '/contact')">
+                <i class="fas fa-swatchbook"></i>
+                Help Me Choose Wallpaper
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+
+        <div class="cw-reviews">
+            <div>
+                <i class="fa-brands fa-google"></i>
+                <strong>Google</strong>
+                <span>★★★★★ 5.0</span>
+            </div>
+
+            <div>
+                <i class="fa-solid fa-thumbtack"></i>
+                <strong>Thumbtack</strong>
+                <span>★★★★★ 5.0</span>
+            </div>
+
+            <div>
+                <i class="fa-brands fa-yelp"></i>
+                <strong>Yelp</strong>
+                <span>★★★★★ 5.0</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="cw-hero-image">
+        <img src="assets/img/hero/01.jpg" alt="Wallpaper installation">
+    </div>
+</section>
+<section class="cw-help-section">
+
+    <div class="container">
+
+
+        <div class="cw-section-title">
+
+            <h2>
+                What do you need <b style="color: #c98a2b;">help</b> with today?
+            </h2>
+
+            <p>Choose an option below and we'll guide you to the right solution.</p>
+        </div>
+
+        <div class="cw-help-grid">
+
+            <!-- <div class="cw-help-card" (click)="goTo($event, '/estimate')">
+                <div class="cw-help-icon">
+                    <i class="ph-light ph-clipboard-text"></i>
+                </div>
+
+                <h3>Get Your Estimate</h3>
+
+                <p>
+                    Get a fast, accurate estimate for your project.
+                </p>
+
+                <span>
+                    <i class="ph ph-caret-right"></i>
+                </span>
+            </div> -->
+
+            <div class="cw-help-card" (click)="goTo($event, '/installer')">
+                <div class="cw-help-icon">
+                    <i class="ph-light ph-user"></i>
+                </div>
+
+                <h3>Find My Installer</h3>
+
+                <p>
+                    Connect with a trusted wallpaper installer near you.
+                </p>
+
+                <span>
+                    <i class="ph ph-caret-right"></i>
+                </span>
+            </div>
+
+            <div class="cw-help-card" (click)="goTo($event, '/wallpaper')">
+                <div class="cw-help-icon">
+                    <i class="ph-light ph-scroll"></i>
+                </div>
+
+                <h3>Choose Wallpaper</h3>
+
+                <p>
+                    Explore our collections and find the perfect match.
+                </p>
+
+                <span>
+                    <i class="ph ph-caret-right"></i>
+                </span>
+            </div>
+
+            <div class="cw-help-card" (click)="goTo($event, '/estimate')">
+                <div class="cw-help-icon">
+                    <i class="ph-light ph-ruler"></i>
+                </div>
+
+                <h3>Calculate Quantity</h3>
+
+                <p>
+                    Calculate how much wallpaper you need.
+                </p>
+
+                <span>
+                    <i class="ph ph-caret-right"></i>
+                </span>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+<section class="cw-transformations-section">
+    <div class="container">
+
+        <div class="cw-transformations-grid">
+
+            <div class="cw-transformations-copy">
+                <span>FROM START TO STUNNING</span>
+
+                <h2>
+                    Real Transformations. <br>
+                    Real Results.
+                </h2>
+
+                <p>
+                    Watch how we bring spaces to life with precision and care.
+                </p>
+
+                <button type="button" class="cw-video-btn" (click)="goTo($event, '/gallery')">
+                    View more videos
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+            <div class="cw-videos-area">
+
+                <div class="swiper cw-videos-slider" *ngIf="videoPortfolios.length > 0">
+                    <div class="swiper-wrapper">
+
+                        <div class="swiper-slide" *ngFor="let portfolio of videoPortfolios">
+
+                            <div class="cw-video-card">
+
+                                <div class="cw-video-thumb">
+
+                                    <video *ngIf="portfolio.sourceType !== 'instagram'"
+                                        [src]="getPortfolioFileUrl(portfolio)" muted playsinline preload="metadata">
+                                    </video>
+
+                                    <div *ngIf="portfolio.sourceType === 'instagram'" class="instagram-thumb">
+
+                                        <i class="fab fa-instagram"></i>
+                                        <span>Instagram Reel</span>
+
+                                    </div>
+
+                                    <button type="button" class="cw-play-btn" (click)="playVideo(portfolio)">
+
+                                        <i class="fas fa-play"></i>
+
+                                    </button>
+                                    
+
+                                </div>
+
+                                <div class="cw-video-info">
+                                    <strong>{{ portfolio.name }}</strong>
+                                    <span>{{ portfolio.tag || 'Video' }}</span>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="cw-videos-pagination"></div>
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+<section class="cw-testimonials">
+
+    <div class="container">
+
+        <div class="cw-section-title">
+            <span>WHAT OUR CLIENTS SAY</span>
+
+            <h2>
+                Beautiful Walls.
+                <b style="color: #c98a2b;">Happy</b>
+                Clients.
+            </h2>
+
+            <p>Real reviews from real spaces.</p>
+        </div>
+
+
+        <div class="cw-reviews-wrapper">
+
+            <button type="button" class="cw-review-arrow left" (click)="scrollReviews('prev')">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+
+            <div class="cw-reviews-carousel">
+
+                <div class="cw-review-card">
+
+                    <img src="assets/img/portfolio/04.jpg">
+
+                    <div class="cw-review-content">
+
+                        <div class="cw-stars">
+                            ★★★★★
+                        </div>
+
+                        <p>
+                            “The team was professional, punctual, and the results exceeded our expectations.
+                            Our space feels completely transformed!”
+                        </p>
+
+                        <div class="cw-review-user">
+                            <img src="assets/img/testimonial/01.png">
+
+                            <div>
+                                <strong>Amanda R.</strong>
+                                <span>Miami, FL</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="cw-review-card">
+
+                    <img src="assets/img/portfolio/05.png">
+
+                    <div class="cw-review-content">
+
+                        <div class="cw-stars">
+                            ★★★★★
+                        </div>
+
+                        <p>
+                            “High quality materials and flawless installation.
+                            We couldn't be happier with the final look.”
+                        </p>
+
+                        <div class="cw-review-user">
+                            <img src="assets/img/testimonial/01.png">
+
+                            <div>
+                                <strong>James T.</strong>
+                                <span>Boca Raton, FL</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="cw-review-card">
+
+                    <img src="assets/img/portfolio/06.jpg">
+
+                    <div class="cw-review-content">
+
+                        <div class="cw-stars">
+                            ★★★★★
+                        </div>
+
+                        <p>
+                            “They helped us bring our vision to life.
+                            Our office has never looked better!”
+                        </p>
+
+                        <div class="cw-review-user">
+                            <img src="assets/img/testimonial/01.png">
+
+                            <div>
+                                <strong>Sophie L.</strong>
+                                <span>Fort Lauderdale, FL</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <button type="button" class="cw-review-arrow right" (click)="scrollReviews('next')">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+
+        </div>
+
+        <div class="cw-reviews-dots">
+            <button type="button" *ngFor="let review of reviews; let i = index" [class.active]="i === activeReviewIndex"
+                (click)="setActiveReview(i)">
+            </button>
+        </div>
+        <div class="cw-trust-bar">
+
+    <div class="cw-trust-item">
+        <i class="ph ph-chat-circle-dots"></i>
+        <span>5-Star Rated Across Platforms</span>
+    </div>
+
+    <div class="cw-trust-item">
+        <i class="ph ph-users-three"></i>
+        <span>Hundreds of Happy Clients</span>
+    </div>
+
+    <div class="cw-trust-item">
+        <i class="ph ph-shield-check"></i>
+        <span>Trusted by Homeowners & Businesses</span>
+    </div>
+
+    <div class="cw-trust-item">
+        <i class="ph ph-medal"></i>
+        <span>Quality That Speaks for Itself</span>
+    </div>
+
+</div>
+
+    </div>
+
+</section>
+<!-- <section class="contact-section-4 fix section-padding pt-80">
+    <div class="container">
+        <div class="contact-wrapper-3">
+            <div class="row">
+                <div class="col-lg-7">
+                    <div class="contact-content" style="background-color: #000; padding: 20px;">
+                        <div class="section-title">
+                            <span class="wow fadeInUp">Contact Us</span>
+                            <h2 class="wow fadeInUp" data-wow-delay=".3s" style="color: #fff;">Get In Touch</h2>
+                        </div>
+                        <form (ngSubmit)="sendContact()" #contactForm="ngForm" class="contact-form-items">
+                            <div class="row g-4">
+                                <div class="col-lg-6 wow fadeInUp" data-wow-delay=".3s">
+                                    <div class="form-clt">
+                                        <input type="text" name="name" id="name" placeholder="Your Name"
+                                            [(ngModel)]="form.name" required>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 wow fadeInUp" data-wow-delay=".5s">
+                                    <div class="form-clt">
+                                        <input type="text" name="email" id="email" placeholder="Your Email"
+                                            [(ngModel)]="form.email" required>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 wow fadeInUp" data-wow-delay=".5s">
+                                    <div class="form-clt">
+                                        <input type="number" name="phone" id="phone" placeholder="Phone Number"
+                                            [(ngModel)]="form.phone" required>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 wow fadeInUp" data-wow-delay=".3s">
+                                    <div class="form-clt">
+                                        <input type="number" name="zipcode" id="zipcode" placeholder="Zip Code"
+                                            [(ngModel)]="form.zipcode" required>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 wow fadeInUp" data-wow-delay=".5s">
+                                    <div class="form-clt">
+                                        <div class="nice-select" tabindex="0">
+                                            <span class="current">Select Services</span>
+                                            <ul class="list">
+                                                <li data-value="1" class="option selected focus">Interior Painting</li>
+                                                <li data-value="2" class="option">Wallpaper installation or repair</li>
+                                                <li data-value="3" class="option">Wallpaper removal</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 wow fadeInUp" data-wow-delay=".5s">
+                                    <div class="form-clt">
+                                        <div class="nice-select" tabindex="0">
+                                            <span class="current">Type of project</span>
+                                            <ul class="list">
+                                                <li data-value="1" class="option selected focus">Installation</li>
+                                                <li data-value="2" class="option">Repair</li>
+                                                <li data-value="3" class="option">Installation and repair</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 wow fadeInUp" data-wow-delay=".7s">
+                                    <div class="form-clt">
+                                        <textarea name="message" id="message" placeholder="Message here.."
+                                            [(ngModel)]="form.message"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 wow fadeInUp" data-wow-delay=".8s">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="termsCheck1">
+                                        <label class="form-check-label text-white" for="termsCheck1"
+                                            (click)="router.navigate(['/terms'])" style="text-align: justify;">
+                                            I consent to receive marketing text messages from Casa Wallpaper at the
+                                            phone number provided. Frequency may vary. Message & data rates may apply.
+                                            Text HELP for assistance, reply STOP to opt out.
+
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-12 wow fadeInUp" data-wow-delay=".8s">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="termsCheck2">
+                                        <label class="form-check-label text-white" for="termsCheck2"
+                                            (click)="router.navigate(['/terms'])" style="text-align: justify;">
+                                            I consent to receive non-marketing text messages from Casa Wallpaper about
+                                            my order updates, appointment reminders etc. Frequency may vary. Message &
+                                            data rates may apply. Text HELP for assistance, reply STOP to opt out
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-7 wow fadeInUp" data-wow-delay=".9s">
+                                    <button type="submit" class="theme-btn padding-style">
+                                        Book Now <i class="fas fa-long-arrow-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        <div style="text-align: center; color: rgb(218 116 63) !important;"> <a
+                                (click)="router.navigate(['/terms'])">Terms and Conditions</a> | <a
+                                (click)="router.navigate(['/policy'])">Privacy Policy</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="project-section fix section-padding" id="project">
+    <div class="container">
+        <div class="section-title text-center">
+            <span class="wow fadeInUp">Recent Projects</span>
+            <h2 class="wow fadeInUp" data-wow-delay=".3s">
+                Elevate Your Home's Design <br> with Interior Mastery
+            </h2>
+
+            <button type="button" class="view-all-btn" (click)="goTo($event, '/gallery')">
+              <span class="wow fadeInUp" data-wow-delay=".3s">View all <i class="fas fa-arrow-right"></i></span>
+            </button>
+        </div>
+    </div>
+    <div class="project-wrapper">
+        <div class="swiper project-slider">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide" *ngFor="let portfolio of filteredPortfolios">
+                    <div class="project-carousel-items">
+                        <div class="project-image">
+                            <img [src]="getImageUrl(portfolio)" alt="{{ portfolio.name }}"
+                                (click)="viewImage(portfolio)">
+                            <div class="portfolio-content">
+                                <span>{{ portfolio.name }}</span>
+                                <h3>
+                                    <span class="tag-badge"
+                                        [ngClass]="portfolio.tag === 'residencial' ? 'residential-tag' : 'commercial-tag'">
+                                        {{ portfolio.tag }}
+                                    </span>
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-dot">
+                <div class="dot"></div>
+                
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="testimonial-section section-bg section-padding fix">
+    <div class="container">
+        <div class="section-title text-center">
+            <span class="wow fadeInUp">Clients Testimonial</span>
+            <h2 class="wow fadeInUp" data-wow-delay=".3s">
+                Wallpaper professional service <br> inner happiness
+            </h2>
+        </div>
+        <div class="testimonial-wrapper">
+            <div class="array-button">
+                <button class="array-prev"><i class="fal fa-arrow-left"></i></button>
+                <button class="array-next"><i class="fal fa-arrow-right"></i></button>
+            </div>
+            <div class="row g-0 align-items-center">
+                <div class="col-lg-5">
+                    <div class="testimonial-image bg-cover"
+                        style="background-image: url('assets/img/testimonial/01.jpg');"></div>
+                </div>
+                <div class="col-lg-7 mt-5 mt-lg-0">
+                    <div class="testimonial-area">
+                        <div class="swiper testimonial-slider">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide">
+                                    <div class="testimonial-items">
+                                        <div class="icon">
+                                            <i class="fal fa-quote-right"></i>
+                                        </div>
+                                        <div class="client-items">
+                                            <div class="client-image bg-cover"
+                                                style="background-image: url('assets/img/testimonial/1.png');">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="swiper-slide">
+                                    <div class="testimonial-items">
+                                        <div class="icon">
+                                            <i class="fal fa-quote-right"></i>
+                                        </div>
+                                        <div class="client-items">
+                                            <div class="client-image bg-cover"
+                                                style="background-image: url('assets/img/testimonial/2.png');">
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="testimonial-items">
+                                        <div class="icon">
+                                            <i class="fal fa-quote-right"></i>
+                                        </div>
+                                        <div class="client-items">
+                                            <div class="client-image bg-cover"
+                                                style="background-image: url('assets/img/testimonial/3.png');">
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="testimonial-items">
+                                        <div class="icon">
+                                            <i class="fal fa-quote-right"></i>
+                                        </div>
+                                        <div class="client-items">
+                                            <div class="client-image bg-cover"
+                                                style="background-image: url('assets/img/testimonial/4.png');">
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="testimonial-items">
+                                        <div class="icon">
+                                            <i class="fal fa-quote-right"></i>
+                                        </div>
+                                        <div class="client-items">
+                                            <div class="client-image bg-cover"
+                                                style="background-image: url('assets/img/testimonial/5.png');">
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="testimonial-items">
+                                        <div class="icon">
+                                            <i class="fal fa-quote-right"></i>
+                                        </div>
+                                        <div class="client-items">
+                                            <div class="client-image bg-cover"
+                                                style="background-image: url('assets/img/testimonial/6.png');">
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="testimonial-items">
+                                        <div class="icon">
+                                            <i class="fal fa-quote-right"></i>
+                                        </div>
+                                        <div class="client-items">
+                                            <div class="client-image bg-cover"
+                                                style="background-image: url('assets/img/testimonial/7.png');">
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="testimonial-items">
+                                        <div class="icon">
+                                            <i class="fal fa-quote-right"></i>
+                                        </div>
+                                        <div class="client-items">
+                                            <div class="client-image bg-cover"
+                                                style="background-image: url('assets/img/testimonial/8.png');">
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="testimonial-items">
+                                        <div class="icon">
+                                            <i class="fal fa-quote-right"></i>
+                                        </div>
+                                        <div class="client-items">
+                                            <div class="client-image bg-cover"
+                                                style="background-image: url('assets/img/testimonial/9.png');">
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="testimonial-items">
+                                        <div class="icon">
+                                            <i class="fal fa-quote-right"></i>
+                                        </div>
+                                        <div class="client-items">
+                                            <div class="client-image bg-cover"
+                                                style="background-image: url('assets/img/testimonial/10.png');">
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="testimonial-items">
+                                        <div class="icon">
+                                            <i class="fal fa-quote-right"></i>
+                                        </div>
+                                        <div class="client-items">
+                                            <div class="client-image bg-cover"
+                                                style="background-image: url('assets/img/testimonial/11.png');">
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="testimonial-items">
+                                        <div class="icon">
+                                            <i class="fal fa-quote-right"></i>
+                                        </div>
+                                        <div class="client-items">
+                                            <div class="client-image bg-cover"
+                                                style="background-image: url('assets/img/testimonial/12.png');">
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="testimonial-items">
+                                        <div class="icon">
+                                            <i class="fal fa-quote-right"></i>
+                                        </div>
+                                        <div class="client-items">
+                                            <div class="client-image bg-cover"
+                                                style="background-image: url('assets/img/testimonial/13.png');">
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="testimonial-items">
+                                        <div class="icon">
+                                            <i class="fal fa-quote-right"></i>
+                                        </div>
+                                        <div class="client-items">
+                                            <div class="client-image bg-cover"
+                                                style="background-image: url('assets/img/testimonial/14.png');">
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="testimonial-items">
+                                        <div class="icon">
+                                            <i class="fal fa-quote-right"></i>
+                                        </div>
+                                        <div class="client-items">
+                                            <div class="client-image bg-cover"
+                                                style="background-image: url('assets/img/testimonial/15.png');">
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="testimonial-items">
+                                        <div class="icon">
+                                            <i class="fal fa-quote-right"></i>
+                                        </div>
+                                        <div class="client-items">
+                                            <div class="client-image bg-cover"
+                                                style="background-image: url('assets/img/testimonial/16.png');">
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="testimonial-items">
+                                        <div class="icon">
+                                            <i class="fal fa-quote-right"></i>
+                                        </div>
+                                        <div class="client-items">
+                                            <div class="client-image bg-cover"
+                                                style="background-image: url('assets/img/testimonial/17.png');">
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="testimonial-items">
+                                        <div class="icon">
+                                            <i class="fal fa-quote-right"></i>
+                                        </div>
+                                        <div class="client-items">
+                                            <div class="client-image bg-cover"
+                                                style="background-image: url('assets/img/testimonial/18.png');">
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="testimonial-items">
+                                        <div class="icon">
+                                            <i class="fal fa-quote-right"></i>
+                                        </div>
+                                        <div class="client-items">
+                                            <div class="client-image bg-cover"
+                                                style="background-image: url('assets/img/testimonial/19.png');">
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="testimonial-items">
+                                        <div class="icon">
+                                            <i class="fal fa-quote-right"></i>
+                                        </div>
+                                        <div class="client-items">
+                                            <div class="client-image bg-cover"
+                                                style="background-image: url('assets/img/testimonial/20.png');">
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="testimonial-items">
+                                        <div class="icon">
+                                            <i class="fal fa-quote-right"></i>
+                                        </div>
+                                        <div class="client-items">
+                                            <div class="client-image bg-cover"
+                                                style="background-image: url('assets/img/testimonial/21.png');">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="testimonial-items">
+                                        <div class="icon">
+                                            <i class="fal fa-quote-right"></i>
+                                        </div>
+                                        <div class="client-items">
+                                            <div class="client-image bg-cover"
+                                                style="background-image: url('assets/img/testimonial/22.png');">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="testimonial-items">
+                                        <div class="icon">
+                                            <i class="fal fa-quote-right"></i>
+                                        </div>
+                                        <div class="client-items">
+                                            <div class="client-image bg-cover"
+                                                style="background-image: url('assets/img/testimonial/23.png');">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="testimonial-items">
+                                        <div class="icon">
+                                            <i class="fal fa-quote-right"></i>
+                                        </div>
+                                        <div class="client-items">
+                                            <div class="client-image bg-cover"
+                                                style="background-image: url('assets/img/testimonial/24.png');">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="testimonial-items">
+                                        <div class="icon">
+                                            <i class="fal fa-quote-right"></i>
+                                        </div>
+                                        <div class="client-items">
+                                            <div class="client-image bg-cover"
+                                                style="background-image: url('assets/img/testimonial/25.png');">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="testimonial-items">
+                                        <div class="icon">
+                                            <i class="fal fa-quote-right"></i>
+                                        </div>
+                                        <div class="client-items">
+                                            <div class="client-image bg-cover"
+                                                style="background-image: url('assets/img/testimonial/26.png');">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="testimonial-items">
+                                        <div class="icon">
+                                            <i class="fal fa-quote-right"></i>
+                                        </div>
+                                        <div class="client-items">
+                                            <div class="client-image bg-cover"
+                                                style="background-image: url('assets/img/testimonial/27.png');">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="service-section fix section-padding section-bg bg-cover"
+    style="background-image: url('assets/img/service/bg-shape.jpg');">
+    <div class="bg-shape">
+        <img src="assets/img/service/bg-shape.jpg" alt="shape-img">
+    </div>
+    <div class="container">
+        <div class="service-wrapper">
+            <div class="row g-4">
+                <div class="col-xl-9 col-lg-12">
+                    <div class="service-left">
+                        <div class="section-title">
+                            <span class="wow fadeInUp">Latest Service</span>
+                            <h2 class="wow fadeInUp" data-wow-delay=".3s">
+                                Creating spaces the that <br> a inspire
+                            </h2>
+                        </div>
+                        <div class="row g-4">
+
+                            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay=".5s">
+                                <div class="service-items">
+                                    <div class="icon">
+                                        <i class="flaticon-wallpaper"></i>
+                                    </div>
+                                    <div class="content">
+                                        <h3>
+                                            <a href="https://wa.me/19198855401?text=Hi,%20I%20am%20interested%20in%20Wallpaper%20installation%20or%20repair%20service"
+                                                target="_blank">Wallpaper installation or
+                                                repair</a>
+                                        </h3>
+                                        <p>
+                                            Elevate your space with our professional wallpaper installation and repair
+                                            service. Perfect finish, we take care of every detail to make your vision a
+                                            reality
+                                        </p>
+                                        <a href="https://wa.me/19198855401?text=Hi,%20I%20am%20interested%20in%20Wallpaper%20installation%20or%20repair%20service"
+                                            target="_blank" class="link-btn">
+                                            Check It Out <i class="fas fa-long-arrow-right"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay=".7s">
+                                <div class="service-items mt-4">
+                                    <div class="icon">
+                                        <i class="flaticon-interior-design"></i>
+                                    </div>
+                                    <div class="content">
+                                        <h3>
+                                            <a href="https://wa.me/19198855401?text=Hi,%20I%20am%20interested%20in%20Wallpaper%20removal%20service"
+                                                target="_blank">Wallpaper removal</a>
+                                        </h3>
+                                        <p>
+                                            Transform your space with our efficient and meticulous wallpaper removal
+                                            services. Our team of experts uses advanced tools and techniques to
+                                            carefully strip away old wallpaper without causing any damage to your walls.
+
+                                        </p>
+                                        <a href="https://wa.me/19198855401?text=Hi,%20I%20am%20interested%20in%20Wallpaper%20removal%20service"
+                                            target="_blank" class="link-btn">
+                                            Uncover Details <i class="fas fa-long-arrow-right"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay=".3s">
+                                <div class="service-items mt-4">
+                                    <div class="icon">
+                                        <i class="flaticon-paint-roller-1"></i>
+                                    </div>
+                                    <div class="content">
+                                        <h3>
+                                            <a href="https://wa.me/19198855401?text=Hi,%20I%20am%20interested%20in%20Interior%20Painting%20service"
+                                                target="_blank">Interior Painting </a>
+                                        </h3>
+                                        <p>
+                                            Transform the look of your home. Whether you want to revitalize a single
+                                            room or completely renovate your entire home, our team provides results that
+                                            impeccably reflect your style and vision.
+                                        </p>
+                                        <a href="https://wa.me/19198855401?text=Hi,%20I%20am%20interested%20in%20Interior%20Painting%20service"
+                                            target="_blank" class="link-btn">
+                                            See details <i class="fas fa-long-arrow-right"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-6 wow fadeInUp" data-wow-delay=".9s">
+                    <div class="service-image bg-cover" style="background-image: url('assets/img/service/01.jpg');">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section> -->

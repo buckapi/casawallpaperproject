@@ -1,0 +1,107 @@
+<header>
+    <div id="header-sticky" class="header-1 header-2">
+        <div class="container-fluid">
+            <div class="mega-menu-wrapper">
+
+                <div class="header-main">
+                    <div class="header-left">
+                        <div class="logo">
+                            <a routerLink="/home" class="header-logo-2">
+                                <img src="assets/img/logo/header-logo.png" alt="logo-img">
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="desktop-menu">
+                        <nav>
+                            <ul>
+                                <li [class.active-link]="activeRoute === '/home'">
+                                    <a href="/home" (click)="goTo($event, '/home')">Home</a>
+                                </li>
+
+                                <li [class.active-link]="activeRoute === '/residential'">
+                                    <a href="/residential" (click)="goTo($event, '/residential')">Residential</a>
+                                </li>
+
+                                <li [class.active-link]="activeRoute === '/commercial'">
+                                    <a href="/commercial" (click)="goTo($event, '/commercial')">Commercial Work</a>
+                                </li>
+
+                                <li [class.active-link]="activeRoute === '/gallery'">
+                                    <a href="/gallery" (click)="goTo($event, '/gallery')">Our Work</a>
+                                </li>
+
+                                <li [class.active-link]="activeRoute === '/contact'">
+                                    <a href="/contact" (click)="goTo($event, '/contact')">Contact Us</a>
+                                </li>
+                                <li [class.active-link]="activeRoute === '/homeDashboard'">
+    <a href="/homeDashboard" (click)="goTo($event, '/homeDashboard')">
+        Dashboard
+    </a>
+</li>
+                            </ul>
+                        </nav>
+                    </div>
+
+                    <div class="header-right">
+                        <button type="button" class="cw-btn-primary desktop-estimate-btn"
+                            (click)="goTo($event, '/estimate')">
+                            <i class="fas fa-calendar-check"></i>
+                            Get Your Estimate
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+
+                        <button type="button" class="mobile-menu-btn" (click)="toggleMobileMenu($event)">
+                            <i class="fas" [class.fa-bars]="!mobileMenuOpen" [class.fa-times]="mobileMenuOpen"></i>
+                        </button>
+                    </div>
+                </div>
+                <nav class="mobile-menu-panel" [class.mobile-open]="mobileMenuOpen">
+                    <a href="/home" [class.active]="activeRoute === '/home'" (click)="goTo($event, '/home')">Home</a>
+                    <a href="/residential" [class.active]="activeRoute === '/residential'"
+                        (click)="goTo($event, '/residential')">Residential</a>
+                    <a href="/commercial" [class.active]="activeRoute === '/commercial'"
+                        (click)="goTo($event, '/commercial')">Commercial Work</a>
+                    <a href="/gallery" [class.active]="activeRoute === '/gallery'"
+                        (click)="goTo($event, '/gallery')">Our Work</a>
+                    <a href="/contact" [class.active]="activeRoute === '/contact'"
+                        (click)="goTo($event, '/contact')">Contact Us</a>
+                    <a href="/homeDashboard"
+   [class.active]="activeRoute === '/homeDashboard'"
+   (click)="goTo($event, '/homeDashboard')">
+   Dashboard
+</a>
+                    <div class="mobile-help-grid">
+                        <button type="button" class="mobile-help-card" (click)="goTo($event, '/installer')">
+                            <i class="ph-light ph-user"></i>
+                            <div>
+                                <strong>Find My Installer</strong>
+                                <span>Trusted installer near you.</span>
+                            </div>
+                            <i class="ph ph-caret-right"></i>
+                        </button>
+
+                        <button type="button" class="mobile-help-card" (click)="goTo($event, '/wallpaper')">
+                            <i class="ph-light ph-scroll"></i>
+                            <div>
+                                <strong>Choose Wallpaper</strong>
+                                <span>Find the perfect match.</span>
+                            </div>
+                            <i class="ph ph-caret-right"></i>
+                        </button>
+
+                        <button type="button" class="mobile-help-card" (click)="goTo($event, '/estimate')">
+                            <i class="ph-light ph-ruler"></i>
+                            <div>
+                                <strong>Calculate Quantity</strong>
+                                <span>Know how much you need.</span>
+                            </div>
+                            <i class="ph ph-caret-right"></i>
+                        </button>
+                    </div>
+                </nav>
+
+            </div>
+        </div>
+    </div>
+</header>

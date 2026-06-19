@@ -1,0 +1,241 @@
+<section class="cw-commercial-hero">
+
+  <div class="cw-commercial-copy">
+
+    <h1>
+      Commercial
+      <br>
+      Wallcovering Solutions
+    </h1>
+
+    <p>
+      Professional installation for designers,
+      builders, hospitality, offices and
+      large-scale commercial spaces.
+    </p>
+
+    <div class="cw-commercial-benefits">
+
+      <div>
+        <i class="ph ph-shield-check"></i>
+        <span>Experienced Professionals</span>
+      </div>
+
+      <div>
+        <i class="ph ph-users-three"></i>
+        <span>Reliable & Responsive</span>
+      </div>
+
+      <div>
+        <i class="ph ph-seal-check"></i>
+        <span>Premium Results</span>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="cw-commercial-image">
+
+    <img
+      src="assets/img/hero/07.jpg"
+      alt="Commercial Wallpaper"
+    />
+
+  </div>
+
+</section>
+<section class="cw-commercial-steps">
+
+  <!-- <div class="active">
+    <span>1</span>
+    Project Type
+  </div>
+
+  <div>
+    <span>2</span>
+    Project Details
+  </div>
+
+  <div>
+    <span>3</span>
+    Review Summary
+  </div>
+
+  <div>
+    <span>4</span>
+    Submit
+  </div> -->
+
+</section>
+<section class="cw-commercial-section">
+  <h2>Select your project type</h2>
+  <p>Choose the option that best describes your project.</p> 
+
+  <div class="cw-project-types">
+    <!-- Tarjeta 1 -->
+    <article 
+      class="cw-project-card" 
+      [class.active]="activeCard === 'Trade & Design'"
+      (click)="selectProjectType('Trade & Design')">
+      <div class="cw-project-icon">
+        <i class="ph ph-pencil-ruler"></i>
+      </div>
+      <div>
+        <h3>Trade & Design</h3>
+        <p>For interior designers, remodelers, builders, model homes and clubhouses.</p>
+      </div>
+      <i class="ph ph-arrow-right"></i>
+    </article>
+
+    <!-- Tarjeta 2 -->
+    <article 
+      class="cw-project-card" 
+      [class.active]="activeCard === 'Large Commercial'"
+      (click)="selectProjectType('Large Commercial')">
+      <div class="cw-project-icon">
+        <i class="ph ph-buildings"></i>
+      </div>
+      <div>
+        <h3>Large Commercial</h3>
+        <p>Hotels, healthcare, offices, multifamily and retail projects.</p>
+      </div>
+      <i class="ph ph-arrow-right"></i>
+    </article>
+  </div>
+</section>
+
+<!-- Formulario envuelto en la directiva formGroup -->
+<section class="cw-commercial-form">
+  <h2>Tell us more about your project</h2>
+  
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="cw-form-grid">
+    
+    <label>
+      <span>Project Type</span>
+      <select formControlName="projectType">
+        <option value="" disabled>Select an option</option>
+        <option *ngFor="let type of projectTypes" [value]="type">{{ type }}</option>
+      </select>
+    </label>
+
+    <label>
+      <span>Estimated Timeline</span>
+      <select formControlName="timeline">
+        <option value="" disabled>Select an option</option>
+        <option *ngFor="let time of timelineOptions" [value]="time">{{ time }}</option>
+      </select>
+    </label>
+
+    <label>
+      <span>Wall Conditions</span>
+      <select formControlName="wallConditions">
+        <option value="" disabled>Select an option</option>
+        <option *ngFor="let condition of wallConditions" [value]="condition">{{ condition }}</option>
+      </select>
+    </label>
+
+    <label>
+      <span>Approximate Square Footage</span>
+      <select formControlName="squareFootage">
+        <option value="" disabled>Select an option</option>
+        <option *ngFor="let sqft of squareFootageOptions" [value]="sqft">{{ sqft }}</option>
+      </select>
+    </label>
+
+    <label class="full">
+      <span>Anything else we should know?</span>
+      <textarea rows="5" formControlName="additionalInfo" placeholder="Describe any specific requirements..."></textarea>
+    </label>
+
+    <div class="full">
+      <button type="submit" class="cw-btn-black" [disabled]="form.invalid">
+        Get Summary & Submit
+        <i class="ph ph-arrow-right"></i>
+      </button>
+    </div>
+  </form>
+</section>
+
+<!-- Tarjeta de Resumen (Se actualiza automáticamente) -->
+<section class="cw-summary-card" *ngIf="form.dirty">
+  <h2>Your project summary</h2>
+  <table>
+    <tr>
+      <td>Project Type</td>
+      <td><strong>{{ summaryData.projectType || '-' }}</strong></td>
+    </tr>
+    <tr>
+      <td>Estimated Timeline</td>
+      <td>{{ summaryData.timeline || '-' }}</td>
+    </tr>
+    <tr>
+      <td>Wall Conditions</td>
+      <td>{{ summaryData.wallConditions || '-' }}</td>
+    </tr>
+    <tr>
+      <td>Approximate Square Footage</td>
+      <td>{{ summaryData.squareFootage || '-' }}</td>
+    </tr>
+    <tr>
+      <td>Additional Information</td>
+      <td>{{ summaryData.additionalInfo || '-' }}</td>
+    </tr>
+  </table>
+
+  <!-- El botón real de envío ahora está dentro del form, pero puedes dejar uno visual aquí que haga scroll o submit -->
+  <button class="cw-submit-project" type="submit" (click)="onSubmit()">
+    <i class="ph ph-paper-plane-tilt"></i>
+    Submit Project
+  </button>
+</section>
+<section class="cw-contact-strip">
+
+  <div>
+    <i class="ph ph-envelope"></i>
+    <span>We typically respond within 1 business day.</span>
+  </div>
+
+  <div>
+    <i class="ph ph-paperclip"></i>
+    <span>You can email files anytime.</span>
+  </div>
+
+  <div>
+    <i class="ph ph-phone"></i>
+    <span>(704) 555-0199</span>
+  </div>
+
+  <div>
+    <i class="ph ph-clock"></i>
+    <span>Monday - Friday 8AM - 5PM EST</span>
+  </div>
+
+</section>
+<section class="cw-commercial-trust">
+
+  <div>
+    <i class="ph ph-shield-check"></i>
+    <h4>Experienced Professionals</h4>
+    <p>Specialized in wallcovering installations.</p>
+  </div>
+
+  <div>
+    <i class="ph ph-users-three"></i>
+    <h4>Reliable & Responsive</h4>
+    <p>Clear communication and delivery.</p>
+  </div>
+
+  <div>
+    <i class="ph ph-seal-check"></i>
+    <h4>Premium Results</h4>
+    <p>Attention to every detail.</p>
+  </div>
+
+  <div>
+    <i class="ph ph-clipboard-text"></i>
+    <h4>Fully Insured</h4>
+    <p>Protected projects for peace of mind.</p>
+  </div>
+
+</section>

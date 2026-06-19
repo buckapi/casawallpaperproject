@@ -1,0 +1,728 @@
+<section class="cw-guide-page">
+
+  <!-- HERO INTERNO -->
+  <section class="cw-guide-hero">
+    <div style="    padding-top: 65px;">
+      <h1>Find the right wallpaper<br />for your space.</h1>
+      <p>
+        Explore your options, then get personalized recommendations
+        that fit your home.
+      </p>
+    </div>
+  </section>
+
+  <div class="cw-guide-container">
+
+    <!-- 1 INSTALLATION TYPES -->
+    <section class="cw-guide-block">
+      <div class="cw-guide-title">
+        <div>
+          <span class="cw-step">1</span>
+          <h2>Installation Types</h2>
+          <small>What’s the difference?</small>
+        </div>
+
+        <a>Learn more about installation <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+
+      <div class="cw-guide-grid three">
+
+        <!-- Traditional -->
+        <article class="cw-option-card">
+          <div class="cw-card-main">
+            <div class="cw-icon">
+              <i class="ph ph-paint-roller"></i>
+            </div>
+
+            <div>
+              <h3>Traditional / Unpasted</h3>
+              <p>
+                Requires paste application. Strongest bond and best for high-moisture
+                areas.
+              </p>
+            </div>
+          </div>
+
+          <button type="button" class="cw-pros-btn" (click)="toggleCard(0)">
+            Pros & Cons
+            <i class="fa-solid" [class.fa-chevron-down]="expandedCard !== 0" [class.fa-chevron-up]="expandedCard === 0">
+            </i>
+          </button>
+
+          <div class="cw-details" *ngIf="expandedCard === 0">
+            <div class="cw-detail-section">
+              <h4>Advantages</h4>
+              <ul>
+                <li>Strongest long-term adhesion.</li>
+                <li>Excellent for bathrooms and humid areas.</li>
+                <li>Professional-grade finish.</li>
+                <li>Wide variety of premium wallpaper options.</li>
+              </ul>
+            </div>
+
+            <div class="cw-detail-section">
+              <h4>Considerations</h4>
+              <ul>
+                <li>Requires wallpaper paste.</li>
+                <li>Installation takes longer.</li>
+                <li>Usually requires professional installation.</li>
+              </ul>
+            </div>
+
+            <div class="cw-detail-section">
+              <h4>Best For</h4>
+              <p>
+                Permanent installations, luxury projects, bathrooms, kitchens,
+                and commercial spaces.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <!-- Pre-Pasted -->
+        <article class="cw-option-card">
+          <div class="cw-card-main">
+            <div class="cw-icon">
+              <i class="ph ph-paint-brush"></i>
+            </div>
+
+            <div>
+              <h3>Pre-Pasted</h3>
+              <p>
+                Paste is already on the back and activated with water.
+                Faster and cleaner installation.
+              </p>
+            </div>
+          </div>
+
+          <button type="button" class="cw-pros-btn" (click)="toggleCard(1)">
+            Pros & Cons
+            <i class="fa-solid" [class.fa-chevron-down]="expandedCard !== 1" [class.fa-chevron-up]="expandedCard === 1">
+            </i>
+          </button>
+
+          <div class="cw-details" *ngIf="expandedCard === 1">
+            <div class="cw-detail-section">
+              <h4>Advantages</h4>
+              <ul>
+                <li>Cleaner installation process.</li>
+                <li>No additional paste required.</li>
+                <li>Good balance between convenience and durability.</li>
+                <li>Suitable for most residential projects.</li>
+              </ul>
+            </div>
+
+            <div class="cw-detail-section">
+              <h4>Considerations</h4>
+              <ul>
+                <li>Requires water activation.</li>
+                <li>Less forgiving during repositioning.</li>
+                <li>May not perform as well in high humidity.</li>
+              </ul>
+            </div>
+
+            <div class="cw-detail-section">
+              <h4>Best For</h4>
+              <p>
+                Living rooms, bedrooms, offices, and homeowners
+                looking for easier installation.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <!-- Peel & Stick -->
+        <article class="cw-option-card">
+          <div class="cw-card-main">
+            <div class="cw-icon">
+              <i class="ph ph-sticker"></i>
+            </div>
+
+            <div>
+              <h3>Peel & Stick</h3>
+              <p>
+                Self-adhesive backing. Easy DIY installation and removal.
+              </p>
+            </div>
+          </div>
+
+          <button type="button" class="cw-pros-btn" (click)="toggleCard(2)">
+            Pros & Cons
+            <i class="fa-solid" [class.fa-chevron-down]="expandedCard !== 2" [class.fa-chevron-up]="expandedCard === 2">
+            </i>
+          </button>
+
+          <div class="cw-details" *ngIf="expandedCard === 2">
+            <div class="cw-detail-section">
+              <h4>Advantages</h4>
+              <ul>
+                <li>Fast DIY installation.</li>
+                <li>No paste or water required.</li>
+                <li>Easy removal with minimal wall damage.</li>
+                <li>Perfect for renters.</li>
+              </ul>
+            </div>
+
+            <div class="cw-detail-section">
+              <h4>Considerations</h4>
+              <ul>
+                <li>May not adhere well to textured walls.</li>
+                <li>Not ideal for high-humidity environments.</li>
+                <li>Generally less durable than traditional wallpaper.</li>
+              </ul>
+            </div>
+
+            <div class="cw-detail-section">
+              <h4>Best For</h4>
+              <p>
+                Apartments, temporary decor, rental properties,
+                and DIY projects.
+              </p>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- 2 MATERIALS -->
+    <section class="cw-guide-block">
+      <div class="cw-guide-title">
+        <div>
+          <span class="cw-step">2</span>
+          <h2>Wallpaper Materials</h2>
+          <small>Which material is best for me?</small>
+        </div>
+
+        <a>See all materials guide <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+
+      <div class="cw-guide-grid four">
+        <article class="cw-option-card vertical">
+          <div class="cw-icon">
+            <i class="ph ph-drop"></i>
+          </div>
+
+          <h3>Vinyl / Non-Woven</h3>
+
+          <p>
+            Durable, washable and moisture resistant. Ideal for kitchens,
+            bathrooms and high-traffic areas.
+          </p>
+
+          <button type="button" class="cw-pros-btn" (click)="toggleMaterialCard(0)">
+            Pros & Cons
+            <i class="fa-solid" [class.fa-chevron-down]="materialExpandedCard !== 0"
+              [class.fa-chevron-up]="materialExpandedCard === 0">
+            </i>
+          </button>
+
+          <div class="cw-details" *ngIf="materialExpandedCard === 0">
+            <div class="cw-detail-section">
+              <h4>Advantages</h4>
+              <ul>
+                <li>Water-resistant and washable.</li>
+                <li>Very durable and long-lasting.</li>
+                <li>Easy maintenance.</li>
+                <li>Excellent for families with children or pets.</li>
+              </ul>
+            </div>
+
+            <div class="cw-detail-section">
+              <h4>Considerations</h4>
+              <ul>
+                <li>Can be slightly more expensive.</li>
+                <li>Less natural texture than fiber-based materials.</li>
+              </ul>
+            </div>
+
+            <div class="cw-detail-section">
+              <h4>Best For</h4>
+              <p>
+                Kitchens, bathrooms, hallways, laundry rooms,
+                rental properties and busy households.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article class="cw-option-card vertical">
+          <div class="cw-icon">
+            <i class="ph ph-grid-four"></i>
+          </div>
+
+          <h3>Grasscloth</h3>
+
+          <p>
+            Natural fibers that add warmth and rich texture to any space.
+          </p>
+
+          <button type="button" class="cw-pros-btn" (click)="toggleMaterialCard(1)">
+            Pros & Cons
+            <i class="fa-solid" [class.fa-chevron-down]="materialExpandedCard !== 1"
+              [class.fa-chevron-up]="materialExpandedCard === 1">
+            </i>
+          </button>
+
+          <div class="cw-details" *ngIf="materialExpandedCard === 1">
+            <div class="cw-detail-section">
+              <h4>Advantages</h4>
+              <ul>
+                <li>Premium natural appearance.</li>
+                <li>Unique texture and depth.</li>
+                <li>Adds warmth and sophistication.</li>
+                <li>Each roll has a distinctive character.</li>
+              </ul>
+            </div>
+
+            <div class="cw-detail-section">
+              <h4>Considerations</h4>
+              <ul>
+                <li>Not washable.</li>
+                <li>Visible seams are normal.</li>
+                <li>Color variations occur naturally.</li>
+              </ul>
+            </div>
+
+            <div class="cw-detail-section">
+              <h4>Best For</h4>
+              <p>
+                Dining rooms, offices, luxury living rooms,
+                feature walls and upscale interiors.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article class="cw-option-card vertical">
+          <div class="cw-icon">
+            <i class="ph ph-sticker"></i>
+          </div>
+
+          <h3>Paper</h3>
+
+          <p>
+            Classic and versatile with endless design options and finishes.
+          </p>
+
+          <button type="button" class="cw-pros-btn" (click)="toggleMaterialCard(2)">
+            Pros & Cons
+            <i class="fa-solid" [class.fa-chevron-down]="materialExpandedCard !== 2"
+              [class.fa-chevron-up]="materialExpandedCard === 2">
+            </i>
+          </button>
+
+          <div class="cw-details" *ngIf="materialExpandedCard === 2">
+            <div class="cw-detail-section">
+              <h4>Advantages</h4>
+              <ul>
+                <li>Large variety of colors and patterns.</li>
+                <li>Affordable option.</li>
+                <li>Traditional wallpaper appearance.</li>
+                <li>Excellent print quality.</li>
+              </ul>
+            </div>
+
+            <div class="cw-detail-section">
+              <h4>Considerations</h4>
+              <ul>
+                <li>Less resistant to moisture.</li>
+                <li>Can tear more easily during installation.</li>
+                <li>Not ideal for bathrooms.</li>
+              </ul>
+            </div>
+
+            <div class="cw-detail-section">
+              <h4>Best For</h4>
+              <p>
+                Bedrooms, living rooms, dining rooms and
+                decorative accent walls.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article class="cw-option-card vertical">
+          <div class="cw-icon">
+            <i class="ph ph-notches"></i>
+          </div>
+
+          <h3>Textile / Fabric</h3>
+
+          <p>
+            Luxurious look and feel with fabric-based wallcoverings.
+          </p>
+
+          <button type="button" class="cw-pros-btn" (click)="toggleMaterialCard(3)">
+            Pros & Cons
+            <i class="fa-solid" [class.fa-chevron-down]="materialExpandedCard !== 3"
+              [class.fa-chevron-up]="materialExpandedCard === 3">
+            </i>
+          </button>
+
+          <div class="cw-details" *ngIf="materialExpandedCard === 3">
+            <div class="cw-detail-section">
+              <h4>Advantages</h4>
+              <ul>
+                <li>Luxury designer appearance.</li>
+                <li>Rich texture and depth.</li>
+                <li>Can improve room acoustics.</li>
+                <li>Creates a sophisticated atmosphere.</li>
+              </ul>
+            </div>
+
+            <div class="cw-detail-section">
+              <h4>Considerations</h4>
+              <ul>
+                <li>Usually higher cost.</li>
+                <li>Requires professional installation.</li>
+                <li>More delicate than vinyl materials.</li>
+              </ul>
+            </div>
+
+            <div class="cw-detail-section">
+              <h4>Best For</h4>
+              <p>
+                Luxury bedrooms, boutique hotels,
+                executive offices and elegant living spaces.
+              </p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+
+    <!-- 3 SELECT SPACE + RECOMMENDATIONS (DINÁMICO) -->
+    <section class="cw-guide-layout">
+
+      <div class="cw-guide-block">
+        <div class="cw-guide-title clean">
+          <div>
+            <span class="cw-step">3</span>
+            <h2>Where are you installing wallpaper?</h2>
+            <p>Select your space to get personalized recommendations.</p>
+          </div>
+        </div>
+
+        <!-- Grid de Espacios Interactivos -->
+        <div class="cw-space-grid">
+          <article *ngFor="let space of spaces" class="cw-space-card" [class.active]="selectedSpaceId === space.id"
+            (click)="selectSpace(space.id)">
+            <span class="cw-check" *ngIf="selectedSpaceId === space.id">
+              <i class="fa-solid fa-check"></i>
+            </span>
+            <i [class]="space.icon + ' cw-space-icon'"></i>
+            <h3>
+              <ng-container *ngFor="let line of space.lines; let last = last">
+                {{ line }}<br *ngIf="!last" />
+              </ng-container>
+            </h3>
+            <small *ngIf="space.subtitle" [class]="space.badgeClass">{{ space.subtitle }}</small>
+          </article>
+        </div>
+
+        <div class="cw-help-box">
+          <div>
+            <i class="fa-regular fa-lightbulb"></i>
+            <div>
+              <strong>Not sure about your space?</strong>
+              <p>We’re here to help you choose the best options.</p>
+            </div>
+          </div>
+          <a (click)="router.navigate(['/installer'])">Talk to an expert <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+      </div>
+
+      <!-- Panel de Recomendaciones Dinámico -->
+     <aside class="cw-recommend-card">
+
+  <ng-container *ngIf="currentRecommendation as recommendation; else emptyRecommendation">
+
+    <div class="cw-recommend-header">
+      <i class="fa-solid fa-shield-heart"></i>
+      <div>
+        <h2>Casa Wallpaper Recommends</h2>
+        <p>
+          Based on your selection:
+          <strong>{{ recommendation.title }}</strong>
+        </p>
+      </div>
+    </div>
+
+    <div class="cw-recommend-row">
+      <div class="cw-recommend-left">
+        <i class="ph ph-seal-check"></i>
+        <div>
+          <h3>Best Installation Types</h3>
+          <p *ngFor="let item of recommendation.bestInstallations">
+            <i class="fa-solid fa-check"></i> {{ item }}
+          </p>
+        </div>
+      </div>
+
+      <div class="cw-why">
+        <strong>Why?</strong>
+        <p>{{ recommendation.bestInstallationsWhy }}</p>
+      </div>
+    </div>
+
+    <div class="cw-recommend-row">
+      <div class="cw-recommend-left">
+        <i class="ph ph-stack"></i>
+        <div>
+          <h3>Best Wallpaper Materials</h3>
+          <p *ngFor="let item of recommendation.bestMaterials">
+            <i class="fa-solid fa-check"></i> {{ item }}
+          </p>
+        </div>
+      </div>
+
+      <div class="cw-why">
+        <strong>Why?</strong>
+        <p>{{ recommendation.bestMaterialsWhy }}</p>
+      </div>
+    </div>
+
+    <div class="cw-recommend-row warning" *ngIf="recommendation.caution.length > 0">
+      <div class="cw-recommend-left">
+        <i class="ph ph-warning"></i>
+        <div>
+          <h3>Use with Caution</h3>
+          <p *ngFor="let item of recommendation.caution">
+            {{ item }}
+          </p>
+        </div>
+      </div>
+
+      <div class="cw-why">
+        <strong>Why?</strong>
+        <p>{{ recommendation.cautionWhy }}</p>
+      </div>
+    </div>
+
+    <div class="cw-recommend-row danger" *ngIf="recommendation.notRecommended.length > 0">
+      <div class="cw-recommend-left">
+        <i class="ph ph-x-circle"></i>
+        <div>
+          <h3>Not Recommended</h3>
+          <p *ngFor="let item of recommendation.notRecommended">
+            {{ item }}
+          </p>
+        </div>
+      </div>
+
+      <div class="cw-why">
+        <strong>Why?</strong>
+        <p>{{ recommendation.notRecommendedWhy }}</p>
+      </div>
+    </div>
+
+    <div class="cw-recommend-actions">
+      <button class="cw-btn-dark" (click)="router.navigate(['/estimate'])">
+        Get My Estimate
+        <i class="fa-solid fa-chevron-right" style="color: #fff;"></i>
+      </button>
+
+      <button class="cw-btn-outline" (click)="router.navigate(['/contact'])">
+        <i class="fa-regular fa-message"></i>
+        Talk to an Expert
+      </button>
+    </div>
+
+  </ng-container>
+
+  <ng-template #emptyRecommendation>
+    <div class="cw-recommend-empty">
+      <i class="ph ph-cursor-click"></i>
+      <h2>Select a space first</h2>
+      <p>
+        Choose where you are installing wallpaper to see personalized recommendations.
+      </p>
+    </div>
+  </ng-template>
+
+</aside>
+
+    </section>
+
+    <!-- CALCULATOR + BRANDS -->
+   <!--  <section class="cw-bottom-layout">
+
+      <article class="cw-calculator-card">
+        <h3><i class="ph ph-calculator"></i> Wallpaper Calculator</h3>
+        <p>Estimate how many rolls you need.</p>
+
+        <div class="cw-form-grid">
+          <label>
+            Wall Width (ft)
+            <input type="number" value="10" />
+          </label>
+
+          <label>
+            Wall Height (ft)
+            <input type="number" value="8" />
+          </label>
+        </div>
+
+        <div class="cw-roll-result">
+          <span>Estimated Rolls Needed</span>
+          <strong>5 rolls</strong>
+          <small>Add 1 extra roll for pattern match and waste.</small>
+        </div>
+
+        <a>How we calculate <i class="fa-solid fa-arrow-right"></i></a>
+      </article>
+
+      <article class="cw-brands-card">
+        <div class="cw-brand-header">
+          <div>
+            <h3><i class="ph ph-image-broken"></i> Trusted Wallpaper Brands</h3>
+            <p>We work with the best to bring you beautiful, lasting results.</p>
+          </div>
+
+          <a>View all brands <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+
+        <div class="cw-brand-grid">
+          <div>YORK<br /><small>Wallcoverings</small></div>
+          <div>PHILLIP<br />JEFFRIES</div>
+          <div>SCHUMACHER</div>
+          <div>BREWSTER<br /><small>Home Fashions</small></div>
+          <div>THIBAUT</div>
+          <div>GRAHAM<br />& BROWN</div>
+        </div>
+      </article>
+
+    </section> -->
+
+    <!-- FAQ + CTA CARDS -->
+    <section class="cw-info-grid">
+
+      <article class="cw-faq-card">
+        <h3>Questions? We’ve got answers.</h3>
+
+        <!-- FAQ 1 -->
+        <div class="cw-faq-item">
+          <button type="button" class="cw-faq-btn" (click)="toggleFaq(0)">
+            <span>Do I need primer before installation?</span>
+
+            <i class="ph" [class.ph-caret-down]="faqExpanded !== 0" [class.ph-caret-up]="faqExpanded === 0">
+            </i>
+          </button>
+
+          <div class="cw-faq-answer" *ngIf="faqExpanded === 0">
+            Yes. Priming your walls is highly recommended before installing
+            wallpaper. Primer creates a smooth surface, improves adhesion,
+            makes future removal easier, and helps prevent moisture from
+            damaging the wall.
+          </div>
+        </div>
+
+        <!-- FAQ 2 -->
+        <div class="cw-faq-item">
+          <button type="button" class="cw-faq-btn" (click)="toggleFaq(1)">
+            <span>Can wallpaper be installed in bathrooms?</span>
+
+            <i class="ph" [class.ph-caret-down]="faqExpanded !== 1" [class.ph-caret-up]="faqExpanded === 1">
+            </i>
+          </button>
+
+          <div class="cw-faq-answer" *ngIf="faqExpanded === 1">
+            Absolutely. Vinyl and non-woven wallpapers are excellent choices
+            for bathrooms because they resist moisture and are easy to clean.
+            Proper ventilation is recommended to maximize longevity.
+          </div>
+        </div>
+
+        <!-- FAQ 3 -->
+        <div class="cw-faq-item">
+          <button type="button" class="cw-faq-btn" (click)="toggleFaq(2)">
+            <span>How do I remove wallpaper?</span>
+
+            <i class="ph" [class.ph-caret-down]="faqExpanded !== 2" [class.ph-caret-up]="faqExpanded === 2">
+            </i>
+          </button>
+
+          <div class="cw-faq-answer" *ngIf="faqExpanded === 2">
+            Removal depends on the wallpaper type. Peel & Stick wallpaper
+            can usually be removed by gently pulling from a corner.
+            Traditional wallpapers may require a removal solution,
+            warm water, or a wallpaper steamer.
+          </div>
+        </div>
+
+        <!-- FAQ 4 -->
+        <div class="cw-faq-item">
+          <button type="button" class="cw-faq-btn" (click)="toggleFaq(3)">
+            <span>How long does installation take?</span>
+
+            <i class="ph" [class.ph-caret-down]="faqExpanded !== 3" [class.ph-caret-up]="faqExpanded === 3">
+            </i>
+          </button>
+
+          <div class="cw-faq-answer" *ngIf="faqExpanded === 3">
+            Most residential installations can be completed in one day,
+            depending on room size, wall preparation requirements,
+            and wallpaper complexity. Larger or custom projects may
+            require additional time.
+          </div>
+        </div>
+        <div class="cw-faq-footer">
+  <button
+    class="cw-btn-outline"
+    routerLink="/faqs">
+    View All FAQs
+    <i class="fa-solid fa-arrow-right"></i>
+  </button>
+</div>
+      </article>
+
+      <article class="cw-work-card">
+        <div>
+          <h3>See Our Work</h3>
+          <p>Explore real projects and get inspired by our recent installations.</p>
+          <button class="cw-btn-dark" routerLink="/gallery">Visit Our Work <i class="fa-solid fa-chevron-right"></i></button>
+        </div>
+
+        <img src="assets/img/portfolio/06.jpg" alt="Wallpaper project" />
+      </article>
+
+      <article class="cw-expert-card">
+        <i class="ph ph-headset"></i>
+        <h3>Expert Guidance</h3>
+        <p>Our team is here to help you every step of the way.</p>
+        <a routerLink="/contact">Contact Us <i class="fa-solid fa-arrow-right"></i></a>
+      </article>
+
+    </section>
+
+    <!-- TRUST BAR -->
+    <section class="cw-guide-trust">
+      <div>
+        <i class="ph ph-seal-check"></i>
+        <strong>Premium Materials</strong>
+        <p>We use trusted brands and high-quality products.</p>
+      </div>
+
+      <div>
+        <i class="ph ph-hammer"></i>
+        <strong>Professional Installation</strong>
+        <p>Experienced installers, flawless results.</p>
+      </div>
+
+      <div>
+        <i class="ph ph-sparkle"></i>
+        <strong>Attention to Detail</strong>
+        <p>Beautiful results with care in every step.</p>
+      </div>
+
+      <div>
+        <i class="ph ph-smiley"></i>
+        <strong>Satisfaction Guaranteed</strong>
+        <p>Your happiness is our priority.</p>
+      </div>
+    </section>
+
+  </div>
+</section>

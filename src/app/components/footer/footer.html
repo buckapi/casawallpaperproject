@@ -1,0 +1,88 @@
+<footer class="cw-footer">
+
+ <section class="cw-footer-cta">
+  <div class="cw-footer-cta-logo">
+    <img src="assets/img/logo/footer-logo.png" alt="Casa Wallpaper">
+  </div>
+
+  <h2>Ready to Transform <span>Your Space?</span></h2>
+
+  <p>Let's bring your vision to life with premium wallpaper installations.</p>
+
+  <button type="button" class="cw-footer-btn" (click)="router.navigate(['/estimate'])">
+    <i class="fas fa-calendar-check"></i>
+    Get Your Estimate
+    <i class="fas fa-arrow-right"></i>
+  </button>
+</section>
+
+  <section class="cw-footer-main">
+    <div class="cw-footer-brand">
+      <img src="assets/img/logo/footer-logo.png" alt="Casa Wallpaper">
+
+      <p>
+        Premium wallpaper installations for residential & commercial spaces.
+        Every detail. Perfectly placed.
+      </p>
+
+      <div class="cw-footer-social">
+        <a href="https://www.instagram.com/casaimproveme/" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://web.facebook.com/casaimproveme?_rdc=1&_rdr" target="_blank"><i class="fab fa-facebook-f"></i></a>
+        <a href="mailto:admin@casainstall.com"><i class="far fa-envelope"></i></a>
+      </div>
+    </div>
+
+    <div class="cw-footer-col">
+      <h3>Services</h3>
+      <a (click)="router.navigate(['/residential'])">Residential</a>
+      <a (click)="router.navigate(['/commercial'])">Commercial Work</a>
+    </div>
+
+    <div class="cw-footer-col">
+      <h3>Company</h3>
+      <a (click)="router.navigate(['/about'])">About Us</a>
+      <a (click)="router.navigate(['/our-work'])">Our Work</a>
+      <a (click)="router.navigate(['/contact'])">Contact Us</a>
+    </div>
+
+    <div class="cw-footer-col">
+      <h3>Service Areas</h3>
+      <span>Raleigh, NC</span>
+    </div>
+
+    <div class="cw-footer-col cw-footer-contact">
+      <h3>Contact Us</h3>
+
+      <a href="tel:9198855401">
+        <i class="fas fa-phone-alt"></i>
+        (919) 885-5401
+      </a>
+
+      <a href="mailto:admin@casainstall.com">
+        <i class="far fa-envelope"></i>
+        admin@casainstall.com
+      </a>
+
+      <span>
+        <i class="fas fa-map-marker-alt"></i>
+        Raleigh, NC
+      </span>
+
+      <span>
+        <i class="far fa-clock"></i>
+        Mon - Sat: 8AM - 6PM
+      </span>
+    </div>
+  </section>
+
+  <section class="cw-footer-bottom">
+    <p>© 2026 Casa Wallpaper. All rights reserved.</p>
+
+    <div>
+      <a (click)="router.navigate(['/policy'])">Privacy Policy</a>
+      <a (click)="router.navigate(['/terms'])">Terms of Service</a>
+      <a (click)="router.navigate(['/contact'])">Licenses & Insurance</a>
+    </div>
+  </section>
+
+</footer>

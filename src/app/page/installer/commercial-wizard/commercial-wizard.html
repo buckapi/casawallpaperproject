@@ -1,0 +1,297 @@
+<section class="installer-page">
+
+  <div class="step-badge">
+    STEP {{ currentStep }} OF {{ totalSteps }}
+  </div>
+
+  <div class="wizard-card">
+
+
+    <main class="wizard-body">
+
+      <div class="wizard-content">
+
+        <span class="eyebrow">FIND INSTALLER</span>
+
+        <div class="progress-dots">
+          @for (step of getProgressSteps(); track step) {
+            <span
+              class="dot"
+              [class.active]="step === currentStep"
+              [class.done]="step < currentStep">
+              {{ step }}
+            </span>
+          }
+        </div>
+
+        @switch (currentStep) {
+
+          @case (1) {
+            <h1>What type of space are you working on?</h1>
+
+            <p class="description">
+              Select all that apply.
+            </p>
+
+            <div class="commercial-grid">
+              @for (type of spaceTypes; track type.label) {
+                <button
+                  type="button"
+                  class="commercial-option"
+                  [class.selected]="selectedSpaceTypes.includes(type.label)"
+                  (click)="toggleSpaceType(type.label)">
+                  <i class="ph" [class]="type.icon"></i>
+                  <span>{{ type.label }}</span>
+                </button>
+              }
+            </div>
+          }
+
+          @case (2) {
+            <h1>Project location</h1>
+
+            <p class="description">
+              Where is your project located?
+            </p>
+
+            <div class="form-block large">
+              <label>ZIP Code or City</label>
+              <input
+                type="text"
+                placeholder="e.g. 33131 or Miami, FL"
+                [(ngModel)]="zipOrCity">
+            </div>
+          }
+
+          @case (3) {
+            <h1>What is your ideal timeline?</h1>
+
+            <p class="description">
+              Let us know your target timeline.
+            </p>
+
+            <div class="radio-list">
+              @for (item of timelines; track item) {
+                <button
+                  type="button"
+                  class="radio-option"
+                  [class.selected]="selectedTimeline === item"
+                  (click)="selectedTimeline = item">
+                  <span></span>
+                  {{ item }}
+                </button>
+              }
+            </div>
+          }
+
+          @case (4) {
+            <h1>Does the installer need to provide the following for your project?</h1>
+
+            <p class="description">
+              Select all that apply.
+            </p>
+
+            <div class="checkbox-list">
+              @for (document of documents; track document) {
+                <button
+                  type="button"
+                  class="checkbox-option"
+                  [class.selected]="selectedDocuments.includes(document)"
+                  (click)="toggleDocument(document)">
+                  <span></span>
+                  {{ document }}
+                </button>
+              }
+            </div>
+          }
+
+          @case (5) {
+            <h1>Any additional information about your project?</h1>
+
+            <p class="optional">Optional</p>
+
+            <div class="form-block large">
+              <textarea
+                rows="7"
+                placeholder="Share any details, requirements, access information, or anything else that will help installers understand your project."
+                [(ngModel)]="additionalInfo">
+              </textarea>
+            </div>
+          }
+
+          @case (6) {
+            <h1>Upload photos or files relevant to the project</h1>
+
+            <p class="description">
+              This helps installers understand your space and provide better estimates.
+            </p>
+
+            <div class="upload-box">
+              <i class="ph ph-cloud-arrow-up"></i>
+              <strong>Drag and drop files here</strong>
+              <span>or click to browse</span>
+              <small>JPG, PNG, PDF up to 20MB each</small>
+            </div>
+          }
+
+          @case (7) {
+            <span class="review-label">REVIEW</span>
+
+            <h1>Review your project summary</h1>
+
+            <p class="description">
+              Please confirm that everything looks correct.
+            </p>
+
+            <div class="review-card">
+              <div>
+                <strong>Project Type</strong>
+                <span>Commercial</span>
+                <button type="button" (click)="goToStep(1)">Edit</button>
+              </div>
+
+              <div>
+                <strong>Property Type</strong>
+                <span>{{ selectedSpaceTypes.join(', ') || 'Not selected' }}</span>
+                <button type="button" (click)="goToStep(1)">Edit</button>
+              </div>
+
+              <div>
+                <strong>Location</strong>
+                <span>{{ zipOrCity || 'Not provided' }}</span>
+                <button type="button" (click)="goToStep(2)">Edit</button>
+              </div>
+
+              <div>
+                <strong>Timeline</strong>
+                <span>{{ selectedTimeline || 'Not selected' }}</span>
+                <button type="button" (click)="goToStep(3)">Edit</button>
+              </div>
+
+              <div>
+                <strong>Insurance / Documents</strong>
+                <span>{{ selectedDocuments.join(', ') || 'None selected' }}</span>
+                <button type="button" (click)="goToStep(4)">Edit</button>
+              </div>
+
+              <div>
+                <strong>Additional Information</strong>
+                <span>{{ additionalInfo || 'No additional details' }}</span>
+                <button type="button" (click)="goToStep(5)">Edit</button>
+              </div>
+            </div>
+          }
+
+          @case (8) {
+            <h1>Almost there!</h1>
+
+            <p class="description">
+              We'll send your project details to trusted commercial installers.
+            </p>
+
+            <div class="check-list">
+              <div>
+                <i class="ph ph-check"></i>
+                Installers will review and reach out with their best options.
+              </div>
+
+              <div>
+                <i class="ph ph-check"></i>
+                You compare, choose, and get your project started.
+              </div>
+            </div>
+          }
+
+          @case (9) {
+            <h1>Send your project request</h1>
+
+            <p class="description">
+              This will be sent to the best installers for your project.
+            </p>
+
+            <div class="contact-grid">
+              <div class="form-block">
+                <label>Full Name</label>
+                <input type="text" placeholder="John Doe" [(ngModel)]="fullName">
+
+                <label>Email</label>
+                <input type="email" placeholder="john.doe@email.com" [(ngModel)]="email">
+
+                <label>Phone Number</label>
+                <input type="tel" placeholder="(305) 555-1234" [(ngModel)]="phone">
+              </div>
+
+              <div class="info-card">
+                <i class="ph ph-paper-plane-tilt"></i>
+                <h3>We'll do the rest!</h3>
+                <p>
+                  The best installers in your area will review your project and contact you soon.
+                </p>
+                <small>Usually within 24 hours.</small>
+              </div>
+            </div>
+          }
+
+          @case (10) {
+            <h1>Request sent!</h1>
+
+            <p class="description">
+              We'll connect you with the best installers for your project.
+            </p>
+
+            <div class="help-card">
+              <strong>Need help?</strong>
+              <span>Our team is here if you have any questions.</span>
+
+              <button type="button" routerLink="/contact">
+                Contact Us
+              </button>
+            </div>
+          }
+        }
+
+        @if (currentStep < 10) {
+          <div class="actions">
+            <button
+              class="back-btn"
+              type="button"
+              [routerLink]="currentStep === 1 ? '/installer' : null"
+              (click)="currentStep > 1 && previousStep()">
+              ← Back
+            </button>
+
+            @if (currentStep < 7) {
+              <button class="next-btn" type="button" (click)="nextStep()">
+                Next <span>→</span>
+              </button>
+            }
+
+            @if (currentStep === 7) {
+              <button class="next-btn" type="button" (click)="nextStep()">
+                Looks Good, Continue <span>→</span>
+              </button>
+            }
+
+            @if (currentStep === 8) {
+              <button class="next-btn" type="button" (click)="nextStep()">
+                Next <span>→</span>
+              </button>
+            }
+
+            @if (currentStep === 9) {
+              <button class="next-btn" type="button" (click)="submitRequest()">
+                Send Project Request <span>→</span>
+              </button>
+            }
+          </div>
+        }
+
+      </div>
+
+      <div class="wizard-image"></div>
+
+    </main>
+
+  </div>
+
+</section>

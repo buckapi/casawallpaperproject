@@ -1,0 +1,267 @@
+.cw-footer {
+  background: #080909;
+  color: #fff;
+}
+
+.cw-footer-cta {
+  position: relative;
+  overflow: hidden;
+
+  min-height: 230px;
+  padding: 55px 5vw;
+
+  display: grid;
+  grid-template-columns: 120px 1.2fr 1fr auto;
+  align-items: center;
+  gap: 45px;
+
+  border-top: 1px solid rgba(184, 115, 34, .35);
+  border-bottom: 1px solid rgba(184, 115, 34, .35);
+
+  background: #080909;
+}
+
+.cw-footer-cta::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(0, 0, 0, .50),
+      rgba(0, 0, 0, .85)
+    ),
+    url("/assets/img/footer.png");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  opacity: 1;
+  pointer-events: none;
+}
+
+.cw-footer-cta > * {
+  position: relative;
+  z-index: 2;
+}
+.cw-footer-cta-logo img {
+  width: 95px;
+  height: auto;
+  display: block;
+}
+
+.cw-footer-cta h2 {
+  color: #fff;
+  font-size: 42px;
+  line-height: 1.1;
+  font-family: serif;
+  margin: 0;
+}
+
+.cw-footer-cta h2 span {
+  color: #b87322;
+}
+
+.cw-footer-cta p {
+  font-size: 20px;
+  line-height: 1.6;
+  color: #f1f1f1;
+  margin: 0;
+  padding-left: 45px;
+  border-left: 1px solid rgba(255,255,255,.25);
+}
+
+.cw-footer-btn {
+  height: 62px;
+  padding: 0 30px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #b87322, #d08a2c);
+  color: #fff;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cw-footer-main {
+  padding: 80px 5vw;
+  display: grid;
+  grid-template-columns: 1.4fr repeat(4, 1fr);
+  gap: 55px;
+}
+
+.cw-footer-brand img {
+  width: 190px;
+  margin-bottom: 28px;
+}
+
+.cw-footer-brand p {
+  color: #d8d8d8;
+  font-size: 17px;
+  line-height: 1.8;
+  max-width: 310px;
+}
+
+.cw-footer-social {
+  display: flex;
+  gap: 16px;
+  margin-top: 28px;
+}
+
+.cw-footer-social a {
+  width: 42px;
+  height: 42px;
+  border: 1px solid #b87322;
+  border-radius: 50%;
+  color: #b87322;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cw-footer-col h3 {
+  color: #b87322;
+  text-transform: uppercase;
+  font-size: 15px;
+  letter-spacing: 3px;
+  margin-bottom: 28px;
+}
+
+.cw-footer-col a,
+.cw-footer-col span {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: #e8e8e8;
+  font-size: 17px;
+  line-height: 1.5;
+  margin-bottom: 18px;
+  cursor: pointer;
+}
+
+.cw-footer-col a:hover {
+  color: #b87322;
+}
+
+.cw-footer-contact i {
+  color: #b87322;
+  width: 20px;
+}
+
+.cw-footer-bottom {
+  padding: 28px 5vw 40px;
+  border-top: 1px solid rgba(255,255,255,.15);
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+.cw-footer-bottom p {
+  color: #cfcfcf;
+  margin: 0;
+}
+
+.cw-footer-bottom div {
+  display: flex;
+  gap: 35px;
+}
+
+.cw-footer-bottom a {
+  color: #cfcfcf;
+  cursor: pointer;
+}
+
+.cw-footer-bottom a:hover {
+  color: #b87322;
+}
+
+@media (max-width: 991px) {
+  .cw-footer-cta {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 25px;
+  }
+
+  .cw-footer-cta-logo img {
+    margin: auto;
+  }
+
+  .cw-footer-cta p {
+    padding-left: 0;
+    border-left: none;
+  }
+
+  .cw-footer-main {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .cw-footer-brand {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 767px) {
+  .cw-footer-cta {
+    padding: 45px 24px;
+  }
+
+  .cw-footer-cta h2 {
+    font-size: 34px;
+  }
+
+  .cw-footer-cta p {
+    font-size: 16px;
+  }
+
+  .cw-footer-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .cw-footer-main {
+    grid-template-columns: 1fr;
+    padding: 55px 24px;
+    gap: 35px;
+  }
+
+  .cw-footer-bottom {
+    flex-direction: column;
+    padding: 28px 24px 35px;
+  }
+
+  .cw-footer-bottom div {
+    flex-direction: column;
+    gap: 12px;
+  }
+  @media (max-width: 767px) {
+  .cw-footer-cta {
+    grid-template-columns: 1fr;
+    text-align: center;
+    padding: 45px 24px;
+    gap: 22px;
+  }
+
+  .cw-footer-cta-logo img {
+    margin: 0 auto;
+    width: 85px;
+  }
+
+  .cw-footer-cta h2 {
+    font-size: 34px;
+  }
+
+  .cw-footer-cta p {
+    padding-left: 0;
+    border-left: none;
+    font-size: 16px;
+  }
+
+  .cw-footer-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+}

@@ -1,0 +1,72 @@
+
+  <section class="installer-page">
+
+    <div class="step-badge">
+      STEP {{ currentStep }} OF {{ totalSteps }}
+    </div>
+
+    <div class="wizard-card">
+      
+
+      <main class="wizard-body">
+        <div class="wizard-content">
+          <span class="eyebrow">FIND INSTALLER</span>
+
+          <div class="progress-dots">
+            @for (step of getProgressSteps(); track step) {
+              <span class="dot" [class.active]="step === currentStep">
+                {{ step }}
+              </span>
+            }
+          </div>
+
+          <h1>What type of project is this?</h1>
+
+          <p class="description">
+            This helps us match you with the right installer for your project.
+          </p>
+
+          <div class="type-grid">
+            <button
+  type="button"
+  class="type-card"
+  [class.selected]="selectedAudience === 'residential'"
+  (click)="goToWizard('residential')">
+
+  <i class="ph ph-house-line"></i>
+  <strong>Residential</strong>
+  <span>For your home</span>
+</button>
+
+<button
+  type="button"
+  class="type-card"
+  [class.selected]="selectedAudience === 'commercial'"
+  (click)="goToWizard('commercial')">
+
+  <i class="ph ph-buildings"></i>
+  <strong>Commercial</strong>
+  <span>For your business</span>
+</button>
+          </div>
+
+          <div class="actions">
+            <button class="back-btn" type="button">
+              ← Back
+            </button>
+
+            <button
+              class="next-btn"
+              type="button"
+              [disabled]="!selectedAudience"
+              (click)="nextStep()">
+              Next <span>→</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="wizard-image"></div>
+      </main>
+    </div>
+
+  </section>

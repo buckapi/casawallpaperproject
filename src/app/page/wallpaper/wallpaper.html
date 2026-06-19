@@ -1,0 +1,237 @@
+<section class="wallpaper-page">
+
+  <header class="wallpaper-hero">
+    <div class="hero-content">
+      <h1>
+        Find the Perfect
+        <span>Wallpaper</span> for
+        Your Project
+      </h1>
+
+      <p>
+        Answer a few simple questions and our AI will recommend the best
+        wallpaper brands and collections for your space.
+      </p>
+
+      <small>
+        <i class="ph ph-lock-key"></i>
+        No personal information required
+      </small>
+    </div>
+
+    <div class="hero-trust-card">
+      <span>Trusted by</span>
+      <strong>5,000+</strong>
+      <p>Happy Customers</p>
+      <div>★★★★★</div>
+    </div>
+  </header>
+
+  <section class="wizard-card" *ngIf="showWizard">
+    <div class="wizard-column">
+      <div class="wizard-title">
+        <span>1</span>
+        <div>
+          <h2>What matters most to you?</h2>
+          <p>Select up to 2</p>
+        </div>
+      </div>
+
+      <div class="priority-grid">
+        <button type="button" class="priority-card" *ngFor="let item of priorities"
+          [class.selected]="selectedPriorities.includes(item.key)" (click)="togglePriority(item.key)">
+
+          <i class="ph" [ngClass]="item.icon"></i>
+
+          <strong>{{ item.label }}</strong>
+
+          <span class="check" *ngIf="selectedPriorities.includes(item.key)">
+            <i class="ph ph-check"></i>
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <div class="wizard-column">
+      <div class="wizard-title">
+        <span>2</span>
+        <div>
+          <h2>What style do you like?</h2>
+          <p>Choose your preferred style</p>
+        </div>
+      </div>
+
+      <div class="style-grid">
+        <button type="button" class="style-card" *ngFor="let style of visibleStyles"
+          [class.selected]="selectedStyle === style.key" (click)="selectStyle(style.key)">
+
+          <img [src]="style.image" [alt]="style.label">
+          <strong>{{ style.label }}</strong>
+
+          <span class="check" *ngIf="selectedStyle === style.key">
+            <i class="ph ph-check"></i>
+          </span>
+        </button>
+      </div>
+
+      <button type="button" class="show-more-btn" (click)="toggleStyles()">
+        {{ showAllStyles ? 'Show Less Styles' : 'Show More Styles' }}
+        <i class="ph" [ngClass]="showAllStyles ? 'ph-caret-up' : 'ph-caret-down'"></i>
+      </button>
+
+      <button type="button" class="result-btn" (click)="getResults()">
+        <i class="ph ph-sparkle"></i>
+        Get My Results
+        <i class="ph ph-arrow-right"></i>
+      </button>
+    </div>
+
+    <div class="wizard-column">
+      <div class="wizard-title">
+        <span>3</span>
+        <div>
+          <h2>Tell us about your project</h2>
+          <p>Choose an example or type your own</p>
+        </div>
+      </div>
+
+      <div class="project-list">
+        <button type="button" class="project-option" *ngFor="let project of projects"
+          [class.selected]="selectedProject === project.key" (click)="selectProject(project.key)">
+
+          <i class="ph" [ngClass]="project.icon"></i>
+          <strong>{{ project.label }}</strong>
+          <span></span>
+        </button>
+      </div>
+
+      <div class="or-divider">
+        <span></span>
+        OR
+        <span></span>
+      </div>
+
+      <label class="textarea-label">Or describe your project</label>
+
+      <textarea [(ngModel)]="projectDescription" (ngModelChange)="onProjectDescriptionChange()"
+        placeholder="Type what you’re looking for...">
+</textarea>
+
+      <p class="example-text">
+        Example: I need durable wallpaper for a high traffic area, modern look, easy to clean.
+      </p>
+    </div>
+
+  </section>
+
+  <section class="recommendations" *ngIf="hasResults">
+    <div class="section-title">
+      <h2>Here are your recommended brands and collections!</h2>
+      <p>Based on your priorities, style and project</p>
+    </div>
+    <button
+  type="button"
+  class="back-to-wizard-btn"
+  (click)="resetWizard()">
+
+  <i class="ph ph-arrow-counter-clockwise"></i>
+  Start Over
+
+</button>
+    <div class="brand-grid">
+      <article class="brand-card" *ngFor="let brand of brands">
+        <img [src]="brand.image" [alt]="brand.name">
+
+        <div class="brand-body">
+          <div class="brand-header">
+            <div>
+              <h3>{{ brand.name }}</h3>
+              <small>{{ brand.subtitle }}</small>
+            </div>
+
+            <span>Recommended</span>
+          </div>
+
+          <p>{{ brand.description }}</p>
+
+          <ul>
+            <li *ngFor="let benefit of brand.benefits">
+              <i class="ph ph-check"></i>
+              {{ benefit }}
+            </li>
+          </ul>
+
+          <button type="button" (click)="openBrand(brand)">
+            {{ brand.button }}
+            <i class="ph ph-arrow-right"></i>
+          </button>
+        </div>
+      </article>
+    </div>
+
+    <p class="trusted-text">
+      <i class="ph ph-heart"></i>
+      These brands are trusted by our team and professional installers.
+    </p>
+  </section>
+
+  <section class="next-actions">
+    <h3>What would you like to do next?</h3>
+
+    <div class="action-grid">
+      <a>
+        <i class="ph ph-headset"></i>
+        <div>
+          <strong>Find My Installer</strong>
+          <span>Connect with trusted wallpaper installers near you.</span>
+        </div>
+        <i class="ph ph-caret-right"></i>
+      </a>
+
+      <a>
+        <i class="ph ph-scroll"></i>
+        <div>
+          <strong>Choose Wallpaper</strong>
+          <span>Explore beautiful collections from top wallpaper brands.</span>
+        </div>
+        <i class="ph ph-caret-right"></i>
+      </a>
+
+      <a>
+        <i class="ph ph-calculator"></i>
+        <div>
+          <strong>Calculator</strong>
+          <span>Calculate how much wallpaper you need for your project.</span>
+        </div>
+        <i class="ph ph-caret-right"></i>
+      </a>
+    </div>
+  </section>
+
+  <footer class="wallpaper-benefits">
+    <div>
+      <i class="ph ph-seal-check"></i>
+      <strong>Expert Guidance</strong>
+      <span>Real experts, real help, real results.</span>
+    </div>
+
+    <div>
+      <i class="ph ph-users-three"></i>
+      <strong>Trusted Installers</strong>
+      <span>We connect you with experienced professionals.</span>
+    </div>
+
+    <div>
+      <i class="ph ph-shield-check"></i>
+      <strong>Quality Guaranteed</strong>
+      <span>We only recommend top quality wallpaper brands.</span>
+    </div>
+
+    <div>
+      <i class="ph ph-headset"></i>
+      <strong>Customer Support</strong>
+      <span>We’re here for you at every step.</span>
+    </div>
+  </footer>
+
+</section>

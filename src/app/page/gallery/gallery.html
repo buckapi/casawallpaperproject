@@ -1,0 +1,129 @@
+<section class="work-section">
+
+  <div class="work-container">
+
+    <div class="work-header">
+      <h1>Our Work</h1>
+      <p>
+        A collection of real spaces, beautifully<br>
+        transformed with wallpaper.
+      </p>
+    </div>
+
+    <div class="filter-buttons">
+      <button class="filter-btn" (click)="filterPortfolios('all')">Todos</button>
+      <button class="filter-btn" (click)="filterPortfolios('residencial')">Residencial</button>
+      <button class="filter-btn" (click)="filterPortfolios('comercial')">Comercial</button>
+    </div>
+
+    <div class="work-grid">
+
+  <div
+    class="work-card"
+    *ngFor="let item of visibleItems"
+    (click)="openItem(item)">
+
+    <img
+      *ngIf="item.type === 'image'"
+      [src]="item.url"
+      [alt]="item.portfolio.name">
+
+    <video
+      *ngIf="item.type === 'video'"
+      [src]="item.url"
+      muted
+      playsinline
+      preload="metadata">
+    </video>
+
+    <div
+      *ngIf="item.type === 'instagram'"
+      class="instagram-gallery-card">
+      <i class="fab fa-instagram"></i>
+      <span>Instagram Reel</span>
+    </div>
+
+    <div class="work-card-overlay">
+      <i
+        class="fas"
+        [class.fa-play]="item.type === 'video' || item.type === 'instagram'"
+        [class.fa-search-plus]="item.type === 'image'">
+      </i>
+    </div>
+
+  </div>
+
+</div>
+
+    <div
+  class="load-more"
+  *ngIf="hasMoreItems()"
+  (click)="loadMore()">
+  Load more <i class="fas fa-chevron-down"></i>
+</div>
+
+  </div>
+
+</section>
+
+<section class="work-cta">
+  <div class="work-cta-overlay">
+    <div>
+      <h3>Ready to transform your space?</h3>
+      <p>Let's bring your vision to life with the perfect wallcovering.</p>
+    </div>
+
+    <div class="work-cta-actions">
+      <a (click)="router.navigate(['/estimate'])">Get Your Estimate <i class="fas fa-arrow-right"></i></a>
+      <a class="outline" (click)="router.navigate(['/contact'])">Talk To Our Team</a>
+    </div>
+  </div>
+</section>
+
+<section class="work-features">
+
+  <div class="feature-item">
+    <div class="feature-icon">
+      <i class="ph ph-shield-check"></i>
+    </div>
+
+    <div>
+      <h4>Experienced Professionals</h4>
+      <p>Specialized in wallcovering installations of all sizes.</p>
+    </div>
+  </div>
+
+  <div class="feature-item">
+    <div class="feature-icon">
+      <i class="ph ph-users"></i>
+    </div>
+
+    <div>
+      <h4>Reliable & Responsive</h4>
+      <p>Clear communication and on-time project delivery.</p>
+    </div>
+  </div>
+
+  <div class="feature-item">
+    <div class="feature-icon">
+      <i class="ph ph-seal-check"></i>
+    </div>
+
+    <div>
+      <h4>Premium Results</h4>
+      <p>Quality workmanship with attention to every detail.</p>
+    </div>
+  </div>
+
+  <div class="feature-item">
+    <div class="feature-icon">
+      <i class="ph ph-clipboard-text"></i>
+    </div>
+
+    <div>
+      <h4>Fully Insured</h4>
+      <p>Protected projects for your peace of mind.</p>
+    </div>
+  </div>
+
+</section>

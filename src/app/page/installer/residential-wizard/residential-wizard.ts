@@ -247,6 +247,10 @@ export class ResidentialWizard {
   getProgressSteps(): number[] {
     return Array.from({ length: this.totalSteps }, (_, i) => i + 1);
   }
+/* // Solo el cliente puede subir fotos
+@request.auth.id != "" && 
+request_id.client_id = @request.auth.id permiso para subir fotos
+ */
 
   /* submitRequest() {
     const payload = {
@@ -268,8 +272,8 @@ export class ResidentialWizard {
  async submitRequest() {
   if (this.isSubmitting) return;
 
-  if (!this.fullName.trim() || !this.phone.trim()) {
-    this.submitError = 'Please enter your name and phone number.';
+  if (!this.fullName.trim() || !this.phone.trim() || !this.email.trim()) {
+    this.submitError = 'Please enter your name, email and phone number.';
     return;
   }
 
@@ -277,42 +281,87 @@ export class ResidentialWizard {
     this.isSubmitting = true;
     this.submitError = '';
 
-    const formData = new FormData();
+    const requestData = {
+      status: 'sent',
 
-    formData.append('status', 'sent');
-    formData.append('city', this.selectedLocation?.city || this.city || '');
-    formData.append('zip_code', this.selectedLocation?.zipCode || this.zipCode || '');
-    formData.append('space_type', this.selectedResidentialProjectType || this.selectedRoom || '');
-    formData.append('wallpaper_type', this.selectedWallpaper || '');
-    formData.append('height_m', String(this.mapCeilingHeightToMeters()));
-    formData.append('desired_date', this.mapTimelineToDate());
-    formData.append('intention_level', this.mapTimelineToIntentionLevel());
-    formData.append('max_leads', '3');
-    formData.append('sold_leads', '0');
-    formData.append('is_available', 'true');
-    formData.append('client_name', this.fullName.trim());
-    formData.append('client_phone', this.phone.trim());
+      project_type: 'residential',
+      source: 'website',
 
-    for (const photo of this.uploadedPhotos) {
-      formData.append('photos', photo);
+      city: this.selectedLocation?.city || this.city || '',
+      zip_code: this.selectedLocation?.zipCode || this.zipCode || '',
+      state: this.selectedLocation?.state || '',
+      state_code: this.selectedLocation?.stateCode || this.state || '',
+      country: this.selectedLocation?.countryCode || 'US',
+      formatted_address: this.selectedLocation?.formattedAddress || '',
+
+      lat: this.selectedLocation?.lat || 0,
+      lng: this.selectedLocation?.lng || 0,
+
+      space_type: this.selectedResidentialProjectType,
+      project_category_label: this.getSelectedProjectTypeLabel(),
+
+      wallpaper_type: this.selectedWallpaper,
+      height_m: this.mapCeilingHeightToMeters(),
+      desired_date: this.mapTimelineToDate(),
+      intention_level: this.mapTimelineToIntentionLevel(),
+
+      max_leads: 3,
+      sold_leads: 0,
+      is_available: true,
+
+      client_name: this.fullName.trim(),
+      client_email: this.email.trim(),
+      client_phone: this.phone.trim(),
+    };
+
+    const requestRecord = await this.pb.collection('requests').create(requestData);
+
+    const photoIds: string[] = [];
+
+    for (const [index, photo] of this.uploadedPhotos.entries()) {
+  const photoData = new FormData();
+
+  photoData.append('request_id', requestRecord.id);
+  photoData.append('file', photo);
+  photoData.append('sort_order', String(index + 1));
+
+  const photoRecord = await this.pb
+    .collection('request_photos')
+    .create(photoData);
+
+  photoIds.push(photoRecord.id);
+}
+
+    if (photoIds.length > 0) {
+      await this.pb.collection('requests').update(requestRecord.id, {
+        photos: photoIds,
+      });
     }
 
-    const record = await this.pb.collection('requests').create(formData);
+    this.ngZone.run(() => {
+      this.isSubmitting = false;
+      this.requestSent = true;
+    });
 
-console.log('Residential request created:', record);
+    console.log('Request created:', {
+      request: requestRecord,
+      photos: photoIds,
+    });
 
-this.isSubmitting = false;
-this.requestSent = true;
+  }  catch (error: any) {
+  console.error('Error creating request:', error);
+  console.error('PocketBase error data:', error?.data);
 
-    // opcional: volver al inicio
-    // this.router.navigate(['/installer']);
+  this.ngZone.run(() => {
+    this.submitError =
+      error?.data?.data
+        ? JSON.stringify(error.data.data)
+        : 'We could not send your request. Please try again.';
 
-  } catch (error) {
-    console.error('Error creating request:', error);
-
-    this.submitError = 'We could not send your request. Please try again.';
     this.isSubmitting = false;
-  }
+  });
+}
+
 }
   mapCeilingHeightToMeters(): number {
   switch (this.selectedCeilingHeight) {

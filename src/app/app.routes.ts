@@ -145,7 +145,7 @@ export const routes: Routes = [
     title: 'News',
   },
   {
-    path: 'blog-detail',
+    path: 'blog/:slug',
     loadComponent: () =>
       import('./page/blog-detail/blog-detail').then(c => c.BlogDetail),
     title: 'News',

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, NgZone, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, NgZone, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import PocketBase from 'pocketbase';
@@ -69,7 +69,7 @@ export class CommercialWizard {
     { value: 7, label: 'Review', icon: 'ph-list-checks' },
     { value: 8, label: 'Contact', icon: 'ph-user' },
   ];
-  constructor(private ngZone: NgZone) { }
+  constructor(private ngZone: NgZone,   private cdr: ChangeDetectorRef) { }
 
   spaceTypes = [
     { label: 'Office', value: 'office', icon: 'ph-buildings' },
@@ -546,6 +546,7 @@ export class CommercialWizard {
       this.ngZone.run(() => {
         this.isSubmitting = false;
         this.requestSent = true;
+        this.cdr.detectChanges();
       });
 
     } catch (error: any) {
@@ -555,6 +556,7 @@ export class CommercialWizard {
       this.ngZone.run(() => {
         this.submitError = 'We could not send your request. Please try again.';
         this.isSubmitting = false;
+        this.cdr.detectChanges();
       });
     }
   }

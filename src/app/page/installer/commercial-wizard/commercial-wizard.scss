@@ -170,7 +170,7 @@
 }
 .installer-page {
   min-height: 100vh;
-  padding: 24px;
+  padding: 50px;
   background: #f7f3ec;
 }
 
@@ -1062,5 +1062,103 @@ h1 {
   .uploaded-header small {
     width: 100%;
     margin-left: 0;
+  }
+}
+.submitted-card {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 28px;
+  align-items: center;
+  padding: 34px 20px;
+}
+
+.submitted-illustration {
+  display: flex;
+  justify-content: center;
+}
+
+.submitted-circle {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: #fbf1df;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.submitted-circle > i {
+  font-size: 72px;
+  color: #c77b00;
+}
+
+.submitted-circle span {
+  position: absolute;
+  top: 46px;
+  right: 34px;
+  width: 38px;
+  height: 30px;
+  border-radius: 8px;
+  background: #fff;
+  border: 1px solid #e4c894;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.submitted-circle span i {
+  font-size: 20px;
+  color: #c77b00;
+}
+
+.submitted-content h1 {
+  margin-bottom: 8px;
+  font-size: 28px;
+}
+
+.submitted-content p {
+  margin-bottom: 12px;
+  color: #555;
+}
+
+.submitted-alert {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff4df;
+  color: #9a5700;
+  padding: 9px 12px;
+  border-radius: 6px;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+
+.submitted-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  color: #555;
+  font-size: 14px;
+}
+
+.submitted-note i {
+  color: #444;
+  font-size: 20px;
+}
+
+.submitted-btn {
+  margin-top: 22px;
+}
+
+@media (max-width: 767px) {
+  .submitted-card {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .submitted-note {
+    justify-content: center;
+    text-align: left;
   }
 }

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, AfterViewInit, ElementRef, ViewChild, NgZone } from '@angular/core';
+import { Component, AfterViewInit, ElementRef, ViewChild, NgZone, ChangeDetectorRef, ApplicationRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import PocketBase from 'pocketbase';
@@ -19,19 +19,19 @@ export class ResidentialWizard {
   submitError = '';
   locationQuery = '';
   requestSent = false;
-  selectedResidentialProjectType = '';
+  selectedResidentialProjectTypes: string[] = [];
   residentialProjectTypes = [
-    { label: 'Accent Wall / Mural', value: 'accent_wall_mural' },
-    { label: 'Single Room', value: 'single_room' },
-    { label: 'Multiple Rooms', value: 'multiple_rooms' },
-    { label: 'Bathroom', value: 'bathroom' },
-    { label: 'Bedroom', value: 'bedroom' },
-    { label: 'Living Room', value: 'living_room' },
-    { label: 'Dining Room', value: 'dining_room' },
-    { label: 'Hallway / Stairwell', value: 'hallway_stairwell' },
-    { label: 'Ceiling', value: 'ceiling' },
-    { label: 'Other', value: 'other' },
-  ];
+  { label: 'Accent Wall', value: 'accent_wall' },
+  { label: 'Mural', value: 'mural' },
+  { label: 'Bedroom', value: 'bedroom' },
+  { label: 'Bathroom', value: 'bathroom' },
+  { label: 'Living Room', value: 'living_room' },
+  { label: 'Dining Room', value: 'dining_room' },
+  { label: 'Hallway', value: 'hallway' },
+  { label: 'Stairwell', value: 'stairwell' },
+  { label: 'Ceiling', value: 'ceiling' },
+  { label: 'Other', value: 'other' },
+];
   selectedLocation: {
     formattedAddress: string;
     city: string;
@@ -98,7 +98,7 @@ export class ResidentialWizard {
   { value: 9, label: 'Contact', icon: 'ph-user' },
 ];
 stepError = '';
-  constructor(private ngZone: NgZone) { }
+  constructor(private ngZone: NgZone,   private cdr: ChangeDetectorRef,  private appRef: ApplicationRef) { }
 
   nextStep() {
   this.stepError = '';
@@ -124,7 +124,7 @@ validateCurrentStep(): boolean {
       return this.isLocationValid();
 
     case 3:
-      if (!this.selectedResidentialProjectType) {
+      if (!this.selectedResidentialProjectTypes) {
         this.stepError = 'Please select a project type.';
         return false;
       }
@@ -178,14 +178,29 @@ validateCurrentStep(): boolean {
       return true;
   }
 }
+toggleResidentialProjectType(value: string): void {
+  if (this.selectedResidentialProjectTypes.includes(value)) {
+    this.selectedResidentialProjectTypes =
+      this.selectedResidentialProjectTypes.filter(item => item !== value);
+    return;
+  }
+
+  this.selectedResidentialProjectTypes = [
+    ...this.selectedResidentialProjectTypes,
+    value
+  ];
+}
+
+getSelectedProjectTypeLabel(): string {
+  return this.selectedResidentialProjectTypes
+    .map(value => this.residentialProjectTypes.find(item => item.value === value)?.label)
+    .filter(Boolean)
+    .join(', ');
+}
 isEmailValid(email: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
 }
-  getSelectedProjectTypeLabel(): string {
-    return this.residentialProjectTypes.find(
-      item => item.value === this.selectedResidentialProjectType
-    )?.label || '';
-  }
+  
   onPhotosSelected(event: Event) {
     const input = event.target as HTMLInputElement;
 
@@ -221,19 +236,13 @@ isEmailValid(email: string): boolean {
 
     this.uploadedPhotos = [...this.uploadedPhotos, file];
 
-    const reader = new FileReader();
-
-    reader.onload = () => {
-      this.ngZone.run(() => {
-        this.photoPreviews = [
-          ...this.photoPreviews,
-          reader.result as string
-        ];
-      });
-    };
-
-    reader.readAsDataURL(file);
+    this.photoPreviews = [
+      ...this.photoPreviews,
+      URL.createObjectURL(file)
+    ];
   }
+
+  this.cdr.detectChanges();
 }
 removePhoto(index: number) {
   this.uploadedPhotos = this.uploadedPhotos.filter((_, i) => i !== index);
@@ -358,8 +367,8 @@ removePhoto(index: number) {
       lat: this.selectedLocation?.lat || 0,
       lng: this.selectedLocation?.lng || 0,
 
-      space_type: this.selectedResidentialProjectType,
-      project_category_label: this.getSelectedProjectTypeLabel(),
+      space_type: this.selectedResidentialProjectTypes.join(','),
+project_category_label: this.getSelectedProjectTypeLabel(),
 
       wallpaper_type: this.selectedWallpaper,
       height_m: this.mapCeilingHeightToMeters(),
@@ -402,8 +411,10 @@ removePhoto(index: number) {
     this.ngZone.run(() => {
       this.isSubmitting = false;
       this.requestSent = true;
-    });
+        this.cdr.detectChanges();
 
+    });
+    this.appRef.tick();
     console.log('Request created:', {
       request: requestRecord,
       photos: photoIds,
@@ -420,6 +431,8 @@ removePhoto(index: number) {
         : 'We could not send your request. Please try again.';
 
     this.isSubmitting = false;
+      this.cdr.detectChanges();
+
   });
 }
 

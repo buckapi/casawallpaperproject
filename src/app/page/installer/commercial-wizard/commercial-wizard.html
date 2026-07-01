@@ -30,20 +30,44 @@
       </div>
 
       @if (requestSent) {
-      <div class="intro-icon">
-        <i class="ph ph-check-circle"></i>
-      </div>
+<div class="submitted-card">
+  <div class="submitted-illustration">
+    <div class="submitted-circle">
+      <i class="ph ph-envelope-simple"></i>
+      <span>
+        <i class="ph ph-shield-check"></i>
+      </span>
+    </div>
+  </div>
 
-      <h1>Request sent!</h1>
+  <div class="submitted-content">
+    <h1>Your project has been submitted!</h1>
 
-      <p class="description">
-        Your commercial project request was sent successfully. Installers will review it and contact you soon.
-      </p>
+    <p>
+      Your request has been sent to up to 3 trusted installers in your area.
+    </p>
 
-      <button class="next-btn" type="button" routerLink="/installer">
-        Start another request
-      </button>
-      } @else {
+    <div class="submitted-alert">
+      <i class="ph ph-lightning"></i>
+      Most homeowners receive their first response within a few hours.
+    </div>
+
+    <div class="submitted-note">
+      <i class="ph ph-envelope"></i>
+      <span>
+        Please keep an eye on your email or text message.
+        <br>
+        We’ll notify you as soon as an installer reaches out.
+      </span>
+    </div>
+
+    <button class="next-btn submitted-btn" type="button" routerLink="/installer">
+      Start another request
+      <span>→</span>
+    </button>
+  </div>
+</div>
+} @else {
 
       @switch (currentStep) {
 

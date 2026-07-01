@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { RouterModule, Router } from '@angular/router';
+import { RouterModule, Router, RouterLink } from '@angular/router';
 import { AuthPocketbaseService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-home',
-  imports: [RouterModule],
+  imports: [RouterModule, RouterLink],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })

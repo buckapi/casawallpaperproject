@@ -1,0 +1,188 @@
+<div class="portfolio-admin">
+
+  <div class="page-header">
+    <div>
+      <h1>Gestión del blog</h1>
+      <p>Crea, edita y elimina publicaciones del blog.</p>
+    </div>
+
+    <button type="button" class="add-btn" *ngIf="!showForm" routerLink="/admin/panel">
+      <i class="fa-solid fa-arrow-left"></i>
+      Volver
+    </button>
+
+    <button type="button" class="add-btn" *ngIf="!showForm" (click)="openCreateForm()">
+      <i class="fa-solid fa-plus"></i>
+      Agregar publicación
+    </button>
+  </div>
+
+  <div class="admin-card" *ngIf="showForm">
+    <div class="form-header">
+      <h2>{{ editingId ? 'Editar publicación' : 'Nueva publicación' }}</h2>
+
+      <button type="button" class="close-btn" (click)="closeForm()">
+        Cerrar
+      </button>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="submit()" class="portfolio-form">
+      <div class="grid">
+        <div class="field">
+          <label>Título</label>
+          <input type="text" formControlName="title" />
+        </div>
+
+        <div class="field">
+          <label>Categoría</label>
+          <input type="text" formControlName="category" />
+        </div>
+
+       
+
+        <div class="field">
+          <label>Estado</label>
+          <select formControlName="status">
+            <option *ngFor="let status of statusOptions" [value]="status">
+              {{ status }}
+            </option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Fecha de publicación</label>
+          <input type="date" formControlName="publishedAt" />
+        </div>
+
+        <div class="field">
+          <label>Orden</label>
+          <input type="number" formControlName="orderIndex" />
+        </div>
+
+        <div class="field checkbox-field">
+          <label>
+            <input type="checkbox" formControlName="featured" />
+            Publicación destacada
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Resumen corto</label>
+        <textarea rows="3" formControlName="excerpt"></textarea>
+      </div>
+
+      <div class="field">
+        <label>Contenido</label>
+        <quill-editor
+          formControlName="content"
+          [modules]="quillModules"
+          theme="snow">
+        </quill-editor>
+      </div>
+
+      <div class="grid">
+        <div class="field">
+          <label>Imagen de portada</label>
+          <input type="file" accept="image/*" (change)="onCoverChange($event)" />
+
+          <div class="image-preview-block" *ngIf="getExistingCoverUrl() as coverUrl">
+            <p class="preview-title">Portada actual</p>
+            <div class="single-image-preview">
+              <img [src]="coverUrl" alt="Portada actual" />
+              <button type="button" class="danger small-btn" (click)="removeCurrentCover()">
+                Quitar portada
+              </button>
+            </div>
+          </div>
+
+          <div class="image-preview-block" *ngIf="selectedCoverFile">
+            <p class="preview-title">Nueva portada seleccionada</p>
+            <div class="file-chip">
+              <span>{{ selectedCoverFile.name }}</span>
+              <button type="button" class="danger-text" (click)="removeCoverSelection()">Quitar</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Galería de imágenes</label>
+          <input type="file" accept="image/*" multiple (change)="onGalleryChange($event)" />
+
+          <div class="image-preview-block" *ngIf="getExistingGalleryUrls().length">
+            <p class="preview-title">Galería actual</p>
+            <div class="gallery-preview">
+              <div class="gallery-item" *ngFor="let image of getExistingGalleryUrls()">
+                <img [src]="image.url" [alt]="image.name" />
+                <button
+                  type="button"
+                  class="danger small-btn"
+                  (click)="removeExistingGalleryFile(image.name)">
+                  Eliminar
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="image-preview-block" *ngIf="selectedGalleryFiles.length">
+            <p class="preview-title">Nuevas imágenes seleccionadas</p>
+            <div class="file-list">
+              <div class="file-chip" *ngFor="let file of selectedGalleryFiles; let i = index">
+                <span>{{ file.name }}</span>
+                <button type="button" class="danger-text" (click)="removeSelectedGalleryFile(i)">
+                  Quitar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button type="submit" [disabled]="saving">
+          {{ saving ? 'Guardando...' : (editingId ? 'Actualizar publicación' : 'Crear publicación') }}
+        </button>
+
+        <button type="button" class="secondary" (click)="closeForm()">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div class="admin-card">
+    <h2>Listado de publicaciones</h2>
+
+    <div *ngIf="loading">Cargando publicaciones...</div>
+
+    <div class="projects-grid" *ngIf="!loading && blogList.length">
+      <div class="project-card" *ngFor="let item of blogList">
+        <div class="project-cover" *ngIf="getCoverUrl(item) as coverUrl">
+          <img [src]="coverUrl" [alt]="item.title" />
+        </div>
+
+        <div class="project-content">
+          <h3>{{ item.title }}</h3>
+          <p><strong>Categoría:</strong> {{ item.category }}</p>
+          <p><strong>Autor:</strong> {{ item.author }}</p>
+          <p><strong>Resumen:</strong> {{ item.excerpt }}</p>
+          <p>
+            <strong>Estado:</strong>
+            <span class="badge" [ngClass]="item.status">
+              {{ item.status }}
+            </span>
+          </p>
+        </div>
+
+        <div class="project-actions">
+          <button type="button" (click)="editItem(item)">Editar</button>
+          <button type="button" class="danger" (click)="deleteItem(item.id)">Eliminar</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="empty-state" *ngIf="!loading && !blogList.length">
+      <p>No hay publicaciones creadas todavía.</p>
+    </div>
+  </div>
+</div>

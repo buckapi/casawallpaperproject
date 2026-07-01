@@ -1,0 +1,125 @@
+<section class="step-results">
+  <div class="results-shell">
+
+    <div class="wizard-progress">
+  <div class="step done">
+    <span>✓</span>
+    <small>Start</small>
+  </div>
+
+  <div class="line active"></div>
+
+  <div class="step done">
+    <span>✓</span>
+    <small>Preferences</small>
+  </div>
+
+  <div class="line active"></div>
+
+  <div class="step done">
+    <span>✓</span>
+    <small>Project</small>
+  </div>
+
+  <div class="line active"></div>
+
+  <div class="step active">
+    <span></span>
+    <small>Results</small>
+  </div>
+</div>
+
+    <div class="results-header">
+      <div>
+        <h1>
+          Here are your best<br>
+          wallpaper website <span>matches</span>
+        </h1>
+
+        <p>
+          Based on your style and project, these websites are the best places to start.
+        </p>
+      </div>
+
+      <aside class="summary-card">
+        <div>
+          <i class="ph ph-star"></i>
+          <p>
+            <strong>Priorities:</strong>
+            {{ selectedPriorities.length ? selectedPriorities.join(', ') : 'Not selected' }}
+          </p>
+        </div>
+
+        <div>
+          <i class="ph ph-paint-roller"></i>
+          <p>
+            <strong>Style:</strong>
+            {{ selectedStyle || 'Not selected' }}
+          </p>
+        </div>
+
+        <div>
+          <i class="ph ph-house"></i>
+          <p>
+            <strong>Project:</strong>
+            {{ selectedProject || projectDescription || 'Not selected' }}
+          </p>
+        </div>
+      </aside>
+    </div>
+
+    <div class="results-grid">
+      <article class="result-card" *ngFor="let brand of brands">
+        <div class="result-icon">
+          <i class="ph ph-star"></i>
+        </div>
+
+        <div class="result-content">
+          <h3>{{ brand.name }}</h3>
+          <p>{{ brand.description }}</p>
+
+          <div class="tags">
+            <span *ngFor="let benefit of brand.benefits">
+              {{ benefit }}
+            </span>
+          </div>
+        </div>
+
+        <button type="button" (click)="openBrandEvent.emit(brand)">
+          Visit Website
+          <i class="ph ph-arrow-right"></i>
+        </button>
+      </article>
+    </div>
+
+    <div class="result-actions">
+      <button type="button">
+        <i class="ph ph-bookmark-simple"></i>
+        <div>
+          <strong>Save My Results</strong>
+          <span>Save your matches to review later.</span>
+        </div>
+        <i class="ph ph-caret-right"></i>
+      </button>
+
+      <button type="button">
+        <i class="ph ph-user-circle"></i>
+        <div>
+          <strong>Find My Installer</strong>
+          <span>Connect with trusted installers.</span>
+        </div>
+        <i class="ph ph-caret-right"></i>
+      </button>
+
+      <button type="button" (click)="startOver.emit()">
+        <i class="ph ph-arrows-clockwise"></i>
+        <div>
+          <strong>Start Over</strong>
+          <span>Refine your choices and try again.</span>
+        </div>
+        <i class="ph ph-caret-right"></i>
+      </button>
+    </div>
+
+  </div>
+</section>

@@ -664,3 +664,79 @@ h1 {
   line-height: 1;
   cursor: pointer;
 }
+.installer-timeline {
+  display: grid;
+  grid-template-columns: auto 1fr auto 1fr auto 1fr auto 1fr auto 1fr auto 1fr auto 1fr auto 1fr auto;
+  align-items: start;
+  margin: 28px 0 48px;
+}
+
+.timeline-step {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  color: #8a837c;
+  min-width: 74px;
+}
+
+.timeline-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 2px solid #ddd6ce;
+  background: #fff;
+  display: grid;
+  place-items: center;
+  color: #8a837c;
+  font-size: 22px;
+}
+
+.timeline-step.done .timeline-icon,
+.timeline-step.active .timeline-icon {
+  background: #c87900;
+  border-color: #c87900;
+  color: #fff;
+}
+
+.timeline-step.active small {
+  color: #c87900;
+  font-weight: 800;
+}
+
+.timeline-line {
+  height: 2px;
+  background: #ddd6ce;
+  margin-top: 21px;
+}
+
+.timeline-line.active {
+  background: #c87900;
+}
+
+@media (max-width: 768px) {
+  .installer-timeline {
+    display: flex;
+    overflow-x: auto;
+    gap: 10px;
+    padding-bottom: 10px;
+    margin: 20px 0 32px;
+  }
+
+  .timeline-line {
+    min-width: 44px;
+  }
+
+  .timeline-step {
+    min-width: 62px;
+  }
+
+  .timeline-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+  }
+
+  .timeline-step small {
+    font-size: 11px;
+  }
+}

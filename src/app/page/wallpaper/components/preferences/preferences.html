@@ -1,0 +1,114 @@
+<section class="step-preferences">
+  <div class="preferences-shell">
+
+    <div class="preferences-panel">
+
+      <div class="wizard-progress">
+        <div class="step done">
+          <span>✓</span>
+          <small>Start</small>
+        </div>
+
+        <div class="line active"></div>
+
+        <div class="step active">
+          <span></span>
+          <small>Preferences</small>
+        </div>
+
+        <div class="line"></div>
+
+        <div class="step">
+          <span></span>
+          <small>Project</small>
+        </div>
+
+        <div class="line"></div>
+
+        <div class="step">
+          <span></span>
+          <small>Results</small>
+        </div>
+      </div>
+
+      <h2>What matters most to you?</h2>
+
+      <div class="priority-grid">
+        <button
+          *ngFor="let item of priorities"
+          type="button"
+          class="priority-card"
+          [class.selected]="selectedPriorities.includes(item.key)"
+          (click)="togglePriorityEvent.emit(item.key)">
+
+          <i class="ph" [ngClass]="item.icon"></i>
+          <strong>{{ item.label }}</strong>
+        </button>
+      </div>
+
+      <div class="divider"></div>
+
+      <h2>What style do you like?</h2>
+
+      <div class="style-grid">
+        <button
+          *ngFor="let style of styles"
+          type="button"
+          class="style-card"
+          [class.selected]="selectedStyle === style.key"
+          (click)="selectStyleEvent.emit(style.key)">
+
+          <img [src]="style.image" [alt]="style.label">
+          <strong>{{ style.label }}</strong>
+        </button>
+      </div>
+
+      <button
+        type="button"
+        class="more-btn"
+        (click)="toggleStylesEvent.emit()">
+        {{ showAllStyles ? 'Show Less' : 'Show More' }}
+      </button>
+
+      <div class="divider"></div>
+
+      <h2>Tell us about your project</h2>
+
+      <div class="mini-projects">
+        <div>
+          <i class="ph ph-sparkle"></i>
+          <span>I'm decorating a nursery for a baby girl.</span>
+        </div>
+
+        <div>
+          <i class="ph ph-sparkle"></i>
+          <span>I'm remodeling a luxury powder room.</span>
+        </div>
+
+        <div>
+          <i class="ph ph-sparkle"></i>
+          <span>I need commercial wallpaper for a restaurant.</span>
+        </div>
+      </div>
+
+      <div class="footer">
+        <button type="button" class="back-btn" (click)="back.emit()">
+          Back
+        </button>
+
+        <button
+          type="button"
+          class="continue-btn"
+          [disabled]="!selectedPriorities.length || !selectedStyle"
+          (click)="continue.emit()">
+          Continue
+          <i class="ph ph-arrow-right"></i>
+        </button>
+      </div>
+
+    </div>
+
+    <div class="preferences-image"></div>
+
+  </div>
+</section>

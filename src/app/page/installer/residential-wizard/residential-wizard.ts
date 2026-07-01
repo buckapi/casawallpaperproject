@@ -80,30 +80,107 @@ export class ResidentialWizard {
 
   wallpaperOptions = [
     'Yes, I already have wallpaper',
-    'No, I need to purchase wallpaper',
-    'Help Me Find Wallpaper',
+    'No, help me find wallpaper',
   ];
   autocompleteInitialized = false;
   uploadedPhotos: File[] = [];
   photoPreviews: string[] = [];
   photoError = '';
+  wizardSteps = [
+  { value: 1, label: 'Intro', icon: 'ph-camera' },
+  { value: 2, label: 'Location', icon: 'ph-map-pin' },
+  { value: 3, label: 'Project', icon: 'ph-house-line' },
+  { value: 4, label: 'Height', icon: 'ph-ruler' },
+  { value: 5, label: 'Timeline', icon: 'ph-clock' },
+  { value: 6, label: 'Wallpaper', icon: 'ph-scroll' },
+  { value: 7, label: 'Photos', icon: 'ph-images' },
+  { value: 8, label: 'Review', icon: 'ph-clipboard-text' },
+  { value: 9, label: 'Contact', icon: 'ph-user' },
+];
+stepError = '';
   constructor(private ngZone: NgZone) { }
 
   nextStep() {
-    if (this.currentStep === 2 && !this.isLocationValid()) {
-      return;
-    }
+  this.stepError = '';
 
-    if (this.currentStep < this.totalSteps) {
-      this.currentStep++;
+  if (!this.validateCurrentStep()) {
+    return;
+  }
 
-      if (this.currentStep === 2) {
-        setTimeout(() => {
-          this.initGoogleAutocomplete();
-        }, 300);
-      }
+  if (this.currentStep < this.totalSteps) {
+    this.currentStep++;
+
+    if (this.currentStep === 2) {
+      setTimeout(() => this.initGoogleAutocomplete(), 300);
     }
   }
+}
+validateCurrentStep(): boolean {
+  switch (this.currentStep) {
+    case 1:
+      return true;
+
+    case 2:
+      return this.isLocationValid();
+
+    case 3:
+      if (!this.selectedResidentialProjectType) {
+        this.stepError = 'Please select a project type.';
+        return false;
+      }
+      return true;
+
+    case 4:
+      if (!this.selectedCeilingHeight) {
+        this.stepError = 'Please select your ceiling height.';
+        return false;
+      }
+      return true;
+
+    case 5:
+      if (!this.selectedTimeline) {
+        this.stepError = 'Please select your timeline.';
+        return false;
+      }
+      return true;
+
+    case 6:
+      if (!this.selectedWallpaper) {
+        this.stepError = 'Please select a wallpaper option.';
+        return false;
+      }
+      return true;
+
+    case 7:
+      if (!this.uploadedPhotos.length) {
+        this.photoError = 'Please upload at least one photo.';
+        return false;
+      }
+      return true;
+
+    case 8:
+      return true;
+
+    case 9:
+      if (!this.fullName.trim() || !this.email.trim() || !this.phone.trim()) {
+        this.submitError = 'Please enter your name, email and phone number.';
+        return false;
+      }
+
+      if (!this.isEmailValid(this.email)) {
+        this.submitError = 'Please enter a valid email address.';
+        return false;
+      }
+
+      return true;
+
+    default:
+      return true;
+  }
+}
+isEmailValid(email: string): boolean {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+}
   getSelectedProjectTypeLabel(): string {
     return this.residentialProjectTypes.find(
       item => item.value === this.selectedResidentialProjectType
@@ -120,44 +197,48 @@ export class ResidentialWizard {
   }
 
   handlePhotos(files: File[]) {
-    this.photoError = '';
+  this.photoError = '';
 
-    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
-    const maxSize = 10 * 1024 * 1024;
-    const maxFiles = 6;
+  const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+  const maxSize = 10 * 1024 * 1024;
+  const maxFiles = 6;
 
-    for (const file of files) {
-      if (!allowedTypes.includes(file.type)) {
-        this.photoError = 'Only JPG, PNG or WEBP images are allowed.';
-        continue;
-      }
-
-      if (file.size > maxSize) {
-        this.photoError = 'Each image must be 10MB or less.';
-        continue;
-      }
-
-      if (this.uploadedPhotos.length >= maxFiles) {
-        this.photoError = `You can upload up to ${maxFiles} photos.`;
-        break;
-      }
-
-      this.uploadedPhotos.push(file);
-
-      const reader = new FileReader();
-
-      reader.onload = () => {
-        this.photoPreviews.push(reader.result as string);
-      };
-
-      reader.readAsDataURL(file);
+  for (const file of files) {
+    if (!allowedTypes.includes(file.type)) {
+      this.photoError = 'Only JPG, PNG or WEBP images are allowed.';
+      continue;
     }
-  }
 
-  removePhoto(index: number) {
-    this.uploadedPhotos.splice(index, 1);
-    this.photoPreviews.splice(index, 1);
+    if (file.size > maxSize) {
+      this.photoError = 'Each image must be 10MB or less.';
+      continue;
+    }
+
+    if (this.uploadedPhotos.length >= maxFiles) {
+      this.photoError = `You can upload up to ${maxFiles} photos.`;
+      break;
+    }
+
+    this.uploadedPhotos = [...this.uploadedPhotos, file];
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      this.ngZone.run(() => {
+        this.photoPreviews = [
+          ...this.photoPreviews,
+          reader.result as string
+        ];
+      });
+    };
+
+    reader.readAsDataURL(file);
   }
+}
+removePhoto(index: number) {
+  this.uploadedPhotos = this.uploadedPhotos.filter((_, i) => i !== index);
+  this.photoPreviews = this.photoPreviews.filter((_, i) => i !== index);
+}
   initGoogleAutocomplete() {
     if (this.autocompleteInitialized) return;
     if (!this.locationInput?.nativeElement) return;
@@ -247,29 +328,9 @@ export class ResidentialWizard {
   getProgressSteps(): number[] {
     return Array.from({ length: this.totalSteps }, (_, i) => i + 1);
   }
-/* // Solo el cliente puede subir fotos
-@request.auth.id != "" && 
-request_id.client_id = @request.auth.id permiso para subir fotos
- */
 
-  /* submitRequest() {
-    const payload = {
-  projectType: 'Residential',
-  location: this.selectedLocation,
-  projectCategory: this.selectedResidentialProjectType,
-  projectCategoryLabel: this.getSelectedProjectTypeLabel(),
-  ceilingHeight: this.selectedCeilingHeight,
-  timeline: this.selectedTimeline,
-  wallpaper: this.selectedWallpaper,
-  photos: this.uploadedPhotos,
-  fullName: this.fullName,
-  email: this.email,
-  phone: this.phone,
-};
-
-    console.log('Residential request:', payload);
-  } */
  async submitRequest() {
+  if (!this.validateCurrentStep()) return;
   if (this.isSubmitting) return;
 
   if (!this.fullName.trim() || !this.phone.trim() || !this.email.trim()) {

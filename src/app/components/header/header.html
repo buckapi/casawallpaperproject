@@ -34,6 +34,9 @@
                                 <li [class.active-link]="activeRoute === '/contact'">
                                     <a href="/contact" (click)="goTo($event, '/contact')">Contact Us</a>
                                 </li>
+                                <li [class.active-link]="activeRoute === '/blog-post'">
+                                    <a href="/blog-post" (click)="goTo($event, '/blog-post')">Blog</a>
+                                </li>
                                 <li [class.active-link]="activeRoute === '/homeDashboard'">
     <a routerLink="/dashboard/login" class="admin-access">
   Admin
@@ -64,6 +67,8 @@
                         (click)="goTo($event, '/commercial')">Commercial Work</a>
                     <a href="/gallery" [class.active]="activeRoute === '/gallery'"
                         (click)="goTo($event, '/gallery')">Our Work</a>
+                        <a href="/blog-post" [class.active]="activeRoute === '/blog-post'"
+                        (click)="goTo($event, '/blog-post')">Blog</a>
                     <a href="/contact" [class.active]="activeRoute === '/contact'"
                         (click)="goTo($event, '/contact')">Contact Us</a>
                     <a routerLink="/dashboard/login">

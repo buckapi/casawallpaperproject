@@ -1,55 +1,91 @@
-<section class="cw-hero">
-    <div class="cw-hero-content">
-        <span class="cw-eyebrow">PREMIUM WALLPAPER INSTALLATION</span>
+<section class="cw-hero-new">
+  <div class="cw-hero-bg">
+    <img src="assets/img/hero/01.jpg" alt="Wallpaper installation">
+  </div>
 
-        <h1>
-            Wallpaper <br>
-            <strong>Installation</strong>
-        </h1>
+  <div class="cw-hero-overlay"></div>
 
-        <p>
-            Designed to impress. <br>
-            Installed with care.
-        </p>
+  <div class="cw-hero-inner">
+    <div class="cw-hero-copy">
+      <h1>
+        Wallpaper <br>
+        <strong>Installation</strong>
+      </h1>
 
-        <div class="cw-actions">
-            <button type="button" class="cw-btn-primary" (click)="goTo($event, '/estimate')">
-                <i class="fas fa-calendar-check"></i>
-                Get Your Estimate
-                <i class="fas fa-chevron-right"></i>
-            </button>
+      <p>
+        Designed to impress. <br>
+        Installed with care.
+      </p>
 
-            <button type="button" class="cw-btn-light" (click)="goTo($event, '/contact')">
-                <i class="fas fa-swatchbook"></i>
-                Help Me Choose Wallpaper
-                <i class="fas fa-chevron-right"></i>
-            </button>
+      <div class="cw-estimate-card">
+        <div class="cw-estimate-head">
+          <div class="cw-estimate-icon">
+            <i class="ph ph-house-line"></i>
+          </div>
+
+          <div>
+            <h3>Looking for an estimate?</h3>
+            <span>Enter a few details to get started.</span>
+          </div>
         </div>
 
-        <div class="cw-reviews">
-            <div>
-                <i class="fa-brands fa-google"></i>
-                <strong>Google</strong>
-                <span>★★★★★ 5.0</span>
-            </div>
+        <label>Type of Project</label>
+        <select>
+          <option>Residential</option>
+          <option>Commercial</option>
+        </select>
 
-            <div>
-                <i class="fa-solid fa-thumbtack"></i>
-                <strong>Thumbtack</strong>
-                <span>★★★★★ 5.0</span>
-            </div>
+        <label>ZIP Code</label>
+        <input type="text" placeholder="e.g. 27560">
 
-            <div>
-                <i class="fa-brands fa-yelp"></i>
-                <strong>Yelp</strong>
-                <span>★★★★★ 5.0</span>
-            </div>
+        <label>How soon are you looking to start?</label>
+        <select>
+          <option>Select an option</option>
+          <option>As soon as possible</option>
+          <option>In 1-2 weeks</option>
+          <option>In 1 month</option>
+        </select>
+
+        <label>Do you already have measurements?</label>
+        <div class="cw-radio-row">
+          <label>
+            <input type="radio" name="measurements" style="height: 30px;">
+            Yes
+          </label>
+
+          <label>
+            <input type="radio" name="measurements" style="height: 30px;">
+            Not Yet
+          </label>
         </div>
+
+        <button type="button" (click)="goTo($event, '/installer')">
+          Find My Installer
+          <i class="fas fa-arrow-right"></i>
+        </button>
+      </div>
     </div>
 
-    <div class="cw-hero-image">
-        <img src="assets/img/hero/01.jpg" alt="Wallpaper installation">
+    <div class="cw-hero-trust">
+      <div>
+        <i class="ph ph-shield-check"></i>
+        <strong>Trusted Installers</strong>
+        <span>Background-checked professionals</span>
+      </div>
+
+      <div>
+        <i class="ph ph-clock"></i>
+        <strong>Fast Responses</strong>
+        <span>Typically within a few hours</span>
+      </div>
+
+      <div>
+        <i class="ph ph-medal"></i>
+        <strong>Quality Guaranteed</strong>
+        <span>We stand behind our work</span>
+      </div>
     </div>
+  </div>
 </section>
 <section class="cw-help-section">
 
@@ -67,21 +103,7 @@
 
         <div class="cw-help-grid">
 
-            <!-- <div class="cw-help-card" (click)="goTo($event, '/estimate')">
-                <div class="cw-help-icon">
-                    <i class="ph-light ph-clipboard-text"></i>
-                </div>
-
-                <h3>Get Your Estimate</h3>
-
-                <p>
-                    Get a fast, accurate estimate for your project.
-                </p>
-
-                <span>
-                    <i class="ph ph-caret-right"></i>
-                </span>
-            </div> -->
+           
 
             <div class="cw-help-card" (click)="goTo($event, '/installer')">
                 <div class="cw-help-icon">
@@ -104,7 +126,7 @@
                     <i class="ph-light ph-scroll"></i>
                 </div>
 
-                <h3>Choose Wallpaper</h3>
+                <h3>Find Wallpaper</h3>
 
                 <p>
                     Explore our collections and find the perfect match.
@@ -154,7 +176,7 @@
                 </p>
 
                 <button type="button" class="cw-video-btn" (click)="goTo($event, '/gallery')">
-                    View more videos
+                    View More Projects
                     <i class="fas fa-chevron-right"></i>
                 </button>
             </div>

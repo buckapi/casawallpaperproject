@@ -1,0 +1,88 @@
+<section class="step-project">
+    <div class="project-shell">
+
+        <div class="project-panel">
+            <div class="wizard-progress">
+                <div class="step done">
+                    <span>✓</span>
+                    <small>Start</small>
+                </div>
+
+                <div class="line active"></div>
+
+                <div class="step done">
+                    <span>✓</span>
+                    <small>Preferences</small>
+                </div>
+
+                <div class="line active"></div>
+
+                <div class="step active">
+                    <span></span>
+                    <small>Project</small>
+                </div>
+
+                <div class="line"></div>
+
+                <div class="step">
+                    <span></span>
+                    <small>Results</small>
+                </div>
+            </div>
+
+            <h1>
+                Tell us about your <span>project</span>
+            </h1>
+
+            <p class="subtitle">
+                Choose a quick example or type your own request.
+                We’ll guide you to the best wallpaper websites.
+            </p>
+
+            <div class="project-grid">
+                <button type="button" class="project-card" *ngFor="let project of projects"
+                    [class.selected]="selectedProject === project.key" (click)="selectProjectEvent.emit(project.key)">
+
+                    <i class="ph" [ngClass]="project.icon"></i>
+                    <strong>{{ project.label }}</strong>
+                </button>
+            </div>
+
+            <label class="custom-project">
+                <i class="ph ph-pencil-simple"></i>
+
+                <textarea [ngModel]="projectDescription" (ngModelChange)="descriptionChange.emit($event)"
+                    placeholder="Or type what you’re looking for...&#10;Please explain your style, space, or goal.">
+        </textarea>
+            </label>
+        </div>
+
+        <aside class="next-card">
+            <h3>What happens next?</h3>
+
+            <div class="small-line"></div>
+
+            <div class="next-item">
+                <i class="ph ph-chats-circle"></i>
+                <p><strong>1.</strong> We understand your project</p>
+            </div>
+
+            <div class="next-item">
+                <i class="ph ph-magnifying-glass"></i>
+                <p><strong>2.</strong> We match you to the right websites</p>
+            </div>
+
+            <div class="next-item">
+                <i class="ph ph-seal-check"></i>
+                <p><strong>3.</strong> You get fast recommendations</p>
+            </div>
+
+            <button type="button" class="result-btn" [disabled]="!selectedProject && !projectDescription"
+                (click)="getResultsEvent.emit()">
+                Get My Results
+                <i class="ph ph-arrow-right"></i>
+            </button>
+        </aside>
+
+    </div>
+</section>

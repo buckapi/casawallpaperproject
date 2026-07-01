@@ -14,13 +14,24 @@
 
         <span class="eyebrow">FIND INSTALLER</span>
 
-        <div class="progress-dots">
-          @for (step of getProgressSteps(); track step) {
-          <span class="dot" [class.active]="step === currentStep" [class.done]="step < currentStep">
-            {{ step }}
-          </span>
-          }
-        </div>
+        <div class="installer-timeline">
+  @for (step of wizardSteps; track step.value) {
+    <div class="timeline-step"
+      [class.done]="currentStep > step.value"
+      [class.active]="currentStep === step.value">
+
+      <div class="timeline-icon">
+        <i class="ph" [ngClass]="currentStep > step.value ? 'ph-check' : step.icon"></i>
+      </div>
+
+      <small>{{ step.label }}</small>
+    </div>
+
+    @if (step.value < totalSteps) {
+      <div class="timeline-line" [class.active]="currentStep > step.value"></div>
+    }
+  }
+</div>
 
 @if (requestSent) {
   <div class="intro-icon">
@@ -277,6 +288,11 @@
         }
 
         @if (!requestSent) {
+          @if (stepError) {
+  <small class="field-error">
+    {{ stepError }}
+  </small>
+}
   <div class="actions">
           <button class="back-btn" type="button" [routerLink]="currentStep === 1 ? '/installer' : null"
             (click)="currentStep > 1 && previousStep()">
@@ -290,7 +306,7 @@
 
             @if (currentStep === 8) {
             <button class="next-btn" type="button" (click)="nextStep()">
-              Looks Good <span>→</span>
+              Find My Installer <span>→</span>
             </button>
             }
 

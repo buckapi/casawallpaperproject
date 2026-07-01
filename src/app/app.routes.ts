@@ -118,26 +118,38 @@ export const routes: Routes = [
       canonical: '/wallpaper',
     },
   },
- {
-  path: 'installer/residential',
-  loadComponent: () =>
-    import('./page/installer/residential-wizard/residential-wizard')
-      .then(c => c.ResidentialWizard),
-  title: 'Residential Installer',
-},
-{
-  path: 'installer/commercial',
-  loadComponent: () =>
-    import('./page/installer/commercial-wizard/commercial-wizard')
-      .then(c => c.CommercialWizard),
-  title: 'Commercial Installer',
-},
-{
-  path: 'installer',
-  loadComponent: () =>
-    import('./page/installer/installer').then(c => c.Installer),
-  title: 'Find Installer',
-},
+  {
+    path: 'installer/residential',
+    loadComponent: () =>
+      import('./page/installer/residential-wizard/residential-wizard')
+        .then(c => c.ResidentialWizard),
+    title: 'Residential Installer',
+  },
+  {
+    path: 'installer/commercial',
+    loadComponent: () =>
+      import('./page/installer/commercial-wizard/commercial-wizard')
+        .then(c => c.CommercialWizard),
+    title: 'Commercial Installer',
+  },
+  {
+    path: 'installer',
+    loadComponent: () =>
+      import('./page/installer/installer').then(c => c.Installer),
+    title: 'Find Installer',
+  },
+  {
+    path: 'blog-post',
+    loadComponent: () =>
+      import('./page/blog-post/blog-post').then(c => c.BlogPost),
+    title: 'News',
+  },
+  {
+    path: 'blog-detail',
+    loadComponent: () =>
+      import('./page/blog-detail/blog-detail').then(c => c.BlogDetail),
+    title: 'News',
+  },
   {
     path: 'portfolioDashboard',
     loadComponent: () =>
@@ -175,13 +187,24 @@ export const routes: Routes = [
   },
   {
     path: 'homeDashboard',
-      canActivate: [adminGuard],
+    canActivate: [adminGuard],
     loadComponent: () =>
       import('./page/dashboard/home/home').then(c => c.Home),
     title: 'Dashboard',
     data: {
       description: 'Read our contact page for using our services.',
       canonical: '/contact',
+    },
+  },
+  {
+    path: 'blogDashboard',
+    canActivate: [adminGuard],
+    loadComponent: () =>
+      import('./page/dashboard/blog/blog').then(c => c.Blog),
+    title: 'Dashboard',
+    data: {
+      description: 'Blog dashboard.',
+      canonical: '/blogDashboard',
     },
   },
   {
@@ -204,7 +227,7 @@ export const routes: Routes = [
       canonical: '/residential',
     },
   },
-   {
+  {
     path: 'commercial',
     loadComponent: () =>
       import('./page/commercial/commercial').then(c => c.Commercial),

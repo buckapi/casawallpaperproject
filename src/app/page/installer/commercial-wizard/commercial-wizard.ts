@@ -59,8 +59,17 @@ export class CommercialWizard {
   fullName = '';
   email = '';
   phone = '';
-
-  constructor(private ngZone: NgZone) {}
+  wizardSteps = [
+    { value: 1, label: 'Space', icon: 'ph-buildings' },
+    { value: 2, label: 'Location', icon: 'ph-map-pin' },
+    { value: 3, label: 'Timeline', icon: 'ph-clock' },
+    { value: 4, label: 'Requirements', icon: 'ph-clipboard-text' },
+    { value: 5, label: 'Details', icon: 'ph-note-pencil' },
+    { value: 6, label: 'Files', icon: 'ph-file-arrow-up' },
+    { value: 7, label: 'Review', icon: 'ph-list-checks' },
+    { value: 8, label: 'Contact', icon: 'ph-user' },
+  ];
+  constructor(private ngZone: NgZone) { }
 
   spaceTypes = [
     { label: 'Office', value: 'office', icon: 'ph-buildings' },
@@ -82,25 +91,129 @@ export class CommercialWizard {
   ];
 
   documents = [
-    'W9',
+    'W-9',
     'General Liability Insurance',
-    'Commercial Auto Insurance',
     'Workers’ Compensation Insurance',
+    'Commercial Auto Insurance',
+    'Certificate of Insurance (COI)',
+    'Other Required Documents',
   ];
+  fileCategories = [
+    'Photos',
+    'Blueprints',
+    'Layouts',
+    'Floor Plans',
+    'Elevation Drawings',
+    'Finish Schedules',
+    'Scope Notes',
+    'Other'
+  ];
+  stepError = '';
+  selectedFileCategories: string[] = [];
+  otherFileCategory = '';
 
+  toggleFileCategory(category: string): void {
+    if (this.selectedFileCategories.includes(category)) {
+      this.selectedFileCategories = this.selectedFileCategories.filter(item => item !== category);
+
+      if (category === 'Other') {
+        this.otherFileCategory = '';
+      }
+
+      return;
+    }
+
+    this.selectedFileCategories.push(category);
+  }
   nextStep() {
-    if (this.currentStep === 1 && !this.isSpaceTypeValid()) return;
-    if (this.currentStep === 2 && !this.isLocationValid()) return;
-    if (this.currentStep === 3 && !this.isTimelineValid()) return;
+    if (!this.validateCurrentStep()) return;
 
     if (this.currentStep < this.totalSteps) {
       this.currentStep++;
+      this.stepError = '';
 
       if (this.currentStep === 2) {
         setTimeout(() => {
           this.initGoogleAutocomplete();
         }, 300);
       }
+    }
+  }
+  validateCurrentStep(): boolean {
+    this.stepError = '';
+    this.locationError = '';
+    this.fileError = '';
+
+    switch (this.currentStep) {
+      case 1:
+        if (this.selectedSpaceTypes.length === 0) {
+          this.stepError = 'Please select at least one type of space.';
+          return false;
+        }
+        return true;
+
+      case 2:
+        if (!this.selectedLocation) {
+          this.locationError = 'Please select a valid location from the suggestions.';
+          return false;
+        }
+        return true;
+
+      case 3:
+        if (!this.selectedTimeline) {
+          this.stepError = 'Please select your ideal timeline.';
+          return false;
+        }
+        return true;
+
+      case 4:
+        if (this.selectedDocuments.length === 0) {
+          this.stepError = 'Please select at least one required document.';
+          return false;
+        }
+        return true;
+
+      case 5:
+        if (!this.additionalInfo.trim()) {
+          this.stepError = 'Please add additional project information.';
+          return false;
+        }
+        return true;
+
+      case 6:
+        if (this.selectedFileCategories.length === 0) {
+          this.fileError = 'Please select at least one file category.';
+          return false;
+        }
+
+        if (
+          this.selectedFileCategories.includes('Other') &&
+          !this.otherFileCategory.trim()
+        ) {
+          this.fileError = 'Please write the other document type.';
+          return false;
+        }
+
+        if (this.uploadedFiles.length === 0) {
+          this.fileError = 'Please upload at least one project file.';
+          return false;
+        }
+
+        return true;
+
+      case 7:
+        return true;
+
+      case 8:
+        if (!this.fullName.trim() || !this.email.trim() || !this.phone.trim()) {
+          this.submitError = 'Please enter your name, email and phone number.';
+          return false;
+        }
+
+        return true;
+
+      default:
+        return true;
     }
   }
 
@@ -268,24 +381,28 @@ export class CommercialWizard {
       this.uploadedFiles.push(file);
 
       if (file.type.startsWith('image/')) {
-        const reader = new FileReader();
 
-        reader.onload = () => {
-          this.filePreviews.push({
+        this.filePreviews = [
+          ...this.filePreviews,
+          {
             name: file.name,
             type: file.type,
             size: file.size,
-            url: reader.result as string,
-          });
-        };
+            url: URL.createObjectURL(file)
+          }
+        ];
 
-        reader.readAsDataURL(file);
       } else {
-        this.filePreviews.push({
-          name: file.name,
-          type: file.type,
-          size: file.size,
-        });
+
+        this.filePreviews = [
+          ...this.filePreviews,
+          {
+            name: file.name,
+            type: file.type,
+            size: file.size
+          }
+        ];
+
       }
     }
   }
@@ -350,6 +467,7 @@ export class CommercialWizard {
   }
 
   async submitRequest() {
+    if (!this.validateCurrentStep()) return;
     if (this.isSubmitting) return;
 
     if (!this.fullName.trim() || !this.phone.trim() || !this.email.trim()) {
@@ -384,6 +502,11 @@ export class CommercialWizard {
         budget_range: this.additionalInfo || '',
         desired_date: this.mapTimelineToDate(),
         intention_level: this.mapTimelineToIntentionLevel(),
+
+        file_categories: this.selectedFileCategories.join(', '),
+        other_file_category: this.selectedFileCategories.includes('Other')
+          ? this.otherFileCategory.trim()
+          : '',
 
         max_leads: 3,
         sold_leads: 0,

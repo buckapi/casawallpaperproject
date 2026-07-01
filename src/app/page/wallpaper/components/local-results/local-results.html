@@ -1,0 +1,112 @@
+<section class="step-local-results">
+  <div class="local-shell">
+
+    <div class="local-content">
+      <div class="wizard-progress">
+        <div class="step done">
+          <span>✓</span>
+          <small>Start</small>
+        </div>
+
+        <div class="line active"></div>
+
+        <div class="step muted">
+          <span></span>
+          <small>Preferences</small>
+        </div>
+
+        <div class="line"></div>
+
+        <div class="step muted">
+          <span></span>
+          <small>Project</small>
+        </div>
+
+        <div class="line active"></div>
+
+        <div class="step active">
+          <span></span>
+          <small>Results</small>
+        </div>
+      </div>
+
+      <h1>
+        Wallpaper stores<br>
+        <span>near your area</span>
+      </h1>
+
+      <p class="subtitle">
+        We recommend calling ahead to confirm wallpaper availability and sample books.
+      </p>
+
+      <div class="zip-row">
+        <div class="zip-input">
+          <i class="ph ph-map-pin"></i>
+          <input type="text" [(ngModel)]="zipCode" placeholder="ZIP code">
+        </div>
+
+        <button type="button" (click)="updateZip()">
+          Update
+        </button>
+      </div>
+
+      <div class="store-list">
+        <article class="store-card" *ngFor="let store of stores">
+          <div class="store-icon">
+            <i class="ph ph-storefront"></i>
+          </div>
+
+          <div class="store-info">
+            <h3>{{ store.name }}</h3>
+            <p>{{ store.description }}</p>
+          </div>
+
+          <span class="distance">
+            {{ store.distance }}
+          </span>
+
+          <div class="store-actions">
+            <button type="button" class="outline-btn" (click)="callStore(store)">
+              <i class="ph ph-phone"></i>
+              Call Store
+            </button>
+
+            <button type="button" class="solid-btn" (click)="openDirections(store)">
+              <i class="ph ph-map-pin"></i>
+              Get Directions
+            </button>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <aside class="more-options">
+      <h3>Want more options?</h3>
+
+      <div class="small-line"></div>
+
+      <p>
+        Explore other ways to find the perfect wallpaper solution for your space.
+      </p>
+
+      <button type="button" (click)="shopOnline.emit()">
+        <i class="ph ph-shopping-bag"></i>
+        <span>Shop Online Instead</span>
+        <i class="ph ph-caret-right"></i>
+      </button>
+
+      <button type="button" (click)="findInstaller.emit()">
+        <i class="ph ph-user-circle"></i>
+        <span>Find My Installer</span>
+        <i class="ph ph-caret-right"></i>
+      </button>
+
+      <button type="button" (click)="startOver.emit()">
+        <i class="ph ph-arrow-counter-clockwise"></i>
+        <span>Start Over</span>
+        <i class="ph ph-caret-right"></i>
+      </button>
+    </aside>
+
+  </div>
+</section>

@@ -1,0 +1,102 @@
+<section class="step-start">
+  <div class="start-content">
+    <h1>
+      Let us help you find<br>
+      the <span>right wallpaper website</span>
+    </h1>
+
+    <p>
+      We’ll guide you to trusted online brands or local wallpaper stores based on your project.
+    </p>
+
+    <section class="wizard-panel">
+      <div class="wizard-steps">
+        <button class="active">Start</button>
+        <span></span>
+        <button>Preferences</button>
+        <span></span>
+        <button>Project</button>
+        <span></span>
+        <button>Results</button>
+      </div>
+
+      <div class="wizard-line"></div>
+
+      <h2>How would you like to get started?</h2>
+
+      <div class="start-grid">
+        <button
+          type="button"
+          class="start-card"
+          [class.selected]="selectedStartOption === 'shop-online'"
+          (click)="selectOption.emit('shop-online')">
+
+          <span class="check" *ngIf="selectedStartOption === 'shop-online'">
+            <i class="ph ph-check"></i>
+          </span>
+
+          <div class="icon-circle">
+            <i class="ph ph-shopping-cart"></i>
+          </div>
+
+          <strong>Shop Online</strong>
+          <p>Find trusted wallpaper websites that match your style.</p>
+        </button>
+
+        <button
+          type="button"
+          class="start-card"
+          [class.selected]="selectedStartOption === 'local-stores'"
+          (click)="selectOption.emit('local-stores')">
+
+          <span class="check" *ngIf="selectedStartOption === 'local-stores'">
+            <i class="ph ph-check"></i>
+          </span>
+
+          <div class="icon-circle">
+            <i class="ph ph-storefront"></i>
+          </div>
+
+          <strong>Find Local Stores</strong>
+          <p>See nearby wallpaper stores and showrooms near your ZIP code.</p>
+        </button>
+
+        <button
+          type="button"
+          class="start-card"
+          [class.selected]="selectedStartOption === 'not-sure'"
+          (click)="selectOption.emit('not-sure')">
+
+          <span class="check" *ngIf="selectedStartOption === 'not-sure'">
+            <i class="ph ph-check"></i>
+          </span>
+
+          <div class="icon-circle">
+            <i class="ph ph-question"></i>
+          </div>
+
+          <strong>Not Sure</strong>
+          <p>We’ll guide you based on your space and goals.</p>
+        </button>
+      </div>
+
+      <div class="wizard-footer">
+        <p>
+          <i class="ph ph-shield-check"></i>
+          Your information is safe with us. We respect your privacy.
+        </p>
+
+        <button
+          type="button"
+          class="continue-btn"
+          [disabled]="!selectedStartOption"
+          (click)="continue.emit()">
+          Continue
+          <i class="ph ph-arrow-right"></i>
+        </button>
+      </div>
+    </section>
+  </div>
+
+  <div class="start-image"></div>
+</section>

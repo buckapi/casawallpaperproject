@@ -45,20 +45,18 @@ type RecommendationBrand = Brand & {
   matchProjects: string[];
   keywords: string[];
 };
-type RecommendationRule = {
-  styles?: string[];
-  priorities?: string[];
-  projects?: string[];
-  keywords?: string[];
-  brands: string[];
-};
 @Component({
   selector: 'app-wallpaper',
   standalone: true,
-  imports: [CommonModule, FormsModule, Start,
+  imports: [
+    CommonModule,
+    FormsModule,
+    Start,
     Preferences,
     Project,
-    Results, LocalResults],
+    Results,
+    LocalResults,
+  ],
   templateUrl: './wallpaper.html',
   styleUrl: './wallpaper.scss',
 })
@@ -381,118 +379,168 @@ export class Wallpaper {
         keywords: ['peel', 'stick', 'temporary', 'easy installation', 'budget'],
       },
     ];
-  recommendationRules: RecommendationRule[] = [
-    {
-      styles: ['modern'],
-      brands: ['GRAHAM & BROWN', 'WALLISM', 'WALLSHOPPE', 'CHASING PAPER', 'MILTON & KING'],
-    },
-    {
-      styles: ['luxury'],
-      brands: ['PHILLIP JEFFRIES', 'SCHUMACHER', 'SERENA & LILY', 'KRAVET', 'MILTON & KING'],
-    },
-    {
-      styles: ['floral'],
-      brands: ['YORK WALLCOVERINGS', 'GRAHAM & BROWN', 'SCHUMACHER', 'HYGGE & WEST', 'ANEWALL'],
-    },
-    {
-      styles: ['tropical'],
-      brands: ['WALLISM', 'WALLSHOPPE', 'REBEL WALLS', 'PHOTOWALL', 'GRAHAM & BROWN'],
-    },
-    {
-      styles: ['farmhouse'],
-      brands: ['YORK WALLCOVERINGS', 'GRAHAM & BROWN', 'HYGGE & WEST', 'SERENA & LILY', 'ANEWALL'],
-    },
-    {
-      styles: ['abstract'],
-      brands: ['WALLISM', 'WALLSHOPPE', 'MILTON & KING', 'REBEL WALLS', 'ANEWALL'],
-    },
-    {
-      styles: ['nursery'],
-      brands: ['HYGGE & WEST', 'ANEWALL', 'CHASING PAPER', 'WALLSHOPPE', 'WALLISM'],
-    },
-    {
-      styles: ['mural'],
-      brands: ['WALLISM', 'REBEL WALLS', 'PHOTOWALL', 'MURALS YOUR WAY', 'ANEWALL'],
-    },
-    {
-      priorities: ['commercial'],
-      brands: ['KOROSEAL', 'WOLF-GORDON', 'YORK CONTRACT', 'ASTEK', 'SCHUMACHER'],
-    },
-    {
-      priorities: ['budget'],
-      brands: ['GRAHAM & BROWN', 'YORK WALLCOVERINGS', 'US WALL DECOR', 'TEMPAPER', 'CHASING PAPER'],
-    },
-    {
-      priorities: ['easy-installation'],
-      brands: ['YORK WALLCOVERINGS', 'GRAHAM & BROWN', 'CHASING PAPER', 'TEMPAPER', 'WALLSHOPPE'],
-    },
-    {
-      priorities: ['eco'],
-      brands: ['WALLISM', 'WALLSHOPPE', 'HYGGE & WEST', 'CHASING PAPER', 'WOLF-GORDON'],
-    },
-    {
-      priorities: ['fast'],
-      brands: ['PHILLIP JEFFRIES', 'PHOTOWALL', 'MURALS YOUR WAY', 'GRAHAM & BROWN', 'US WALL DECOR'],
-    },
+  private readonly styleRecommendations: Record<string, string[]> = {
+  modern: [
+    'GRAHAM & BROWN',
+    'WALLISM',
+    'MILTON & KING'
+  ],
 
-    // Reglas especiales del documento
-    {
-      styles: ['mural'],
-      priorities: ['eco'],
-      keywords: ['nature', 'natural', 'jungle', 'landscape'],
-      brands: ['WALLISM', 'REBEL WALLS', 'PHOTOWALL', 'ANEWALL'],
-    },
-    {
-      styles: ['luxury'],
-      projects: ['powder'],
-      brands: ['PHILLIP JEFFRIES', 'SCHUMACHER', 'SERENA & LILY', 'MILTON & KING'],
-    },
-    {
-      priorities: ['commercial'],
-      projects: ['restaurant'],
-      brands: ['KOROSEAL', 'WOLF-GORDON', 'YORK CONTRACT', 'ASTEK'],
-    },
-    {
-      styles: ['nursery'],
-      priorities: ['easy-installation'],
-      brands: ['HYGGE & WEST', 'CHASING PAPER', 'ANEWALL', 'WALLSHOPPE'],
-    },
-  ];
-  brands: Brand[] = [];
+  luxury: [
+    'PHILLIP JEFFRIES',
+    'SCHUMACHER',
+    'SERENA & LILY'
+  ],
 
+  floral: [
+    'YORK WALLCOVERINGS',
+    'SCHUMACHER',
+    'HYGGE & WEST'
+  ],
+
+  tropical: [
+    'WALLISM',
+    'REBEL WALLS',
+    'GRAHAM & BROWN'
+  ],
+
+  farmhouse: [
+    'YORK WALLCOVERINGS',
+    'HYGGE & WEST',
+    'SERENA & LILY'
+  ],
+
+  abstract: [
+    'WALLISM',
+    'MILTON & KING',
+    'REBEL WALLS'
+  ],
+
+  nursery: [
+    'HYGGE & WEST',
+    'ANEWALL',
+    'CHASING PAPER'
+  ],
+
+  mural: [
+    'WALLISM',
+    'REBEL WALLS',
+    'PHOTOWALL'
+  ],
+
+  commercial: [
+    'KOROSEAL',
+    'WOLF-GORDON',
+    'YORK CONTRACT'
+  ]
+};
+
+private readonly priorityRecommendations: Record<string, string[]> = {
+  'best-design': [
+    'SCHUMACHER',
+    'PHILLIP JEFFRIES',
+    'MILTON & KING'
+  ],
+
+  'easy-installation': [
+    'CHASING PAPER',
+    'TEMPAPER',
+    'WALLSHOPPE'
+  ],
+
+  commercial: [
+    'KOROSEAL',
+    'WOLF-GORDON',
+    'YORK CONTRACT'
+  ],
+
+  budget: [
+    'US WALL DECOR',
+    'TEMPAPER',
+    'GRAHAM & BROWN'
+  ],
+
+  eco: [
+    'WALLSHOPPE',
+    'HYGGE & WEST',
+    'WALLISM'
+  ],
+
+  fast: [
+    'PHOTOWALL',
+    'GRAHAM & BROWN',
+    'US WALL DECOR'
+  ]
+};
+
+private readonly projectRecommendations: Record<string, string[]> = {
+  nursery: [
+    'HYGGE & WEST',
+    'ANEWALL',
+    'CHASING PAPER'
+  ],
+
+  powder: [
+    'PHILLIP JEFFRIES',
+    'SCHUMACHER',
+    'SERENA & LILY'
+  ],
+
+  restaurant: [
+    'KOROSEAL',
+    'WOLF-GORDON',
+    'YORK CONTRACT'
+  ],
+
+  living: [
+    'GRAHAM & BROWN',
+    'MILTON & KING',
+    'WALLISM'
+  ],
+
+  coastal: [
+    'SERENA & LILY',
+    'GRAHAM & BROWN',
+    'ANEWALL'
+  ]
+};
+
+private readonly combinationRecommendations: Record<string, string[]> = {
+  'luxury|commercial': [
+    'PHILLIP JEFFRIES',
+    'SCHUMACHER',
+    'KRAVET'
+  ],
+
+  'mural|commercial': [
+    'MURALS YOUR WAY',
+    'ASTEK',
+    'WOLF-GORDON'
+  ],
+
+  'nursery|easy-installation': [
+    'CHASING PAPER',
+    'WALLSHOPPE',
+    'ANEWALL'
+  ],
+
+  'commercial|restaurant': [
+    'KOROSEAL',
+    'WOLF-GORDON',
+    'YORK CONTRACT'
+  ]
+};
+  brands: RecommendationBrand[] = [];
   get visibleStyles(): StyleOption[] {
     return this.showAllStyles ? this.styles : this.styles.slice(0, 4);
   }
-  setProjectDescription(value: string): void {
-    this.projectDescription = value;
-    this.refreshRecommendations(false);
-  }
-
+ 
+setProjectDescription(value: string): void {
+  this.projectDescription = value;
+}
   selectStartOption(option: StartOption): void {
     this.selectedStartOption = option;
   }
-
-  /*   goToPreferences(): void {
-    if (!this.selectedStartOption) return;
-  
-    if (this.selectedStartOption === 'shop-online') {
-      this.currentStep = 'preferences';
-      this.scrollToTop();
-      return;
-    }
-  
-    if (this.selectedStartOption === 'local-stores') {
-      this.currentStep = 'local-results';
-      this.scrollToTop();
-      return;
-    }
-  
-    if (this.selectedStartOption === 'not-sure') {
-      this.currentStep = 'project';
-      this.scrollToTop();
-      return;
-    }
-  } */
   goToPreferences(): void {
     if (!this.selectedStartOption) {
       return;
@@ -517,11 +565,6 @@ export class Wallpaper {
       return;
     }
   }
-  /* goToProject(): void {
-    if (!this.selectedPriorities.length || !this.selectedStyle) return;
-    this.currentStep = 'project';
-    this.scrollToTop();
-  } */
   goToProject(): void {
     if (!this.selectedPriorities.length || !this.selectedStyle) {
       return;
@@ -551,40 +594,46 @@ export class Wallpaper {
   }
 
   togglePriority(key: string): void {
-    if (this.selectedPriorities.includes(key)) {
-      this.selectedPriorities = this.selectedPriorities.filter(item => item !== key);
-      this.refreshRecommendations(false);
-      return;
-    }
+  if (this.selectedPriorities.includes(key)) {
+    this.selectedPriorities =
+      this.selectedPriorities.filter(item => item !== key);
 
-    if (this.selectedPriorities.length >= 2) return;
-
-    this.selectedPriorities = [...this.selectedPriorities, key];
-    this.refreshRecommendations(false);
+    return;
   }
+
+  if (this.selectedPriorities.length >= 2) {
+    return;
+  }
+
+  this.selectedPriorities = [
+    ...this.selectedPriorities,
+    key
+  ];
+}
 
   selectStyle(key: string): void {
-    this.selectedStyle = key;
-    this.refreshRecommendations(false);
-  }
+  this.selectedStyle = key;
+}
 
-  selectProject(key: string): void {
-    this.selectedProject = key;
-    this.refreshRecommendations(false);
-  }
+ selectProject(key: string): void {
+  this.selectedProject = key;
+}
 
   toggleStyles(): void {
     this.showAllStyles = !this.showAllStyles;
   }
 
-  getResults(): void {
-    if (!this.selectedProject && !this.projectDescription.trim()) return;
-
-    this.hasResults = true;
-    this.currentStep = 'results';
-    this.refreshRecommendations(true);
-    this.scrollToTop();
+ getResults(): void {
+  if (!this.selectedProject && !this.projectDescription.trim()) {
+    return;
   }
+
+  this.brands = this.buildRecommendations();
+
+  this.hasResults = true;
+  this.currentStep = 'results';
+  this.scrollToTop();
+}
 
   resetWizard(): void {
     this.currentStep = 'start';
@@ -599,65 +648,77 @@ export class Wallpaper {
     this.scrollToTop();
   }
 
-  refreshRecommendations(forceShow = false): void {
-    if (!forceShow && !this.hasResults) return;
+  private getCombinationKeys(): string[] {
+  const keys: string[] = [];
 
-    const text = this.projectDescription.toLowerCase().trim();
-
-    const matchedRules = this.recommendationRules
-      .map(rule => {
-        let score = 0;
-
-        if (rule.styles?.includes(this.selectedStyle)) {
-          score += 10;
-        }
-
-        this.selectedPriorities.forEach(priority => {
-          if (rule.priorities?.includes(priority)) {
-            score += 10;
-          }
-        });
-
-        if (rule.projects?.includes(this.selectedProject)) {
-          score += 10;
-        }
-
-        rule.keywords?.forEach(keyword => {
-          if (text.includes(keyword)) {
-            score += 5;
-          }
-        });
-
-        const hasRuleCondition =
-          !!rule.styles?.length ||
-          !!rule.priorities?.length ||
-          !!rule.projects?.length ||
-          !!rule.keywords?.length;
-
-        return {
-          rule,
-          score: hasRuleCondition ? score : 0,
-        };
-      })
-      .filter(item => item.score > 0)
-      .sort((a, b) => b.score - a.score);
-
-    const selectedRule = matchedRules[0];
-
-    if (!selectedRule) {
-      this.brands = this.allBrands.slice(0, 3);
-      return;
+  for (const priority of this.selectedPriorities) {
+    if (this.selectedStyle) {
+      keys.push(`${this.selectedStyle}|${priority}`);
     }
 
-    this.brands = selectedRule.rule.brands
-      .map(name => this.allBrands.find(brand => brand.name === name))
-      .filter((brand): brand is RecommendationBrand => !!brand)
-      .slice(0, 5);
+    if (this.selectedProject) {
+      keys.push(`${priority}|${this.selectedProject}`);
+    }
   }
 
-  onProjectDescriptionChange(): void {
-    this.refreshRecommendations(false);
+  if (this.selectedStyle && this.selectedProject) {
+    keys.push(`${this.selectedStyle}|${this.selectedProject}`);
   }
+
+  return keys;
+}
+
+private getRecommendationNames(): string[] {
+  const combinationKeys = this.getCombinationKeys();
+
+  for (const key of combinationKeys) {
+    const combination = this.combinationRecommendations[key];
+
+    if (combination) {
+      return combination.slice(0, 3);
+    }
+  }
+
+  const styleMatch = this.styleRecommendations[this.selectedStyle];
+
+  if (styleMatch) {
+    return styleMatch.slice(0, 3);
+  }
+
+  for (const priority of this.selectedPriorities) {
+    const priorityMatch = this.priorityRecommendations[priority];
+
+    if (priorityMatch) {
+      return priorityMatch.slice(0, 3);
+    }
+  }
+
+  const projectMatch =
+    this.projectRecommendations[this.selectedProject];
+
+  if (projectMatch) {
+    return projectMatch.slice(0, 3);
+  }
+
+  return [
+    'GRAHAM & BROWN',
+    'WALLISM',
+    'YORK WALLCOVERINGS'
+  ];
+}
+
+private buildRecommendations(): RecommendationBrand[] {
+  const names = this.getRecommendationNames();
+
+  return names
+    .map(name =>
+      this.allBrands.find(brand => brand.name === name)
+    )
+    .filter(
+      (brand): brand is RecommendationBrand => Boolean(brand)
+    )
+    .slice(0, 3);
+}
 
   openBrand(brand: Brand): void {
     if (!brand.url) return;

@@ -17,4 +17,5 @@ export class Results {
   @Output() openBrandEvent = new EventEmitter<any>();
   @Output() back = new EventEmitter<void>();
   @Output() startOver = new EventEmitter<void>();
+  
 }

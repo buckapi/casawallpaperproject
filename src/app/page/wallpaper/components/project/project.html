@@ -76,12 +76,20 @@
                 <i class="ph ph-seal-check"></i>
                 <p><strong>3.</strong> You get fast recommendations</p>
             </div>
+  <button
+  type="button"
+  class="back-btn"
+  (click)="back.emit()">
 
+  <i class="ph ph-arrow-left"></i>
+  Back
+</button>
             <button type="button" class="result-btn" [disabled]="!selectedProject && !projectDescription"
                 (click)="getResultsEvent.emit()">
                 Get My Results
                 <i class="ph ph-arrow-right"></i>
             </button>
+            
         </aside>
 
     </div>

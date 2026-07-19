@@ -1,0 +1,34 @@
+<section class="installer-results-page">
+  @if (loading) {
+    <div class="results-state">
+      <h2>Finding installers near you...</h2>
+      <p>Please wait while we load your search.</p>
+    </div>
+  }
+
+  @if (!loading && error) {
+    <div class="results-state error">
+      <h2>We couldn't load this search</h2>
+      <p>{{ error }}</p>
+
+      <button type="button" (click)="router.navigate(['/home'])">
+        Return Home
+      </button>
+    </div>
+  }
+
+  @if (!loading && request) {
+    <div class="results-state">
+      <span>Installer search</span>
+
+      <h1>
+        Installers near
+        {{ request['city'] || request['formatted_address'] }}
+      </h1>
+
+      <p>Request ID: {{ request.id }}</p>
+      <p>Project: {{ request['project_type'] }}</p>
+      <p>Status: {{ request['status'] }}</p>
+    </div>
+  }
+</section>

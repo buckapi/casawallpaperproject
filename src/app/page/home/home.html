@@ -1,93 +1,119 @@
 <section class="cw-hero-new">
-  <div class="cw-hero-bg">
-    <img src="assets/img/hero/01.jpg" alt="Wallpaper installation">
-  </div>
-
-  <div class="cw-hero-overlay"></div>
-
-  <div class="cw-hero-inner">
-    <div class="cw-hero-copy">
-      <h1>
-        Wallpaper <br>
-        <strong>Installation</strong>
-      </h1>
-
-      <p>
-        Designed to impress. <br>
-        Installed with care.
-      </p>
-
-      <div class="cw-estimate-card">
-        <div class="cw-estimate-head">
-          <div class="cw-estimate-icon">
-            <i class="ph ph-house-line"></i>
-          </div>
-
-          <div>
-            <h3>Looking for an estimate?</h3>
-            <span>Enter a few details to get started.</span>
-          </div>
-        </div>
-
-        <label>Type of Project</label>
-        <select>
-          <option>Residential</option>
-          <option>Commercial</option>
-        </select>
-
-        <label>ZIP Code</label>
-        <input type="text" placeholder="e.g. 27560">
-
-        <label>How soon are you looking to start?</label>
-        <select>
-          <option>Select an option</option>
-          <option>As soon as possible</option>
-          <option>In 1-2 weeks</option>
-          <option>In 1 month</option>
-        </select>
-
-        <label>Do you already have measurements?</label>
-        <div class="cw-radio-row">
-          <label>
-            <input type="radio" name="measurements" style="height: 30px;">
-            Yes
-          </label>
-
-          <label>
-            <input type="radio" name="measurements" style="height: 30px;">
-            Not Yet
-          </label>
-        </div>
-
-        <button type="button" (click)="goTo($event, '/installer')">
-          Find My Installer
-          <i class="fas fa-arrow-right"></i>
-        </button>
-      </div>
+    <div class="cw-hero-bg">
+        <img src="assets/img/hero/01.jpg" alt="Wallpaper installation">
     </div>
 
-    <div class="cw-hero-trust">
-      <div>
-        <i class="ph ph-shield-check"></i>
-        <strong>Trusted Installers</strong>
-        <span>Background-checked professionals</span>
-      </div>
+    <div class="cw-hero-overlay"></div>
 
-      <div>
-        <i class="ph ph-clock"></i>
-        <strong>Fast Responses</strong>
-        <span>Typically within a few hours</span>
-      </div>
+    <div class="cw-hero-inner">
+        <div class="cw-hero-copy">
+            <h1>
+                Wallpaper <br>
+                <strong>Installation</strong>
+            </h1>
 
-      <div>
-        <i class="ph ph-medal"></i>
-        <strong>Quality Guaranteed</strong>
-        <span>We stand behind our work</span>
-      </div>
+            <p>
+                Designed to impress. <br>
+                Installed with care.
+            </p>
+
+            <div class="cw-estimate-card">
+                <div class="cw-estimate-head">
+                    <div class="cw-estimate-icon">
+                        <i class="ph ph-house-line"></i>
+                    </div>
+
+                    <div>
+                        <h3>Looking for an estimate?</h3>
+                        <span>Enter a few details to get started.</span>
+                    </div>
+                </div>
+
+                <label>Type of Project</label>
+
+                <select class="cw-native-select" name="projectType" [(ngModel)]="projectType"
+                    (ngModelChange)="formError = ''">
+                    <option value="residential">Residential</option>
+                    <option value="commercial">Commercial</option>
+                </select>
+
+                <label>ZIP Code</label>
+
+                <input #locationInput type="text" name="locationQuery" placeholder="ZIP Code, City or State"
+                    [(ngModel)]="locationQuery" (ngModelChange)="onLocationQueryChange($event)" autocomplete="off" />
+
+                @if (
+                selectedLocation?.city &&
+                selectedLocation?.stateCode &&
+                selectedLocation?.zipCode
+                ) {
+                <div class="zip-location-confirmation">
+                    <i class="ph ph-map-pin"></i>
+
+                    <span>
+                        {{ selectedLocation?.zipCode }}
+                        →
+                        {{ selectedLocation?.city }},
+                        {{ selectedLocation?.stateCode }}
+                    </span>
+                </div>
+                }
+                <label>How soon are you looking to start?</label>
+
+                <select class="cw-native-select" name="timeline" [(ngModel)]="timeline"
+                    (ngModelChange)="formError = ''">
+                    <option value="">Select an option</option>
+                    <option value="As soon as possible">As soon as possible</option>
+                    <option value="In 1-2 weeks">In 1-2 weeks</option>
+                    <option value="In 1 month">In 1 month</option>
+                </select>
+
+                <label>Do you already have measurements?</label>
+                <div class="cw-radio-row">
+                    <label>
+                        <input type="radio" name="measurements" value="yes" [(ngModel)]="hasMeasurements" /> Yes
+                    </label>
+
+                    <label>
+
+                        <input type="radio" name="measurements" value="no" [(ngModel)]="hasMeasurements" />
+                        Not Yet
+                    </label>
+                </div>
+                @if (locationError || formError) {
+                <small class="field-error">
+                    {{ locationError || formError }}
+                </small>
+                }
+                <button type="button" [disabled]="isSavingSearch" (click)="findInstaller()">
+                    {{ isSavingSearch ? 'Searching...' : 'Find My Installer' }}
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="cw-hero-trust">
+            <div>
+                <i class="ph ph-shield-check"></i>
+                <strong>Trusted Installers</strong>
+                <span>Background-checked professionals</span>
+            </div>
+
+            <div>
+                <i class="ph ph-clock"></i>
+                <strong>Fast Responses</strong>
+                <span>Typically within a few hours</span>
+            </div>
+
+            <div>
+                <i class="ph ph-medal"></i>
+                <strong>Quality Guaranteed</strong>
+                <span>We stand behind our work</span>
+            </div>
+        </div>
     </div>
-  </div>
 </section>
-<section class="cw-help-section">
+<section class="cw-help-section" id="help-section">
 
     <div class="container">
 
@@ -103,7 +129,7 @@
 
         <div class="cw-help-grid">
 
-           
+
 
             <div class="cw-help-card" (click)="goTo($event, '/installer')">
                 <div class="cw-help-icon">
@@ -207,7 +233,7 @@
                                         <i class="fas fa-play"></i>
 
                                     </button>
-                                    
+
 
                                 </div>
 
@@ -356,27 +382,27 @@
         </div>
         <div class="cw-trust-bar">
 
-    <div class="cw-trust-item">
-        <i class="ph ph-chat-circle-dots"></i>
-        <span>5-Star Rated Across Platforms</span>
-    </div>
+            <div class="cw-trust-item">
+                <i class="ph ph-chat-circle-dots"></i>
+                <span>5-Star Rated Across Platforms</span>
+            </div>
 
-    <div class="cw-trust-item">
-        <i class="ph ph-users-three"></i>
-        <span>Hundreds of Happy Clients</span>
-    </div>
+            <div class="cw-trust-item">
+                <i class="ph ph-users-three"></i>
+                <span>Hundreds of Happy Clients</span>
+            </div>
 
-    <div class="cw-trust-item">
-        <i class="ph ph-shield-check"></i>
-        <span>Trusted by Homeowners & Businesses</span>
-    </div>
+            <div class="cw-trust-item">
+                <i class="ph ph-shield-check"></i>
+                <span>Trusted by Homeowners & Businesses</span>
+            </div>
 
-    <div class="cw-trust-item">
-        <i class="ph ph-medal"></i>
-        <span>Quality That Speaks for Itself</span>
-    </div>
+            <div class="cw-trust-item">
+                <i class="ph ph-medal"></i>
+                <span>Quality That Speaks for Itself</span>
+            </div>
 
-</div>
+        </div>
 
     </div>
 

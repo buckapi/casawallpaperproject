@@ -238,6 +238,16 @@ export const routes: Routes = [
     },
   },
   {
+  path: 'installer-results/:requestId',
+    loadComponent: () =>
+      import('./page/installer-results/installer-results').then(c => c.InstallerResults),
+    title: 'installer-results',
+    data: {
+      description: 'installer-results',
+      canonical: '/installer-results',
+    },
+  },
+  {
     path: '**',
     redirectTo: 'home'
   }

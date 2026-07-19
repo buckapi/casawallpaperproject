@@ -1,7 +1,7 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Component, HostListener, AfterViewInit, OnInit, OnDestroy } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { Router, RouterLink, RouterModule } from '@angular/router';
 import { Inject, PLATFORM_ID } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { PortfolioService } from '../../services/portfolio.service';
@@ -9,6 +9,9 @@ import { ChangeDetectorRef } from '@angular/core';
 import Swal from 'sweetalert2';
 import Swiper from 'swiper';
 import { Pagination } from 'swiper/modules';
+import { ElementRef, ViewChild, NgZone } from '@angular/core';
+import PocketBase from 'pocketbase';
+declare const google: any;
 declare var WOW: any;
 
 @Component({
@@ -19,6 +22,32 @@ declare var WOW: any;
   styleUrl: './home.scss',
 })
 export class Home implements OnInit, AfterViewInit, OnDestroy {
+  @ViewChild('locationInput') locationInput!: ElementRef<HTMLInputElement>;
+  private pb = new PocketBase('https://db.buckapi.site:8055');
+
+  isSavingSearch = false;
+  formError = '';
+
+  projectType: 'residential' | 'commercial' = 'residential';
+  locationQuery = '';
+  timeline = '';
+  hasMeasurements: 'yes' | 'no' | '' = '';
+
+  selectedLocation: {
+    formattedAddress: string;
+    city: string;
+    state: string;
+    stateCode: string;
+    country: string;
+    countryCode: string;
+    zipCode: string | null;
+    lat: number;
+    lng: number;
+    placeId: string;
+  } | null = null;
+
+  locationError = '';
+  autocompleteInitialized = false;
   activeVideoId: string | null = null;
   videoPortfolios: any[] = [];
   videoSwiper: any;
@@ -44,7 +73,7 @@ export class Home implements OnInit, AfterViewInit, OnDestroy {
     projectType: '',
     message: ''
   };
-  constructor(public router: Router, private formBuilder: FormBuilder, @Inject(PLATFORM_ID) private platformId: Object, private http: HttpClient, private portfolioService: PortfolioService, private cdr: ChangeDetectorRef
+  constructor(public router: Router, private formBuilder: FormBuilder, @Inject(PLATFORM_ID) private platformId: Object, private http: HttpClient, private portfolioService: PortfolioService, private cdr: ChangeDetectorRef, private ngZone: NgZone
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
     {
@@ -131,33 +160,89 @@ export class Home implements OnInit, AfterViewInit, OnDestroy {
       }
     }
   }
-  /* ngAfterViewInit(): void {
-    new Swiper('.cw-videos-slider', {
-      modules: [Pagination],
-      slidesPerView: 3,
-      spaceBetween: 24,
-      pagination: {
-        el: '.cw-videos-pagination',
-        clickable: true,
-      },
-      breakpoints: {
-        0: {
-          slidesPerView: 1.1,
-          spaceBetween: 16,
-        },
-        768: {
-          slidesPerView: 2,
-          spaceBetween: 20,
-        },
-        1024: {
-          slidesPerView: 3,
-          spaceBetween: 24,
-        },
-      },
-    });
-  } */
   ngAfterViewInit(): void {
     if (!this.isBrowser) return;
+
+    setTimeout(() => {
+      this.initGoogleAutocomplete();
+    }, 300);
+  }
+  initGoogleAutocomplete() {
+    if (this.autocompleteInitialized) return;
+    if (!this.locationInput?.nativeElement) return;
+
+    if (typeof google === 'undefined' || !google.maps?.places) {
+      console.error('Google Places API is not loaded.');
+      return;
+    }
+
+    this.autocompleteInitialized = true;
+
+    const autocomplete = new google.maps.places.Autocomplete(
+      this.locationInput.nativeElement,
+      {
+        types: ['geocode'],
+        componentRestrictions: {
+          country: 'us',
+        },
+        fields: [
+          'place_id',
+          'formatted_address',
+          'geometry',
+          'address_components',
+        ],
+      }
+    );
+
+    autocomplete.addListener('place_changed', () => {
+      this.ngZone.run(() => {
+        const place = autocomplete.getPlace();
+
+        if (!place.geometry?.location) {
+          this.locationError = 'Please select a valid location from the list.';
+          return;
+        }
+
+        const components = place.address_components || [];
+
+        const getComponent = (type: string, short = false) => {
+          const component = components.find((c: any) => c.types.includes(type));
+          return short ? component?.short_name || '' : component?.long_name || '';
+        };
+
+        const city =
+          getComponent('locality') ||
+          getComponent('postal_town') ||
+          getComponent('administrative_area_level_2');
+
+        const state = getComponent('administrative_area_level_1');
+        const stateCode = getComponent('administrative_area_level_1', true);
+        const country = getComponent('country');
+        const countryCode = getComponent('country', true);
+        const zipCode = getComponent('postal_code') || null;
+
+        this.selectedLocation = {
+          formattedAddress: place.formatted_address || this.locationQuery,
+          city,
+          state,
+          stateCode,
+          country,
+          countryCode,
+          zipCode,
+          lat: place.geometry.location.lat(),
+          lng: place.geometry.location.lng(),
+          placeId: place.place_id || '',
+        };
+
+        this.selectingGoogleLocation = true;
+        this.locationQuery = this.selectedLocation.formattedAddress;
+
+        this.locationError = '';
+        this.formError = '';
+
+        this.cdr.detectChanges();
+      });
+    });
   }
   ngOnDestroy(): void {
     this.heroSwiper?.destroy(true, true);
@@ -256,27 +341,6 @@ export class Home implements OnInit, AfterViewInit, OnDestroy {
     if (!portfolio.images || portfolio.images.length === 0) return '';
     return this.portfolioService.fileUrl(portfolio, portfolio.images[0]) || '';
   }
-
-  /* playVideo(portfolio: any): void {
-    const videoUrl = this.getPortfolioFileUrl(portfolio);
-  
-    if (!videoUrl) return;
-  
-    Swal.fire({
-      title: portfolio.name,
-      html: `
-        <video 
-          src="${videoUrl}" 
-          controls 
-          autoplay 
-          style="width:100%; max-height:70vh; border-radius:14px;">
-        </video>
-      `,
-      width: '850px',
-      showConfirmButton: false,
-      showCloseButton: true,
-    });
-  } */
   playVideo(portfolio: any) {
 
     if (
@@ -411,15 +475,170 @@ export class Home implements OnInit, AfterViewInit, OnDestroy {
     }
   }
   toggleInlineVideo(portfolio: any): void {
-  if (portfolio.sourceType === 'instagram' && portfolio.instagramUrl) {
-    window.open(portfolio.instagramUrl, '_blank');
-    return;
+    if (portfolio.sourceType === 'instagram' && portfolio.instagramUrl) {
+      window.open(portfolio.instagramUrl, '_blank');
+      return;
+    }
+
+    this.activeVideoId = this.activeVideoId === portfolio.id ? null : portfolio.id;
   }
 
-  this.activeVideoId = this.activeVideoId === portfolio.id ? null : portfolio.id;
+  isVideoActive(portfolio: any): boolean {
+    return this.activeVideoId === portfolio.id;
+  }
+  async findInstaller() {
+    console.log('1. Entró a findInstaller');
+
+    this.formError = '';
+
+    console.log({
+      projectType: this.projectType,
+      locationQuery: this.locationQuery,
+      selectedLocation: this.selectedLocation,
+      timeline: this.timeline,
+      hasMeasurements: this.hasMeasurements,
+    });
+
+    if (!this.projectType) {
+      console.warn('Falla projectType');
+      this.formError = 'Please select a project type.';
+      return;
+    }
+
+    if (!this.locationQuery.trim()) {
+      console.warn('Falla locationQuery');
+      this.formError = 'Please enter your ZIP code or location.';
+      return;
+    }
+
+    if (!this.selectedLocation) {
+      console.warn('Falla selectedLocation');
+      this.formError = 'Please select a valid location from the suggestions.';
+      return;
+    }
+
+    if (!this.timeline) {
+      console.warn('Falla timeline');
+      this.formError = 'Please select when you want to start.';
+      return;
+    }
+
+    if (!this.hasMeasurements) {
+      console.warn('Falla hasMeasurements');
+      this.formError = 'Please select if you already have measurements.';
+      return;
+    }
+
+    console.log('2. Validaciones OK');
+
+    if (this.isSavingSearch) return;
+
+    try {
+      this.isSavingSearch = true;
+
+      const requestData = {
+        status: 'sent',
+
+        project_type: this.projectType,
+        source: 'website',
+
+        city: this.selectedLocation.city || '',
+        zip_code: this.selectedLocation.zipCode || '',
+        state: this.selectedLocation.state || '',
+        state_code: this.selectedLocation.stateCode || '',
+        country: this.selectedLocation.countryCode || 'US',
+        formatted_address: this.selectedLocation.formattedAddress || this.locationQuery,
+
+        lat: this.selectedLocation.lat || 0,
+        lng: this.selectedLocation.lng || 0,
+
+        desired_date: this.mapTimelineToDate(this.timeline),
+        intention_level: this.mapTimelineToIntentionLevel(this.timeline),
+
+        space_type: this.hasMeasurements === 'yes'
+          ? 'has_measurements'
+          : 'needs_measurements',
+
+        max_leads: 3,
+        sold_leads: 0,
+        is_available: true,
+      };
+      console.log('2. Validaciones OK');
+      const record = await this.pb.collection('requests').create(requestData);
+      console.log('3. Registro creado', record);
+      sessionStorage.setItem('currentRequestId', record.id);
+      console.log('4. Navegando...');
+      const navigationResult = await this.router.navigate([
+        '/installer-results',
+        record.id,
+      ]);
+
+      console.log('5. Resultado navegación:', navigationResult);
+
+    } catch (error) {
+      console.error('Error creating pending request:', error);
+      this.formError = 'We could not start your search. Please try again.';
+    } finally {
+      this.isSavingSearch = false;
+    }
+  }
+  mapTimelineToDate(timeline: string): string {
+    const date = new Date();
+
+    switch (timeline) {
+      case 'ASAP':
+      case 'As soon as possible':
+        date.setDate(date.getDate() + 3);
+        break;
+
+      case 'Within 1 - 2 Weeks':
+      case 'In 1-2 weeks':
+        date.setDate(date.getDate() + 14);
+        break;
+
+      case 'Within 1 Month':
+      case 'In 1 month':
+        date.setMonth(date.getMonth() + 1);
+        break;
+
+      default:
+        date.setMonth(date.getMonth() + 2);
+        break;
+    }
+
+    return date.toISOString();
+  }
+
+  mapTimelineToIntentionLevel(timeline: string): 'low' | 'medium' | 'high' {
+    switch (timeline) {
+      case 'ASAP':
+      case 'As soon as possible':
+        return 'high';
+
+      case 'Within 1 - 2 Weeks':
+      case 'In 1-2 weeks':
+      case 'Within 1 Month':
+      case 'In 1 month':
+        return 'medium';
+
+      default:
+        return 'low';
+    }
+  }
+
+  private selectingGoogleLocation = false;
+
+  onLocationQueryChange(value: string): void {
+    this.locationQuery = value;
+
+    if (this.selectingGoogleLocation) {
+      this.selectingGoogleLocation = false;
+      return;
+    }
+
+    this.selectedLocation = null;
+    this.locationError = '';
+    this.formError = '';
+  }
 }
 
-isVideoActive(portfolio: any): boolean {
-  return this.activeVideoId === portfolio.id;
-}
-}

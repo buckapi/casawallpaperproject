@@ -9,7 +9,7 @@
   <app-preferences
     *ngIf="currentStep === 'preferences'"
     [priorities]="priorities"
-    [styles]="visibleStyles"
+    [styles]="styles"
     [showAllStyles]="showAllStyles"
     [selectedPriorities]="selectedPriorities"
     [selectedStyle]="selectedStyle"
@@ -27,7 +27,7 @@
     [projectDescription]="projectDescription"
     (selectProjectEvent)="selectProject($event)"
     (descriptionChange)="setProjectDescription($event)"
-    (back)="goBackToPreferences()"
+    (back)="goBackFromProject()"
     (getResultsEvent)="getResults()">
   </app-project>
 
@@ -42,10 +42,18 @@
     (back)="goBackToProject()"
     (startOver)="resetWizard()">
   </app-results>
-  <app-local-results
+  
+<!--   <app-local-results
   *ngIf="currentStep === 'local-results'"
   (shopOnline)="selectedStartOption = 'shop-online'; currentStep = 'preferences'"
   (findInstaller)="currentStep = 'project'"
+  (startOver)="resetWizard()">
+</app-local-results> -->
+
+<app-local-results
+  *ngIf="currentStep === 'local-results'"
+  (shopOnline)="goFromLocalResultsToPreferences()"
+  (findInstaller)="goFromLocalResultsToProject()"
   (startOver)="resetWizard()">
 </app-local-results>
 </section>

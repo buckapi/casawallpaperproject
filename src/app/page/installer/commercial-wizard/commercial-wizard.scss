@@ -254,7 +254,8 @@
 .wizard-body {
   min-height: 560px;
   display: grid;
-  grid-template-columns:56% 44%;
+  /* grid-template-columns:56% 44%; */
+  grid-template-columns:65% 35%;
 }
 
 .wizard-content {
@@ -1160,5 +1161,42 @@ h1 {
   .submitted-note {
     justify-content: center;
     text-align: left;
+  }
+}
+.submitted-actions {
+  display: flex;
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.submitted-actions .submitted-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 56px;
+}
+
+/* Opcional: diferenciar el segundo botón */
+.submitted-actions .secondary {
+  background: #fff;
+  color: #000;
+  border: 2px solid #b87322;
+}
+
+.submitted-actions .secondary:hover {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+  .submitted-actions {
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .submitted-actions .submitted-btn {
+    width: 100%;
   }
 }

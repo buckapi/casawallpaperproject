@@ -67,7 +67,7 @@ export class CommercialWizard {
     { value: 5, label: 'Details', icon: 'ph-note-pencil' },
     { value: 6, label: 'Files', icon: 'ph-file-arrow-up' },
     { value: 7, label: 'Review', icon: 'ph-list-checks' },
-    { value: 8, label: 'Contact', icon: 'ph-user' },
+    { value: 8, label: 'Submit', icon: 'ph-user' },
   ];
   constructor(private ngZone: NgZone,   private cdr: ChangeDetectorRef) { }
 

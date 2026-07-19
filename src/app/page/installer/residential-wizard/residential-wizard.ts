@@ -95,7 +95,7 @@ export class ResidentialWizard {
   { value: 6, label: 'Wallpaper', icon: 'ph-scroll' },
   { value: 7, label: 'Photos', icon: 'ph-images' },
   { value: 8, label: 'Review', icon: 'ph-clipboard-text' },
-  { value: 9, label: 'Contact', icon: 'ph-user' },
+  { value: 9, label: 'Submit', icon: 'ph-user' },
 ];
 stepError = '';
   constructor(private ngZone: NgZone,   private cdr: ChangeDetectorRef,  private appRef: ApplicationRef) { }

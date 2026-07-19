@@ -1196,3 +1196,157 @@
     border-radius: 16px;
   }
 }
+.cw-estimate-card {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.cw-estimate-card input,
+.cw-estimate-card select,
+.cw-estimate-card button {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+.cw-estimate-card select {
+  display: block;
+  width: 100%;
+  height: 47px;
+  min-height: 47px;
+  padding: 0 44px 0 16px;
+
+  border: 1px solid #ded4ca;
+  border-radius: 8px;
+
+  background-color: #fff;
+  color: #383432;
+  -webkit-text-fill-color: #383432;
+
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 47px;
+
+  opacity: 1;
+  visibility: visible;
+
+  appearance: auto;
+  -webkit-appearance: menulist;
+  -moz-appearance: menulist;
+}
+
+.cw-estimate-card select option {
+  color: #383432;
+  background: #fff;
+  font-size: 15px;
+}
+
+.cw-estimate-card input[type="text"] {
+  display: block;
+  width: 100%;
+  height: 47px;
+  min-height: 47px;
+  padding: 0 14px;
+
+  border: 1px solid #ded4ca;
+  border-radius: 8px;
+
+  background-color: #fff;
+  color: #383432;
+  -webkit-text-fill-color: #383432;
+
+  font-size: 15px;
+  opacity: 1;
+}
+
+.cw-estimate-card input::placeholder {
+  color: #817b77;
+  opacity: 1;
+}
+.cw-radio-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  width: 100%;
+}
+
+.cw-radio-row > label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+
+  min-width: 0;
+  height: 42px;
+  padding: 0 12px;
+
+  border: 1px solid #ded4ca;
+  border-radius: 8px;
+
+  background: #fff;
+  color: #302d2b;
+
+  font-size: 14px;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.cw-radio-row input[type="radio"] {
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  min-height: 20px;
+  margin: 0;
+
+  accent-color: #cf7d00;
+}
+@media (max-width: 767px) {
+   @media (max-width: 767px) {
+  .cw-estimate-card {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 22px;
+  }
+}
+
+  .cw-estimate-card select,
+  .cw-estimate-card input[type="text"] {
+    height: 46px;
+    min-height: 46px;
+  }
+
+  .cw-radio-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .cw-radio-row > label {
+    height: 42px;
+    padding: 0 8px;
+    white-space: normal;
+    text-align: center;
+  }
+}
+
+.zip-location-confirmation {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  margin-top: 8px;
+  padding: 9px 12px;
+
+  border: 1px solid #dce8d8;
+  border-radius: 7px;
+
+  background: #f4faf2;
+  color: #376b2f;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  i {
+    font-size: 18px;
+  }
+}

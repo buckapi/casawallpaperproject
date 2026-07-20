@@ -1,1 +1,311 @@
-<p>leads works!</p>
+<section class="leads-page">
+  <div class="leads-container">
+
+    <header class="page-header">
+      <div>
+        <span class="eyebrow">Find My Installer</span>
+
+        <h1>Installer Leads</h1>
+
+        <p>
+          Review, organize and manage residential and commercial
+          installer requests.
+        </p>
+      </div>
+
+      <div class="header-actions">
+        <a
+          routerLink="/homeDashboard"
+          class="secondary-button">
+          <i class="fas fa-arrow-left"></i>
+          Back to Dashboard
+        </a>
+
+        <button
+          type="button"
+          class="primary-button"
+          [disabled]="isLoading"
+          (click)="loadLeads(currentPage)">
+          <i
+            class="fas fa-rotate-right"
+            [class.fa-spin]="isLoading">
+          </i>
+
+          Refresh
+        </button>
+      </div>
+    </header>
+
+    <section class="summary-grid">
+      <article class="summary-card">
+        <div class="summary-icon">
+          <i class="fas fa-inbox"></i>
+        </div>
+
+        <div>
+          <span>Total Leads</span>
+          <strong>{{ totalItems }}</strong>
+        </div>
+      </article>
+
+      <article class="summary-card">
+  <div class="summary-icon new-icon">
+    <i class="fas fa-circle-plus"></i>
+  </div>
+
+  <div>
+    <span>New on this page</span>
+    <strong>{{ getCountByStatus('new') }}</strong>
+  </div>
+</article>
+
+      <article class="summary-card">
+        <div class="summary-icon residential-icon">
+          <i class="fas fa-house"></i>
+        </div>
+
+        <div>
+          <span>Residential</span>
+          <strong>
+            {{ getCountByProjectType('residential') }}
+          </strong>
+        </div>
+      </article>
+
+      <article class="summary-card">
+        <div class="summary-icon commercial-icon">
+          <i class="fas fa-building"></i>
+        </div>
+
+        <div>
+          <span>Commercial</span>
+          <strong>
+            {{ getCountByProjectType('commercial') }}
+          </strong>
+        </div>
+      </article>
+    </section>
+
+    <section class="filters-card">
+      <div class="filter-field search-field">
+        <label for="leadSearch">Search leads</label>
+
+        <div class="input-wrapper">
+          <i class="fas fa-magnifying-glass"></i>
+
+          <input
+            id="leadSearch"
+            type="search"
+            [(ngModel)]="searchQuery"
+            (ngModelChange)="applyFilters()"
+            placeholder="Name, email, ZIP, city or request ID">
+        </div>
+      </div>
+
+      <div class="filter-field">
+        <label for="statusFilter">Status</label>
+
+        <select
+          id="statusFilter"
+          [(ngModel)]="selectedStatus"
+          (ngModelChange)="applyFilters()">
+          @for (status of statusOptions; track status.value) {
+            <option [value]="status.value">
+              {{ status.label }}
+            </option>
+          }
+        </select>
+      </div>
+
+      <div class="filter-field">
+        <label for="projectTypeFilter">Project type</label>
+
+        <select
+          id="projectTypeFilter"
+          [(ngModel)]="selectedProjectType"
+          (ngModelChange)="applyFilters()">
+          @for (projectType of projectTypeOptions; track projectType.value) {
+            <option [value]="projectType.value">
+              {{ projectType.label }}
+            </option>
+          }
+        </select>
+      </div>
+
+      <button
+        type="button"
+        class="clear-button"
+        (click)="clearFilters()">
+        Clear filters
+      </button>
+    </section>
+
+    @if (isLoading) {
+      <div class="state-card">
+        <div class="loader"></div>
+
+        <h2>Loading installer leads</h2>
+
+        <p>Please wait while the requests are retrieved.</p>
+      </div>
+    } @else if (loadError) {
+      <div class="state-card error-state">
+        <i class="fas fa-triangle-exclamation"></i>
+
+        <h2>Unable to load leads</h2>
+
+        <p>{{ loadError }}</p>
+
+        <button
+          type="button"
+          class="primary-button"
+          (click)="loadLeads(currentPage)">
+          Try again
+        </button>
+      </div>
+    } @else if (filteredLeads.length === 0) {
+      <div class="state-card">
+        <i class="fas fa-inbox"></i>
+
+        <h2>No leads found</h2>
+
+        <p>
+          There are no installer requests matching the selected filters.
+        </p>
+
+        <button
+          type="button"
+          class="secondary-button"
+          (click)="clearFilters()">
+          Clear filters
+        </button>
+      </div>
+    } @else {
+      <section class="table-card">
+        <div class="table-header">
+          <div>
+            <h2>Installer requests</h2>
+
+            <p>
+              Showing {{ filteredLeads.length }} lead(s) on this page.
+            </p>
+          </div>
+        </div>
+
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Customer</th>
+                <th>Project</th>
+                <th>Location</th>
+                <th>Status</th>
+                <th>Submitted</th>
+                <th class="action-column">Action</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              @for (lead of filteredLeads; track lead.id) {
+                <tr>
+                  <td>
+                    <div class="customer-cell">
+                      <div class="customer-avatar">
+                        {{ (lead.client_name || 'L').charAt(0).toUpperCase() }}
+                      </div>
+
+                      <div>
+                        <strong>
+                          {{ lead.client_name || 'Unnamed customer' }}
+                        </strong>
+
+                        <span>
+                          {{ lead.client_email || 'No email' }}
+                        </span>
+
+                        <small>
+                          ID: {{ lead.id }}
+                        </small>
+                      </div>
+                    </div>
+                  </td>
+
+                  <td>
+                    <div class="project-type">
+                      <i
+                        class="fas"
+                        [class.fa-house]="lead.project_type === 'residential'"
+                        [class.fa-building]="lead.project_type === 'commercial'">
+                      </i>
+
+                      {{ getProjectTypeLabel(lead.project_type) }}
+                    </div>
+                  </td>
+
+                  <td>
+                    <div class="location-cell">
+                      <i class="fas fa-location-dot"></i>
+
+                      <span>{{ getLocation(lead) }}</span>
+                    </div>
+                  </td>
+
+                  <td>
+                    <span
+                      class="status-badge"
+                      [ngClass]="getStatusClass(lead.status)">
+                      {{ getStatusLabel(lead.status) }}
+                    </span>
+                  </td>
+
+                  <td>
+                    <time [attr.datetime]="lead.created">
+                      {{ formatDate(lead.created) }}
+                    </time>
+                  </td>
+
+                  <td class="action-column">
+                    <a
+                      [routerLink]="[
+                        '/leadDetailsDashboard',
+                        lead.id
+                      ]"
+                      class="view-button">
+                      View Lead
+                      <i class="fas fa-arrow-right"></i>
+                    </a>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <footer class="pagination">
+          <button
+            type="button"
+            class="pagination-button"
+            [disabled]="currentPage <= 1 || isLoading"
+            (click)="previousPage()">
+            <i class="fas fa-chevron-left"></i>
+            Previous
+          </button>
+
+          <span>
+            Page {{ currentPage }} of {{ totalPages }}
+          </span>
+
+          <button
+            type="button"
+            class="pagination-button"
+            [disabled]="currentPage >= totalPages || isLoading"
+            (click)="nextPage()">
+            Next
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </footer>
+      </section>
+    }
+
+  </div>
+</section>

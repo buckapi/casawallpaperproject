@@ -1,1 +1,684 @@
-<p>lead-details works!</p>
+<section class="lead-details-page">
+  <div class="details-container">
+
+    <header class="page-header">
+      <div>
+        <a
+          routerLink="/leadsDashboard"
+          class="back-link">
+          <i class="fas fa-arrow-left"></i>
+          Back to Installer Leads
+        </a>
+
+        <span class="eyebrow">
+          Find My Installer
+        </span>
+
+        <h1>Lead Details</h1>
+
+        @if (lead) {
+          <p>
+            Request ID:
+            <strong>{{ lead.id }}</strong>
+          </p>
+        }
+      </div>
+
+      @if (lead) {
+        <span
+          class="status-badge header-status"
+          [ngClass]="getStatusClass(lead.status)">
+          {{ getStatusLabel(lead.status) }}
+        </span>
+      }
+    </header>
+
+    @if (isLoading) {
+      <section class="state-card">
+        <div class="loader"></div>
+
+        <h2>Loading lead details</h2>
+
+        <p>
+          Please wait while the request information is retrieved.
+        </p>
+      </section>
+
+    } @else if (loadError) {
+      <section class="state-card error-state">
+        <i class="fas fa-triangle-exclamation"></i>
+
+        <h2>Unable to load lead</h2>
+
+        <p>{{ loadError }}</p>
+
+        <button
+          type="button"
+          class="primary-button"
+          (click)="loadLead()">
+          Try Again
+        </button>
+      </section>
+
+    } @else if (lead) {
+
+      <div class="details-layout">
+
+        <main class="main-column">
+
+          <section class="details-card">
+            <div class="card-header">
+              <div>
+                <span class="card-eyebrow">
+                  Customer
+                </span>
+
+                <h2>Contact Information</h2>
+              </div>
+
+              <div class="customer-avatar">
+                {{
+                  (lead.client_name || 'L')
+                    .charAt(0)
+                    .toUpperCase()
+                }}
+              </div>
+            </div>
+
+            <div class="information-grid">
+
+              <div class="information-item">
+                <span class="information-label">
+                  Full name
+                </span>
+
+                <strong>
+                  {{ lead.client_name || 'Not provided' }}
+                </strong>
+              </div>
+
+              <div class="information-item">
+                <span class="information-label">
+                  Email
+                </span>
+
+                @if (lead.client_email) {
+                  <a
+                    [href]="'mailto:' + lead.client_email">
+                    {{ lead.client_email }}
+                  </a>
+                } @else {
+                  <strong>Not provided</strong>
+                }
+              </div>
+
+              <div class="information-item">
+                <span class="information-label">
+                  Phone
+                </span>
+
+                @if (lead.client_phone) {
+                  <a
+                    [href]="'tel:' + lead.client_phone">
+                    {{ lead.client_phone }}
+                  </a>
+                } @else {
+                  <strong>Not provided</strong>
+                }
+              </div>
+
+              <div class="information-item">
+                <span class="information-label">
+                  Submitted
+                </span>
+
+                <strong>
+                  {{ formatDate(lead.created) }}
+                </strong>
+              </div>
+
+            </div>
+          </section>
+
+          <section class="details-card">
+            <div class="card-header">
+              <div>
+                <span class="card-eyebrow">
+                  Project
+                </span>
+
+                <h2>Project Information</h2>
+              </div>
+
+              <div class="header-icon">
+                <i
+                  class="fas"
+                  [class.fa-house]="
+                    lead.project_type === 'residential'
+                  "
+                  [class.fa-building]="
+                    lead.project_type === 'commercial'
+                  ">
+                </i>
+              </div>
+            </div>
+
+            <div class="information-grid">
+
+              <div class="information-item">
+                <span class="information-label">
+                  Project type
+                </span>
+
+                <strong>
+                  {{ getProjectTypeLabel() }}
+                </strong>
+              </div>
+
+              <div class="information-item">
+                <span class="information-label">
+                  Timeline
+                </span>
+
+                <strong>
+                  {{
+                    lead.intention_level
+                      ? formatValue(lead.intention_level)
+                      : 'Not provided'
+                  }}
+                </strong>
+              </div>
+
+              <div class="information-item">
+                <span class="information-label">
+                  Desired date
+                </span>
+
+                <strong>
+                  {{ formatDateOnly(lead.desired_date) }}
+                </strong>
+              </div>
+
+              <div class="information-item">
+                <span class="information-label">
+                  Wallpaper
+                </span>
+
+                <strong>
+                  {{
+                    lead.wallpaper_type ||
+                    'Not provided'
+                  }}
+                </strong>
+              </div>
+
+              @if (lead.height_m) {
+                <div class="information-item">
+                  <span class="information-label">
+                    Ceiling height
+                  </span>
+
+                  <strong>
+                    {{ lead.height_m }} m
+                  </strong>
+                </div>
+              }
+
+              @if (lead.budget_range) {
+                <div class="information-item full-width">
+                  <span class="information-label">
+                    Additional information
+                  </span>
+
+                  <p>
+                    {{ lead.budget_range }}
+                  </p>
+                </div>
+              }
+
+            </div>
+
+            @if (getProjectCategories().length > 0) {
+              <div class="category-section">
+                <span class="information-label">
+                  Project categories
+                </span>
+
+                <div class="tag-list">
+                  @for (
+                    category of getProjectCategories();
+                    track category
+                  ) {
+                    <span class="tag">
+                      {{ category }}
+                    </span>
+                  }
+                </div>
+              </div>
+            }
+          </section>
+
+          <section class="details-card">
+            <div class="card-header">
+              <div>
+                <span class="card-eyebrow">
+                  Location
+                </span>
+
+                <h2>Project Location</h2>
+              </div>
+
+              <div class="header-icon">
+                <i class="fas fa-location-dot"></i>
+              </div>
+            </div>
+
+            <div class="location-summary">
+              <i class="fas fa-map-pin"></i>
+
+              <div>
+                <strong>{{ getLocation() }}</strong>
+
+                <span>
+                  {{
+                    lead.formatted_address ||
+                    'Full address not provided'
+                  }}
+                </span>
+              </div>
+            </div>
+
+            <div class="information-grid">
+
+              <div class="information-item">
+                <span class="information-label">
+                  City
+                </span>
+
+                <strong>
+                  {{ lead.city || 'Not provided' }}
+                </strong>
+              </div>
+
+              <div class="information-item">
+                <span class="information-label">
+                  State
+                </span>
+
+                <strong>
+                  {{
+                    lead.state ||
+                    lead.state_code ||
+                    'Not provided'
+                  }}
+                </strong>
+              </div>
+
+              <div class="information-item">
+                <span class="information-label">
+                  ZIP code
+                </span>
+
+                <strong>
+                  {{ lead.zip_code || 'Not provided' }}
+                </strong>
+              </div>
+
+              <div class="information-item">
+                <span class="information-label">
+                  Country
+                </span>
+
+                <strong>
+                  {{ lead.country || 'Not provided' }}
+                </strong>
+              </div>
+
+            </div>
+          </section>
+
+          <section class="details-card">
+            <div class="card-header">
+              <div>
+                <span class="card-eyebrow">
+                  Attachments
+                </span>
+
+                <h2>Photos and Files</h2>
+              </div>
+
+              <span class="file-count">
+                {{ getLeadFiles().length }}
+                file(s)
+              </span>
+            </div>
+
+            @if (getLeadFiles().length > 0) {
+              <div class="files-grid">
+
+                @for (
+                  file of getLeadFiles();
+                  track file.id
+                ) {
+                  <article class="file-card">
+
+                    @if (isImageFile(file)) {
+                      <a
+                        [href]="getFileUrl(file)"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="image-preview">
+
+                        <img
+                          [src]="getFileUrl(file)"
+                          alt="Project attachment">
+
+                      </a>
+                    } @else {
+                      <div class="document-preview">
+                        <i class="fas fa-file-pdf"></i>
+                      </div>
+                    }
+
+                    <div class="file-information">
+                      <span>
+                        {{
+                          file.file ||
+                          file.image ||
+                          'Project file'
+                        }}
+                      </span>
+
+                      <a
+                        [href]="getFileUrl(file)"
+                        target="_blank"
+                        rel="noopener noreferrer">
+                        Open file
+                        <i class="fas fa-arrow-up-right-from-square"></i>
+                      </a>
+                    </div>
+
+                  </article>
+                }
+
+              </div>
+            } @else {
+              <div class="empty-files">
+                <i class="fas fa-images"></i>
+
+                <p>
+                  No files were attached to this request.
+                </p>
+              </div>
+            }
+          </section>
+
+          <section class="details-card">
+            <div class="card-header">
+              <div>
+                <span class="card-eyebrow">
+                  Activity
+                </span>
+
+                <h2>Status History</h2>
+              </div>
+
+              <div class="header-icon">
+                <i class="fas fa-clock-rotate-left"></i>
+              </div>
+            </div>
+
+            @if (statusHistory.length > 0) {
+              <div class="timeline">
+
+                @for (
+                  history of statusHistory;
+                  track history.id
+                ) {
+                  <article class="timeline-item">
+
+                    <div
+                      class="timeline-marker"
+                      [ngClass]="
+                        getStatusClass(history.new_status)
+                      ">
+                    </div>
+
+                    <div class="timeline-content">
+                      <div class="timeline-heading">
+
+                        <strong>
+                          {{
+                            getStatusLabel(
+                              history.new_status
+                            )
+                          }}
+                        </strong>
+
+                        <time>
+                          {{ formatDate(history.created) }}
+                        </time>
+
+                      </div>
+
+                      @if (history.previous_status) {
+                        <p class="status-transition">
+                          Changed from
+                          <strong>
+                            {{
+                              getStatusLabel(
+                                history.previous_status
+                              )
+                            }}
+                          </strong>
+                          to
+                          <strong>
+                            {{
+                              getStatusLabel(
+                                history.new_status
+                              )
+                            }}
+                          </strong>
+                        </p>
+                      }
+
+                      @if (history.note) {
+                        <p class="history-note">
+                          {{ history.note }}
+                        </p>
+                      }
+                    </div>
+
+                  </article>
+                }
+
+              </div>
+            } @else {
+              <div class="empty-history">
+                <i class="fas fa-clock"></i>
+
+                <p>
+                  No status changes have been recorded.
+                </p>
+              </div>
+            }
+          </section>
+
+        </main>
+
+        <aside class="sidebar-column">
+
+          <section class="management-card">
+            <span class="card-eyebrow">
+              Lead Management
+            </span>
+
+            <h2>Update Status</h2>
+
+            <p>
+              Update the internal stage of this installer request.
+            </p>
+
+            <div class="form-field">
+              <label for="leadStatus">
+                Lead status
+              </label>
+
+              <select
+                id="leadStatus"
+                [(ngModel)]="selectedStatus">
+
+                @for (
+                  status of statusOptions;
+                  track status.value
+                ) {
+                  <option [value]="status.value">
+                    {{ status.label }}
+                  </option>
+                }
+
+              </select>
+            </div>
+
+            <div class="form-field">
+              <label for="statusNote">
+                Internal note
+              </label>
+
+              <textarea
+                id="statusNote"
+                rows="5"
+                [(ngModel)]="statusNote"
+                placeholder="Describe why the status is being changed">
+              </textarea>
+            </div>
+
+            @if (statusError) {
+              <div class="form-message error-message">
+                <i class="fas fa-circle-exclamation"></i>
+                {{ statusError }}
+              </div>
+            }
+
+            @if (statusSuccess) {
+              <div class="form-message success-message">
+                <i class="fas fa-circle-check"></i>
+                {{ statusSuccess }}
+              </div>
+            }
+
+            <button
+              type="button"
+              class="primary-button full-button"
+              [disabled]="isUpdatingStatus"
+              (click)="updateLeadStatus()">
+
+              @if (isUpdatingStatus) {
+                <i class="fas fa-spinner fa-spin"></i>
+                Saving...
+              } @else {
+                <i class="fas fa-floppy-disk"></i>
+                Save Status
+              }
+
+            </button>
+          </section>
+
+          <section class="management-card">
+            <span class="card-eyebrow">
+              Contact
+            </span>
+
+            <h2>Customer Actions</h2>
+
+            <div class="action-list">
+
+              @if (lead.client_email) {
+                <a
+                  [href]="'mailto:' + lead.client_email"
+                  class="action-button">
+                  <i class="fas fa-envelope"></i>
+
+                  <span>
+                    <strong>Send Email</strong>
+                    <small>{{ lead.client_email }}</small>
+                  </span>
+                </a>
+              }
+
+              @if (lead.client_phone) {
+                <a
+                  [href]="'tel:' + lead.client_phone"
+                  class="action-button">
+                  <i class="fas fa-phone"></i>
+
+                  <span>
+                    <strong>Call Customer</strong>
+                    <small>{{ lead.client_phone }}</small>
+                  </span>
+                </a>
+
+                <a
+                  [href]="
+                    'sms:' + lead.client_phone
+                  "
+                  class="action-button">
+                  <i class="fas fa-comment-sms"></i>
+
+                  <span>
+                    <strong>Send Text</strong>
+                    <small>{{ lead.client_phone }}</small>
+                  </span>
+                </a>
+              }
+
+            </div>
+          </section>
+
+          <section class="management-card request-summary">
+            <span class="card-eyebrow">
+              Request Summary
+            </span>
+
+            <dl>
+              <div>
+                <dt>Request ID</dt>
+                <dd>{{ lead.id }}</dd>
+              </div>
+
+              <div>
+                <dt>Source</dt>
+                <dd>
+                  {{ formatValue(lead.source) }}
+                </dd>
+              </div>
+
+              <div>
+                <dt>Lead capacity</dt>
+                <dd>
+                  {{ lead.sold_leads || 0 }}
+                  /
+                  {{ lead.max_leads || 0 }}
+                </dd>
+              </div>
+
+              <div>
+                <dt>Availability</dt>
+                <dd>
+                  {{
+                    lead.is_available
+                      ? 'Available'
+                      : 'Unavailable'
+                  }}
+                </dd>
+              </div>
+            </dl>
+          </section>
+
+        </aside>
+
+      </div>
+    }
+
+  </div>
+</section>

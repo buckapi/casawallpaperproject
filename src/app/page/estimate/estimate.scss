@@ -1030,3 +1030,7 @@
     padding: 0 16px;
   }
 }
+.input-field::placeholder {
+  color: #9a9a9a;
+  opacity: 1;
+}

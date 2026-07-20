@@ -248,6 +248,13 @@ export const routes: Routes = [
     },
   },
   {
+  path: 'join-installer',
+  loadComponent: () =>
+    import(
+      './page/join-installer/join-installer'
+    ).then(component => component.JoinInstaller),
+},
+  {
     path: '**',
     redirectTo: 'home'
   }

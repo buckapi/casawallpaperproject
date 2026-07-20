@@ -1,630 +1,1143 @@
 <div class="calculator-layout">
 
-    <aside class="calculator-sidebar">
+  <aside class="calculator-sidebar">
+    <div class="sidebar-overlay">
 
-        <div class="sidebar-overlay">
+      <h2>
+        Wallpaper<br>
+        Quantity Calculator
+      </h2>
 
-            <h2>Wallpaper<br>Quantity Calculator</h2>
+      <strong>
+        Get an accurate estimate of how many
+        panels and rolls you need for your project.
+      </strong>
 
-            <strong>
-                Get an accurate estimate of how many
-                panels and rolls you need for your project.
-            </strong>
+      <ul>
+        <li>
+          <i class="ph ph-calculator"></i>
+          Accurate calculations
+        </li>
 
-            <ul>
-                <li><i class="ph ph-calculator"> </i>Accurate calculations</li>
-                <li><i class="ph ph-clipboard-text"></i> Easy to use</li>
-                <li><i class="ph ph-ruler"></i> Save your results</li>
-                <li><i class="ph ph-user"></i> Get professional help</li>
-            </ul>
+        <li>
+          <i class="ph ph-clipboard-text"></i>
+          Easy to use
+        </li>
 
-            <!--  <button class="sidebar-btn">
-                Start Calculator
-            </button> -->
+        <li>
+          <i class="ph ph-ruler"></i>
+          Save your results
+        </li>
+
+        <li>
+          <i class="ph ph-user"></i>
+          Get professional help
+        </li>
+      </ul>
+
+    </div>
+  </aside>
+
+  <main class="calculator-main">
+    <div class="calculator-container">
+
+      <!-- Header -->
+      <div class="calculator-header">
+        <h1>Wallpaper Quantity Calculator</h1>
+        <p>
+          Get an accurate estimate of how many panels and rolls
+          you need for your project.
+        </p>
+      </div>
+
+      <!-- Step Indicator -->
+      <div class="step-indicator">
+        <div class="steps-container">
+
+          <div class="step-line">
+            <div
+              class="step-line-progress"
+              [style.width.%]="getProgressWidth()">
+            </div>
+          </div>
+
+          <div class="steps">
+            <div
+              *ngFor="let step of getSteps()"
+              class="step-item"
+              [class.completed]="isCompleted(step)"
+              [class.current]="isCurrent(step)">
+
+              <div class="step-circle">
+                <span *ngIf="isCompleted(step)">✓</span>
+                <span *ngIf="!isCompleted(step)">{{ step }}</span>
+              </div>
+
+              <div class="step-label">
+                <span class="step-number">Step {{ step }}</span>
+                <span class="step-title">
+                  {{ getStepTitle(step) }}
+                </span>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Step Content -->
+      <div class="calculator-content">
+
+        <!-- ===================================================== -->
+        <!-- STEP 1: PROJECT TYPE                                  -->
+        <!-- ===================================================== -->
+        <div
+          *ngIf="currentStep === 1"
+          class="step-content project-step">
+
+          <div class="step-header compact">
+            <span class="step-badge">STEP 1 OF 5</span>
+
+            <h2>What are you calculating?</h2>
+
+            <p>
+              Choose the type of project you are working on.
+            </p>
+          </div>
+
+          <div class="options-grid project-options">
+
+            <!-- 1. Regular Walls -->
+            <button
+              type="button"
+              class="option-card project-option"
+              [class.selected]="projectType === 'walls'"
+              (click)="selectProjectType('walls')">
+
+              <div class="option-icon">
+                <i class="ph ph-columns"></i>
+              </div>
+
+              <h3>Regular Walls</h3>
+
+              <p>
+                Calculate how many panels and rolls
+                you need for your walls.
+              </p>
+            </button>
+
+            <!-- 2. Mural -->
+            <button
+              type="button"
+              class="option-card project-option"
+              [class.selected]="projectType === 'mural'"
+              (click)="selectProjectType('mural')">
+
+              <div class="option-icon">
+                <i class="ph ph-image-square"></i>
+              </div>
+
+              <h3>Mural</h3>
+
+              <p>
+                Get the total size needed
+                for your mural project.
+              </p>
+            </button>
+
+            <!-- 3. Ceiling -->
+            <button
+              type="button"
+              class="option-card project-option"
+              [class.selected]="projectType === 'ceiling'"
+              (click)="selectProjectType('ceiling')">
+
+              <div class="option-icon">
+                <i class="ph ph-tray"></i>
+              </div>
+
+              <h3>Ceiling</h3>
+
+              <p>
+                Calculate how many rolls
+                you need for your ceiling.
+              </p>
+            </button>
+
+          </div>
+
+          <div class="help-banner">
+            <i class="ph ph-info"></i>
+
+            <span>
+              Not sure which to choose?
+              Select the option that best matches the surface
+              you want to cover.
+            </span>
+          </div>
 
         </div>
 
-    </aside>
-    <main class="calculator-main">
-        <div class="calculator-container">
-            <!-- Header -->
-            <div class="calculator-header">
-                <h1>Wallpaper Quantity Calculator</h1>
-                <p>Obtén un estimado preciso de cuántos paneles y rollos necesitas</p>
-            </div>
+        <!-- ===================================================== -->
+        <!-- STEP 2: MEASUREMENT UNIT                              -->
+        <!-- ===================================================== -->
+        <div
+          *ngIf="currentStep === 2"
+          class="step-content">
+
+          <div class="step-header">
+            <span class="step-badge">STEP 2 OF 5</span>
+
+            <h2>How do you want to enter measurements?</h2>
+
+            <p>
+              Choose your preferred measurement unit.
+            </p>
+          </div>
+
+          <div class="options-grid measurement-options">
+
+            <button
+              type="button"
+              class="option-card measurement-option"
+              [class.selected]="measurementUnit === 'feet-inches'"
+              (click)="selectMeasurementUnit('feet-inches')">
+
+              <div class="option-icon">
+                <i class="ph ph-ruler"></i>
+              </div>
+
+              <h3>Feet &amp; Inches</h3>
+              <p>Example: 12 ft 6 in</p>
+            </button>
+
+            <button
+              type="button"
+              class="option-card measurement-option"
+              [class.selected]="measurementUnit === 'inches'"
+              (click)="selectMeasurementUnit('inches')">
+
+              <div class="option-icon">
+                <i class="ph ph-ruler"></i>
+              </div>
+
+              <h3>Inches</h3>
+              <p>Example: 150 in</p>
+            </button>
+
+            <button
+              type="button"
+              class="option-card measurement-option"
+              [class.selected]="measurementUnit === 'meters'"
+              (click)="selectMeasurementUnit('meters')">
+
+              <div class="option-icon unit-circle">
+                m
+              </div>
+
+              <h3>Meters</h3>
+              <p>Example: 3.6 m</p>
+            </button>
+
+            <button
+              type="button"
+              class="option-card measurement-option"
+              [class.selected]="measurementUnit === 'cm'"
+              (click)="selectMeasurementUnit('cm')">
+
+              <div class="option-icon unit-circle">
+                cm
+              </div>
+
+              <h3>Centimeters</h3>
+              <p>Example: 365 cm</p>
+            </button>
+
+          </div>
+
+          <div class="help-banner">
+            <i class="ph ph-info"></i>
+            <span>You can return to this step and change the unit.</span>
+          </div>
 
-            <!-- Línea de Tiempo / Step Indicator -->
-            <div class="step-indicator">
-                <div class="steps-container">
-                    <div class="step-line">
-                        <div class="step-line-progress" [style.width.%]="getProgressWidth()">
-                        </div>
-                    </div>
-
-                    <div class="steps">
-                        <div *ngFor="let step of getSteps()" class="step-item" [class.completed]="isCompleted(step)"
-                            [class.current]="isCurrent(step)">
-
-                            <div class="step-circle">
-                                <span *ngIf="isCompleted(step)">✓</span>
-                                <span *ngIf="!isCompleted(step)">{{ step }}</span>
-                            </div>
-
-                            <div class="step-label">
-                                <span class="step-number">Paso {{ step }}</span>
-                                <span class="step-title">{{ getStepTitle(step) }}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Contenido de los Pasos -->
-            <div class="calculator-content">
-
-                <!-- STEP 1: Project Type -->
-                <div *ngIf="currentStep === 1" class="step-content project-step">
-                    <div class="step-header compact">
-                        <span class="step-badge">STEP 1 OF 5</span>
-                        <h2>What are you calculating?</h2>
-                        <p>Choose the type of project you're working on.</p>
-                    </div>
-
-                    <div class="options-grid project-options">
-                        <div class="option-card project-option" [class.selected]="projectType === 'ceiling'"
-                            (click)="selectProjectType('ceiling')">
-
-                            <div class="option-icon">
-                                <i class="ph ph-tray"></i>
-                            </div>
-
-                            <h3>Ceiling</h3>
-                            <p>Calculate how many rolls you need for your ceiling.</p>
-                        </div>
-
-                        <div class="option-card project-option" [class.selected]="projectType === 'mural'"
-                            (click)="selectProjectType('mural')">
-
-                            <div class="option-icon">
-                                <i class="ph ph-image-square"></i>
-                            </div>
-
-                            <h3>Mural</h3>
-                            <p>Get the total size needed for your mural project.</p>
-                        </div>
-
-                        <div class="option-card project-option" [class.selected]="projectType === 'walls'"
-                            (click)="selectProjectType('walls')">
-
-                            <div class="option-icon">
-                                <i class="ph ph-columns"></i>
-                            </div>
-
-                            <h3>Regular Walls</h3>
-                            <p>Calculate how many panels and rolls you need for your walls.</p>
-                        </div>
-                    </div>
-
-                    <div class="help-banner">
-                        <i class="ph ph-info"></i>
-                        <span>
-                            Not sure which to choose?
-                            <a href="#">Learn the difference</a>
-                        </span>
-                    </div>
-                </div>
-
-                <!-- PASO 2: Unidad de Medida -->
-                <div *ngIf="currentStep === 2" class="step-content">
-                    <div class="step-header">
-                        <span class="step-badge">STEP 2 DE 5</span>
-                        <h2>How do you want to enter measurements?</h2>
-                        <p>Choose your preferred measurement unit.</p>
-                    </div>
-
-                    <div class="options-grid measurement-options">
-                        <div class="option-card measurement-option" [class.selected]="measurementUnit === 'feet-inches'"
-                            (click)="selectMeasurementUnit('feet-inches')">
-
-                            <div class="option-icon">
-                                <i class="ph ph-ruler"></i>
-                            </div>
-
-                            <h3>Feet & inches</h3>
-                            <p>Example: 12 ft 6 in</p>
-                        </div>
-
-                        <div class="option-card measurement-option" [class.selected]="measurementUnit === 'inches'"
-                            (click)="selectMeasurementUnit('inches')">
-
-                            <div class="option-icon">
-                                <i class="ph ph-ruler"></i>
-                            </div>
-
-                            <h3>Inches Only</h3>
-                            <p>Example: 150 in</p>
-                        </div>
-
-                        <div class="option-card measurement-option" [class.selected]="measurementUnit === 'cm'"
-                            (click)="selectMeasurementUnit('cm')">
-
-                            <div class="option-icon unit-circle">
-                                cm
-                            </div>
-
-                            <h3>Centimeters</h3>
-                            <p>Example: 250 cm</p>
-                        </div>
-
-                        <div class="option-card measurement-option" [class.selected]="measurementUnit === 'meters'"
-                            (click)="selectMeasurementUnit('meters')">
-
-                            <div class="option-icon unit-circle">
-                                m
-                            </div>
-
-                            <h3>Meters</h3>
-                            <p>Example: 2.5 m</p>
-                        </div>
-                    </div>
-
-                    <div class="help-banner">
-                        <i class="ph ph-info"></i>
-                        <span>You can change this anytime.</span>
-                    </div>
-                </div>
-                <!-- STEP 3 -->
-                <div *ngIf="currentStep === 3" class="step-content">
-
-                    <!-- MURAL INFO ONLY -->
-                    <div *ngIf="projectType === 'mural'" class="mural-info-step">
-                        <div class="step-header">
-                            <span class="step-badge">STEP 3 OF 5</span>
-                            <h2>Mural Information</h2>
-                        </div>
-
-                        <div class="info-card primary">
-                            <div class="info-icon">ℹ</div>
-                            <div class="info-content">
-                                <p><strong>Murals are usually not calculated by rolls.</strong></p>
-                                <p>They are ordered by the total width and height of the wall area.</p>
-                            </div>
-                        </div>
-
-                        <div class="info-list">
-                            <div class="info-item">
-                                <div class="item-icon"><i class="ph ph-ruler"></i></div>
-                                <div class="item-content">
-                                    <p>If the mural covers more than one wall, add all wall widths together.</p>
-                                </div>
-                            </div>
-
-                            <div class="info-item">
-                                <div class="item-icon"><i class="ph ph-calculator"></i></div>
-                                <div class="item-content">
-                                    <p><strong>Recommended ordering allowance:</strong></p>
-                                    <ul>
-                                        <li>Add 6 inches to the total width.</li>
-                                        <li>Add 4 inches to the total height.</li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="info-item">
-                                <div class="item-icon"><i class="ph ph-scissors"></i></div>
-                                <div class="item-content">
-                                    <p>This allows extra material for trimming, alignment, and installation adjustments.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="info-card heart">
-                            <div class="info-icon">♡</div>
-                            <div class="info-content">
-                                <p><strong>You will enter this size when purchasing your mural.</strong></p>
-                            </div>
-                        </div>
-
-                        <div class="mural-help-strip">
-                            <div class="mural-help-item">
-                                <i class="ph ph-user"></i>
-                                <div>
-                                    <strong>Find Installer</strong>
-                                    <span>Connect with a professional near you.</span>
-                                </div>
-                            </div>
-
-                            <div class="mural-help-item">
-                                <i class="ph ph-house-line"></i>
-                                <div>
-                                    <strong>Get Professional Estimate</strong>
-                                    <span>Have an expert review your project.</span>
-                                </div>
-                            </div>
-
-                            <div class="mural-help-item">
-                                <i class="ph ph-clipboard-text"></i>
-                                <div>
-                                    <strong>Save This Tip</strong>
-                                    <span>Save this information for your reference.</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- CEILING MEASUREMENTS + WALLPAPER DETAILS -->
-                    <div *ngIf="projectType === 'ceiling'" class="measurement-step">
-                        <div class="step-header compact">
-                            <span class="step-badge">STEP 3 OF 5</span>
-                            <h2>Enter your ceiling measurements</h2>
-                        </div>
-
-                        <div class="measurement-form">
-                            <div class="input-group">
-                                <label>Ceiling Length (Longest Side)</label>
-                                <div class="measurement-fields">
-                                    <input type="number" [(ngModel)]="ceilingLengthFeet" class="input-field">
-                                    <span>ft</span>
-                                    <input type="number" [(ngModel)]="ceilingLengthInches" class="input-field">
-                                    <span>in</span>
-                                </div>
-                            </div>
-
-                            <div class="input-group">
-                                <label>Ceiling Width (Shortest Side)</label>
-                                <div class="measurement-fields">
-                                    <input type="number" [(ngModel)]="ceilingWidthFeet" class="input-field">
-                                    <span>ft</span>
-                                    <input type="number" [(ngModel)]="ceilingWidthInches" class="input-field">
-                                    <span>in</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="wallpaper-details-inline">
-                            <h3>Wallpaper Details</h3>
-
-                            <div class="details-form details-form-vertical">
-                                <div class="input-group detail-row">
-                                    <label>Roll Width</label>
-                                    <div class="select-like-field">
-                                        <input type="number" [(ngModel)]="wallpaperDetails.rollWidth"
-                                            class="input-field">
-                                        <span>inches</span>
-                                    </div>
-                                </div>
-
-                                <div class="input-group detail-row">
-                                    <label>Roll Length</label>
-                                    <div class="select-like-field">
-                                        <input type="number" [(ngModel)]="wallpaperDetails.rollLength"
-                                            class="input-field">
-                                        <select [(ngModel)]="wallpaperDetails.unit" class="input-field">
-                                            <option value="feet">feet</option>
-                                            <option value="yards">yards</option>
-                                            <option value="meters">meters</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="input-group detail-row">
-                                    <label>Pattern Repeat</label>
-                                    <div class="select-like-field">
-                                        <input type="number" [(ngModel)]="wallpaperDetails.patternRepeat"
-                                            class="input-field">
-                                        <span>inches</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- WALL COUNT -->
-                    <div *ngIf="projectType === 'walls'" class="walls-count-step">
-                        <div class="step-header compact">
-                            <span class="step-badge">STEP 3 OF 5</span>
-                            <h2>How many walls are included in your project?</h2>
-                        </div>
-
-                        <div class="wall-count-grid">
-                            <button type="button" class="wall-count-card" [class.selected]="walls.length === 1"
-                                (click)="walls = [{ widthFeet: 12, widthInches: 0, heightFeet: 9, heightInches: 0 }]">
-                                <strong>1</strong>
-                                <span>Wall</span>
-                            </button>
-
-                            <button type="button" class="wall-count-card" [class.selected]="walls.length === 2" (click)="walls = [
-          { widthFeet: 12, widthInches: 0, heightFeet: 9, heightInches: 0 },
-          { widthFeet: 10, widthInches: 6, heightFeet: 9, heightInches: 0 }
-        ]">
-                                <strong>2</strong>
-                                <span>Walls</span>
-                            </button>
-
-                            <button type="button" class="wall-count-card" [class.selected]="walls.length === 3" (click)="walls = [
-          { widthFeet: 12, widthInches: 0, heightFeet: 9, heightInches: 0 },
-          { widthFeet: 10, widthInches: 6, heightFeet: 9, heightInches: 0 },
-          { widthFeet: 8, widthInches: 0, heightFeet: 9, heightInches: 0 }
-        ]">
-                                <strong>3</strong>
-                                <span>Walls</span>
-                            </button>
-                        </div>
-
-                        <button type="button" class="btn btn-add" (click)="addWall()">
-                            + Add More Walls
-                        </button>
-                    </div>
-                </div>
-
-                <!-- STEP 4 -->
-                <div *ngIf="currentStep === 4 && projectType !== 'mural'" class="step-content">
-
-                    <!-- CEILING REVIEW -->
-                    <div *ngIf="projectType === 'ceiling'" class="review-step">
-                        <div class="step-header compact">
-                            <span class="step-badge">STEP 4 OF 5</span>
-                            <h2>Review your ceiling details</h2>
-                        </div>
-
-                        <div class="review-section">
-                            <div class="review-item">
-                                <strong>Ceiling Size</strong>
-                                <span>{{ ceilingLengthFeet }} ft {{ ceilingLengthInches }} in × {{ ceilingWidthFeet }}
-                                    ft {{ ceilingWidthInches }} in</span>
-                            </div>
-
-                            <div class="review-item">
-                                <strong>Roll Size</strong>
-                                <span>{{ wallpaperDetails.rollWidth }} in × {{ wallpaperDetails.rollLength }} {{
-                                    wallpaperDetails.unit }}</span>
-                            </div>
-
-                            <div class="review-item">
-                                <strong>Pattern Repeat</strong>
-                                <span>{{ wallpaperDetails.patternRepeat }} in</span>
-                            </div>
-
-                            <div class="review-item">
-                                <strong>Measurement Unit</strong>
-                                <span>{{ measurementUnit }}</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- WALL MEASUREMENTS + WALLPAPER DETAILS -->
-                    <div *ngIf="projectType === 'walls'" class="measurement-step">
-                        <div class="step-header compact">
-                            <span class="step-badge">STEP 4 OF 5</span>
-                            <h2>Enter your wall measurements</h2>
-                        </div>
-
-                        <div class="wall-measurements-list">
-                            <div class="wall-measurement-card" *ngFor="let wall of walls; let i = index">
-                                <div class="wall-card-header">
-                                    <strong>Wall {{ i + 1 }}</strong>
-                                    <button type="button" class="btn-remove" (click)="removeWall(i)">
-                                        <i class="ph ph-trash"></i>
-                                    </button>
-                                </div>
-
-                                <div class="input-group">
-                                    <label>Width</label>
-                                    <div class="measurement-fields">
-                                        <input type="number" [(ngModel)]="wall.widthFeet" class="input-field">
-                                        <span>ft</span>
-                                        <input type="number" [(ngModel)]="wall.widthInches" class="input-field">
-                                        <span>in</span>
-                                    </div>
-                                </div>
-
-                                <div class="input-group">
-                                    <label>Height</label>
-                                    <div class="measurement-fields">
-                                        <input type="number" [(ngModel)]="wall.heightFeet" class="input-field">
-                                        <span>ft</span>
-                                        <input type="number" [(ngModel)]="wall.heightInches" class="input-field">
-                                        <span>in</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <button type="button" class="btn btn-add" (click)="addWall()">
-                            + Add Another Wall
-                        </button>
-
-                        <div class="wallpaper-details-inline">
-                            <h3>Wallpaper Details</h3>
-
-                            <div class="details-form details-form-vertical">
-                                <div class="input-group detail-row">
-                                    <label>Roll Width</label>
-                                    <div class="select-like-field">
-                                        <input type="number" [(ngModel)]="wallpaperDetails.rollWidth"
-                                            class="input-field">
-                                        <span>inches</span>
-                                    </div>
-                                </div>
-
-                                <div class="input-group detail-row">
-                                    <label>Roll Length</label>
-                                    <div class="select-like-field">
-                                        <input type="number" [(ngModel)]="wallpaperDetails.rollLength"
-                                            class="input-field">
-                                        <select [(ngModel)]="wallpaperDetails.unit" class="input-field">
-                                            <option value="feet">feet</option>
-                                            <option value="yards">yards</option>
-                                            <option value="meters">meters</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="input-group detail-row">
-                                    <label>Pattern Repeat</label>
-                                    <div class="select-like-field">
-                                        <input type="number" [(ngModel)]="wallpaperDetails.patternRepeat"
-                                            class="input-field">
-                                        <span>inches</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <!-- STEP 5 RESULT -->
-                <div *ngIf="currentStep === 5 && projectType !== 'mural'" class="step-content result-step">
-
-                    <div class="result-icon">
-                        <i class="ph ph-check"></i>
-                    </div>
-
-                    <div class="step-header">
-                        <span class="step-badge">STEP 5 OF 5</span>
-
-                        <h2>
-                            {{ projectType === 'ceiling'
-                            ? 'Your Ceiling Calculation Is Ready!'
-                            : 'Your Wall Calculation Is Ready!' }}
-                        </h2>
-
-                        <p>
-                            Based on the measurements provided, your project may require:
-                        </p>
-                    </div>
-
-                    <!-- Errores -->
-                    <div *ngIf="errors.length > 0" class="alert alert-danger mb-4">
-                        <div *ngFor="let error of errors">
-                            {{ error }}
-                        </div>
-                    </div>
-
-                    <!-- Resultado -->
-                    <div *ngIf="result" class="result-card">
-
-                        <div class="result-row">
-                            <span>
-                                <i class="ph ph-squares-four"></i>
-                                Panels Needed
-                            </span>
-                            <strong>{{ result.totalPanelsNeeded }} Panels</strong>
-                        </div>
-
-                        <div class="result-row">
-                            <span>
-                                <i class="ph ph-scroll"></i>
-                                Panels Per Roll
-                            </span>
-                            <strong>{{ result.panelsPerRoll }} Panels</strong>
-                        </div>
-
-                        <div class="result-row">
-                            <span>
-                                <i class="ph ph-calculator"></i>
-                                Exact Rolls Needed
-                            </span>
-                            <strong>{{ result.exactRollsNeeded }} Rolls</strong>
-                        </div>
-
-                        <div class="result-row">
-                            <span>
-                                <i class="ph ph-warning-circle"></i>
-                                Recommended Waste Allowance
-                            </span>
-                            <strong>{{ result.recommendedWasteAllowance }}</strong>
-                        </div>
-
-                        <div class="total-result">
-                            <span>Total Rolls Required</span>
-                            <strong>{{ result.totalRollsRequired }} Rolls</strong>
-                        </div>
-
-                    </div>
-
-                    <!-- Warnings -->
-                    <div *ngIf="warnings.length > 0" class="professional-tip">
-
-                        <i class="ph ph-lightbulb"></i>
-
-                        <div>
-                            <strong>Professional Notes</strong>
-
-                            <p *ngFor="let warning of warnings">
-                                {{ warning }}
-                            </p>
-                        </div>
-
-                    </div>
-
-                    <!-- Tip fijo -->
-                    <div class="professional-tip">
-
-                        <i class="ph ph-lightbulb"></i>
-
-                        <div>
-                            <strong>Professional Tip</strong>
-
-                            <p>
-                                We recommend ordering one additional roll for future repairs
-                                or if your wallpaper has a large pattern repeat.
-                            </p>
-                        </div>
-
-                    </div>
-
-                    <div class="mural-help-strip">
-
-                        <div class="mural-help-item">
-                            <i class="ph ph-user"></i>
-                            <div>
-                                <strong>Find Installer</strong>
-                                <span>Connect with a professional near you.</span>
-                            </div>
-                        </div>
-
-                        <div class="mural-help-item">
-                            <i class="ph ph-house-line"></i>
-                            <div>
-                                <strong>Get Professional Estimate</strong>
-                                <span>Have an expert review your project.</span>
-                            </div>
-                        </div>
-
-                        <div class="mural-help-item">
-                            <i class="ph ph-envelope-simple"></i>
-                            <div>
-                                <strong>Save My Results</strong>
-                                <span>Send a copy of your calculation by email.</span>
-                            </div>
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- Botones de Navegación -->
-            <div class="navigation-buttons" *ngIf="!(projectType === 'mural' && currentStep === 3)">
-
-                <button *ngIf="currentStep > 1" class="btn btn-back" (click)="prevStep()">
-                    ← Back
-                </button>
-
-                <button *ngIf="currentStep < totalSteps && !isMuralInfoOnly()" class="btn btn-next"
-                    (click)="nextStep()">
-                    Next Step →
-                </button>
-
-                <button *ngIf="currentStep === totalSteps && !isMuralInfoOnly()" class="btn btn-calculate"
-                    (click)="calculate()">
-                    Calculate →
-                </button>
-
-            </div>
         </div>
-    </main>
+
+        <!-- ===================================================== -->
+        <!-- STEP 3                                                -->
+        <!-- ===================================================== -->
+        <div
+          *ngIf="currentStep === 3"
+          class="step-content">
+
+          <!-- MURAL INFORMATION -->
+          <div
+            *ngIf="projectType === 'mural'"
+            class="mural-info-step">
+
+            <div class="step-header">
+              <span class="step-badge">MURAL INFORMATION</span>
+              <h2>Mural Information</h2>
+            </div>
+
+            <div class="info-card primary">
+              <div class="info-icon">ℹ</div>
+
+              <div class="info-content">
+                <p>
+                  <strong>
+                    Murals are usually not calculated by rolls.
+                  </strong>
+                </p>
+
+                <p>
+                  They are ordered using the total width
+                  and height of the wall area.
+                </p>
+              </div>
+            </div>
+
+            <div class="info-list">
+
+              <div class="info-item">
+                <div class="item-icon">
+                  <i class="ph ph-ruler"></i>
+                </div>
+
+                <div class="item-content">
+                  <p>
+                    If the mural covers more than one wall,
+                    add all wall widths together.
+                  </p>
+                </div>
+              </div>
+
+              <div class="info-item">
+                <div class="item-icon">
+                  <i class="ph ph-calculator"></i>
+                </div>
+
+                <div class="item-content">
+                  <p>
+                    <strong>Recommended ordering allowance:</strong>
+                  </p>
+
+                  <ul>
+                    <li>Add 6 inches to the total width.</li>
+                    <li>Add 4 inches to the total height.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="info-item">
+                <div class="item-icon">
+                  <i class="ph ph-scissors"></i>
+                </div>
+
+                <div class="item-content">
+                  <p>
+                    This extra material helps with trimming,
+                    alignment, and installation adjustments.
+                  </p>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="info-card heart">
+              <div class="info-icon">♡</div>
+
+              <div class="info-content">
+                <p>
+                  <strong>
+                    Enter this final size when purchasing your mural.
+                  </strong>
+                </p>
+              </div>
+            </div>
+
+            <div class="mural-help-strip">
+
+              <button
+                type="button"
+                class="mural-help-item"
+                (click)="findInstaller()">
+
+                <i class="ph ph-user"></i>
+
+                <div>
+                  <strong>Find My Installer</strong>
+                  <span>Connect with a professional near you.</span>
+                </div>
+              </button>
+
+              <button
+                type="button"
+                class="mural-help-item"
+                (click)="goHome()">
+
+                <i class="ph ph-house-line"></i>
+
+                <div>
+                  <strong>Home Page</strong>
+                  <span>Return to the main page.</span>
+                </div>
+              </button>
+
+              <button
+                type="button"
+                class="mural-help-item"
+                (click)="calculateAgain()">
+
+                <i class="ph ph-arrows-clockwise"></i>
+
+                <div>
+                  <strong>Calculate Again</strong>
+                  <span>Choose a different project type.</span>
+                </div>
+              </button>
+
+            </div>
+
+          </div>
+
+          <!-- CEILING MEASUREMENTS -->
+          <div
+            *ngIf="projectType === 'ceiling'"
+            class="measurement-step">
+
+            <div class="step-header compact">
+              <span class="step-badge">STEP 3 OF 5</span>
+              <h2>Enter your ceiling measurements</h2>
+
+              <p>
+                Enter the longest and shortest sides of the ceiling.
+              </p>
+            </div>
+
+            <div class="measurement-form">
+
+              <!-- Ceiling Length -->
+              <div class="input-group">
+                <label>Ceiling Length (Longest Side)</label>
+
+                <!-- Feet and inches -->
+                <div
+                  class="measurement-fields"
+                  *ngIf="measurementUnit === 'feet-inches'">
+
+                  <input
+                    type="number"
+                    [(ngModel)]="ceilingLengthFeet"
+                    placeholder="16"
+                    min="0"
+                    class="input-field">
+
+                  <span>ft</span>
+
+                  <input
+                    type="number"
+                    [(ngModel)]="ceilingLengthInches"
+                    placeholder="0"
+                    min="0"
+                    max="11"
+                    class="input-field">
+
+                  <span>in</span>
+                </div>
+
+                <!-- Single unit -->
+                <div
+                  class="measurement-fields"
+                  *ngIf="measurementUnit !== 'feet-inches'">
+
+                  <input
+                    type="number"
+                    [(ngModel)]="ceilingLengthValue"
+                    [placeholder]="getCeilingLengthPlaceholder()"
+                    min="0"
+                    class="input-field">
+
+                  <span>{{ getMeasurementUnitLabel() }}</span>
+                </div>
+              </div>
+
+              <!-- Ceiling Width -->
+              <div class="input-group">
+                <label>Ceiling Width (Shortest Side)</label>
+
+                <!-- Feet and inches -->
+                <div
+                  class="measurement-fields"
+                  *ngIf="measurementUnit === 'feet-inches'">
+
+                  <input
+                    type="number"
+                    [(ngModel)]="ceilingWidthFeet"
+                    placeholder="12"
+                    min="0"
+                    class="input-field">
+
+                  <span>ft</span>
+
+                  <input
+                    type="number"
+                    [(ngModel)]="ceilingWidthInches"
+                    placeholder="0"
+                    min="0"
+                    max="11"
+                    class="input-field">
+
+                  <span>in</span>
+                </div>
+
+                <!-- Single unit -->
+                <div
+                  class="measurement-fields"
+                  *ngIf="measurementUnit !== 'feet-inches'">
+
+                  <input
+                    type="number"
+                    [(ngModel)]="ceilingWidthValue"
+                    [placeholder]="getCeilingWidthPlaceholder()"
+                    min="0"
+                    class="input-field">
+
+                  <span>{{ getMeasurementUnitLabel() }}</span>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Wallpaper Details -->
+            <div class="wallpaper-details-inline">
+              <h3>Wallpaper Details</h3>
+
+              <div class="details-form details-form-vertical">
+
+                <!-- Roll Width -->
+                <div class="input-group detail-row">
+                  <label>Roll Width</label>
+
+                  <div class="select-like-field">
+                    <input
+                      type="number"
+                      [(ngModel)]="wallpaperDetails.rollWidth.value"
+                      placeholder="20.5"
+                      min="0"
+                      class="input-field">
+
+                    <select
+                      [(ngModel)]="wallpaperDetails.rollWidth.unit"
+                      class="input-field">
+
+                      <option value="inches">Inches</option>
+                      <option value="feet">Feet</option>
+                      <option value="meters">Meters</option>
+                      <option value="centimeters">Centimeters</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Roll Length -->
+                <div class="input-group detail-row">
+                  <label>Roll Length</label>
+
+                  <div class="select-like-field">
+                    <input
+                      type="number"
+                      [(ngModel)]="wallpaperDetails.rollLength.value"
+                      placeholder="33"
+                      min="0"
+                      class="input-field">
+
+                    <select
+                      [(ngModel)]="wallpaperDetails.rollLength.unit"
+                      class="input-field">
+
+                      <option value="inches">Inches</option>
+                      <option value="feet">Feet</option>
+                      <option value="meters">Meters</option>
+                      <option value="centimeters">Centimeters</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Pattern Repeat -->
+                <div class="input-group detail-row">
+                  <label>Pattern Repeat</label>
+
+                  <div class="select-like-field">
+                    <input
+                      type="number"
+                      [(ngModel)]="wallpaperDetails.patternRepeat.value"
+                      placeholder="21"
+                      min="0"
+                      class="input-field">
+
+                    <select
+                      [(ngModel)]="wallpaperDetails.patternRepeat.unit"
+                      class="input-field">
+
+                      <option value="inches">Inches</option>
+                      <option value="feet">Feet</option>
+                      <option value="meters">Meters</option>
+                      <option value="centimeters">Centimeters</option>
+                    </select>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+
+          <!-- WALL COUNT -->
+          <div
+            *ngIf="projectType === 'walls'"
+            class="walls-count-step">
+
+            <div class="step-header compact">
+              <span class="step-badge">STEP 3 OF 5</span>
+
+              <h2>
+                How many walls are included in your project?
+              </h2>
+
+              <p>Select up to 4 walls.</p>
+            </div>
+
+            <div class="wall-count-grid">
+
+              <button
+                *ngFor="let count of [1, 2, 3, 4]"
+                type="button"
+                class="wall-count-card"
+                [class.selected]="walls.length === count"
+                (click)="selectWallCount(count)">
+
+                <strong>{{ count }}</strong>
+
+                <span>
+                  {{ count === 1 ? 'Wall' : 'Walls' }}
+                </span>
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- ===================================================== -->
+        <!-- STEP 4                                                -->
+        <!-- ===================================================== -->
+        <div
+          *ngIf="currentStep === 4 && projectType !== 'mural'"
+          class="step-content">
+
+          <!-- CEILING REVIEW -->
+          <div
+            *ngIf="projectType === 'ceiling'"
+            class="review-step">
+
+            <div class="step-header compact">
+              <span class="step-badge">STEP 4 OF 5</span>
+              <h2>Review your ceiling details</h2>
+            </div>
+
+            <div class="review-section">
+
+              <div class="review-item">
+                <strong>Ceiling Size</strong>
+
+                <span *ngIf="measurementUnit === 'feet-inches'">
+                  {{ ceilingLengthFeet || 0 }} ft
+                  {{ ceilingLengthInches || 0 }} in
+                  ×
+                  {{ ceilingWidthFeet || 0 }} ft
+                  {{ ceilingWidthInches || 0 }} in
+                </span>
+
+                <span *ngIf="measurementUnit !== 'feet-inches'">
+                  {{ ceilingLengthValue || 0 }}
+                  {{ getMeasurementUnitLabel() }}
+                  ×
+                  {{ ceilingWidthValue || 0 }}
+                  {{ getMeasurementUnitLabel() }}
+                </span>
+              </div>
+
+              <div class="review-item">
+                <strong>Roll Size</strong>
+
+                <span>
+                  {{ wallpaperDetails.rollWidth.value }}
+                  {{ wallpaperDetails.rollWidth.unit }}
+                  ×
+                  {{ wallpaperDetails.rollLength.value }}
+                  {{ wallpaperDetails.rollLength.unit }}
+                </span>
+              </div>
+
+              <div class="review-item">
+                <strong>Pattern Repeat</strong>
+
+                <span>
+                  {{ wallpaperDetails.patternRepeat.value }}
+                  {{ wallpaperDetails.patternRepeat.unit }}
+                </span>
+              </div>
+
+              <div class="review-item">
+                <strong>Measurement Unit</strong>
+                <span>{{ measurementUnit }}</span>
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- WALL MEASUREMENTS -->
+          <div
+            *ngIf="projectType === 'walls'"
+            class="measurement-step">
+
+            <div class="step-header compact">
+              <span class="step-badge">STEP 4 OF 5</span>
+
+              <h2>Enter your wall measurements</h2>
+
+              <p>
+                Use the gray examples as a guide.
+              </p>
+            </div>
+
+            <div class="wall-measurements-list">
+
+              <div
+                class="wall-measurement-card"
+                *ngFor="let wall of walls; let i = index">
+
+                <div class="wall-card-header">
+                  <strong>Wall {{ i + 1 }}</strong>
+
+                  <button
+                    *ngIf="walls.length > 1"
+                    type="button"
+                    class="btn-remove"
+                    aria-label="Remove wall"
+                    (click)="removeWall(i)">
+
+                    <i class="ph ph-trash"></i>
+                  </button>
+                </div>
+
+                <!-- Wall Width -->
+                <div class="input-group">
+                  <label>Width</label>
+
+                  <!-- Feet and inches -->
+                  <div
+                    class="measurement-fields"
+                    *ngIf="measurementUnit === 'feet-inches'">
+
+                    <input
+                      type="number"
+                      [(ngModel)]="wall.widthFeet"
+                      placeholder="12"
+                      min="0"
+                      class="input-field">
+
+                    <span>ft</span>
+
+                    <input
+                      type="number"
+                      [(ngModel)]="wall.widthInches"
+                      placeholder="0"
+                      min="0"
+                      max="11"
+                      class="input-field">
+
+                    <span>in</span>
+                  </div>
+
+                  <!-- Single unit -->
+                  <div
+                    class="measurement-fields"
+                    *ngIf="measurementUnit !== 'feet-inches'">
+
+                    <input
+                      type="number"
+                      [(ngModel)]="wall.widthValue"
+                      [placeholder]="getWidthPlaceholder()"
+                      min="0"
+                      class="input-field">
+
+                    <span>{{ getMeasurementUnitLabel() }}</span>
+                  </div>
+                </div>
+
+                <!-- Wall Height -->
+                <div class="input-group">
+                  <label>Height</label>
+
+                  <!-- Feet and inches -->
+                  <div
+                    class="measurement-fields"
+                    *ngIf="measurementUnit === 'feet-inches'">
+
+                    <input
+                      type="number"
+                      [(ngModel)]="wall.heightFeet"
+                      placeholder="9"
+                      min="0"
+                      class="input-field">
+
+                    <span>ft</span>
+
+                    <input
+                      type="number"
+                      [(ngModel)]="wall.heightInches"
+                      placeholder="0"
+                      min="0"
+                      max="11"
+                      class="input-field">
+
+                    <span>in</span>
+                  </div>
+
+                  <!-- Single unit -->
+                  <div
+                    class="measurement-fields"
+                    *ngIf="measurementUnit !== 'feet-inches'">
+
+                    <input
+                      type="number"
+                      [(ngModel)]="wall.heightValue"
+                      [placeholder]="getHeightPlaceholder()"
+                      min="0"
+                      class="input-field">
+
+                    <span>{{ getMeasurementUnitLabel() }}</span>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+            <button
+              type="button"
+              class="btn btn-add"
+              [disabled]="walls.length >= maxWalls"
+              (click)="addWall()">
+
+              + Add Another Wall
+            </button>
+
+            <small
+              class="wall-limit-message"
+              *ngIf="walls.length >= maxWalls">
+
+              Maximum 4 walls allowed.
+            </small>
+
+            <!-- Wallpaper Details -->
+            <div class="wallpaper-details-inline">
+              <h3>Wallpaper Details</h3>
+
+              <div class="details-form details-form-vertical">
+
+                <!-- Roll Width -->
+                <div class="input-group detail-row">
+                  <label>Roll Width</label>
+
+                  <div class="select-like-field">
+                    <input
+                      type="number"
+                      [(ngModel)]="wallpaperDetails.rollWidth.value"
+                      placeholder="20.5"
+                      min="0"
+                      class="input-field">
+
+                    <select
+                      [(ngModel)]="wallpaperDetails.rollWidth.unit"
+                      class="input-field">
+
+                      <option value="inches">Inches</option>
+                      <option value="feet">Feet</option>
+                      <option value="meters">Meters</option>
+                      <option value="centimeters">Centimeters</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Roll Length -->
+                <div class="input-group detail-row">
+                  <label>Roll Length</label>
+
+                  <div class="select-like-field">
+                    <input
+                      type="number"
+                      [(ngModel)]="wallpaperDetails.rollLength.value"
+                      placeholder="33"
+                      min="0"
+                      class="input-field">
+
+                    <select
+                      [(ngModel)]="wallpaperDetails.rollLength.unit"
+                      class="input-field">
+
+                      <option value="inches">Inches</option>
+                      <option value="feet">Feet</option>
+                      <option value="meters">Meters</option>
+                      <option value="centimeters">Centimeters</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Pattern Repeat -->
+                <div class="input-group detail-row">
+                  <label>Pattern Repeat</label>
+
+                  <div class="select-like-field">
+                    <input
+                      type="number"
+                      [(ngModel)]="wallpaperDetails.patternRepeat.value"
+                      placeholder="21"
+                      min="0"
+                      class="input-field">
+
+                    <select
+                      [(ngModel)]="wallpaperDetails.patternRepeat.unit"
+                      class="input-field">
+
+                      <option value="inches">Inches</option>
+                      <option value="feet">Feet</option>
+                      <option value="meters">Meters</option>
+                      <option value="centimeters">Centimeters</option>
+                    </select>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- ===================================================== -->
+        <!-- STEP 5: RESULT                                        -->
+        <!-- ===================================================== -->
+        <div
+          *ngIf="currentStep === 5 && projectType !== 'mural'"
+          class="step-content result-step">
+
+          <div class="result-icon">
+            <i class="ph ph-check"></i>
+          </div>
+
+          <div class="step-header">
+            <span class="step-badge">STEP 5 OF 5</span>
+
+            <h2>
+              {{
+                projectType === 'ceiling'
+                  ? 'Your Ceiling Calculation Is Ready!'
+                  : 'Your Wall Calculation Is Ready!'
+              }}
+            </h2>
+
+            <p>
+              Based on the measurements provided,
+              your project may require:
+            </p>
+          </div>
+
+          <!-- Errors -->
+          <div
+            *ngIf="errors.length > 0"
+            class="alert alert-danger mb-4">
+
+            <div *ngFor="let error of errors">
+              {{ error }}
+            </div>
+          </div>
+
+          <!-- Result -->
+          <div
+            *ngIf="result"
+            class="result-card">
+
+            <div class="result-row">
+              <span>
+                <i class="ph ph-squares-four"></i>
+                Panels Needed
+              </span>
+
+              <strong>
+                {{ result.totalPanelsNeeded }} Panels
+              </strong>
+            </div>
+
+            <div class="result-row">
+              <span>
+                <i class="ph ph-scroll"></i>
+                Panels Per Roll
+              </span>
+
+              <strong>
+                {{ result.panelsPerRoll }} Panels
+              </strong>
+            </div>
+
+            <div class="result-row">
+              <span>
+                <i class="ph ph-calculator"></i>
+                Exact Rolls Needed
+              </span>
+
+              <strong>
+                {{ result.exactRollsNeeded }} Rolls
+              </strong>
+            </div>
+
+            <div class="result-row">
+              <span>
+                <i class="ph ph-warning-circle"></i>
+                Recommended Waste Allowance
+              </span>
+
+              <strong>
+                {{ result.recommendedWasteAllowance }}
+              </strong>
+            </div>
+
+            <div class="total-result">
+              <span>Total Rolls Required</span>
+
+              <strong>
+                {{ result.totalRollsRequired }} Rolls
+              </strong>
+            </div>
+
+          </div>
+
+          <!-- Warnings -->
+          <div
+            *ngIf="warnings.length > 0"
+            class="professional-tip">
+
+            <i class="ph ph-lightbulb"></i>
+
+            <div>
+              <strong>Professional Notes</strong>
+
+              <p *ngFor="let warning of warnings">
+                {{ warning }}
+              </p>
+            </div>
+          </div>
+
+          <!-- Fixed Tip -->
+          <div class="professional-tip">
+            <i class="ph ph-lightbulb"></i>
+
+            <div>
+              <strong>Professional Tip</strong>
+
+              <p>
+                We recommend ordering one additional roll
+                for future repairs or when the wallpaper
+                has a large pattern repeat.
+              </p>
+            </div>
+          </div>
+
+          <!-- Required Final Actions -->
+          <div class="mural-help-strip result-actions">
+
+            <button
+              type="button"
+              class="mural-help-item"
+              (click)="calculateAgain()">
+
+              <i class="ph ph-arrows-clockwise"></i>
+
+              <div>
+                <strong>Calculate Again</strong>
+                <span>
+                  Update the details and run a new calculation.
+                </span>
+              </div>
+            </button>
+
+            <button
+              type="button"
+              class="mural-help-item"
+              (click)="goHome()">
+
+              <i class="ph ph-house-line"></i>
+
+              <div>
+                <strong>Home Page</strong>
+                <span>Return to the main page.</span>
+              </div>
+            </button>
+
+            <button
+              type="button"
+              class="mural-help-item"
+              (click)="findInstaller()">
+
+              <i class="ph ph-user-circle"></i>
+
+              <div>
+                <strong>Find My Installer</strong>
+                <span>
+                  Connect with a trusted wallpaper installer.
+                </span>
+              </div>
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Navigation Buttons -->
+      <div
+        class="navigation-buttons"
+        *ngIf="
+          currentStep < totalSteps &&
+          !(projectType === 'mural' && currentStep === 3)
+        ">
+
+        <button
+          *ngIf="currentStep > 1"
+          type="button"
+          class="btn btn-back"
+          (click)="prevStep()">
+
+          <i class="ph ph-arrow-left"></i>
+          Back
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-next"
+          (click)="nextStep()">
+
+          {{ currentStep === 4 ? 'Calculate' : 'Next Step' }}
+          <i class="ph ph-arrow-right"></i>
+        </button>
+
+      </div>
+
+    </div>
+  </main>
+
+</div>

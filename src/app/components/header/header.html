@@ -30,7 +30,9 @@
                                 <li [class.active-link]="activeRoute === '/gallery'">
                                     <a href="/gallery" (click)="goTo($event, '/gallery')">Our Work</a>
                                 </li>
-
+                                <li [class.active-link]="activeRoute === '/gallery'">
+                                    <a href="/join-installer" (click)="goTo($event, '/join-installer')">Become an Installer</a>
+                                </li>
                                 <li [class.active-link]="activeRoute === '/contact'">
                                     <a href="/contact" (click)="goTo($event, '/contact')">Contact Us</a>
                                 </li>

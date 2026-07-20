@@ -1,9 +1,25 @@
-export type CalculatorProjectType = 'regular_walls' | 'ceiling';
+export type CalculatorProjectType =
+  | 'regular_walls'
+  | 'ceiling'
+  | 'mural';
+
 export type CalculatorMeasurementUnit =
   | 'feet_inches'
   | 'inches_only'
   | 'centimeters'
   | 'meters';
+
+export type WallpaperDetailUnit =
+  | 'inches'
+  | 'feet'
+  | 'meters'
+  | 'centimeters';
+/* export type CalculatorProjectType = 'regular_walls' | 'ceiling';
+export type CalculatorMeasurementUnit =
+  | 'feet_inches'
+  | 'inches_only'
+  | 'centimeters'
+  | 'meters'; */
 
 export interface CalculatorResult {
   ok: boolean;
@@ -50,7 +66,7 @@ export function measurementToInches(measurement: any, unit: CalculatorMeasuremen
   }
 }
 
-export function lengthToInches(value: number, unit: string): number {
+/* export function lengthToInches(value: number, unit: string): number {
   const num = numberOrZero(value);
 
   switch (unit) {
@@ -64,6 +80,27 @@ export function lengthToInches(value: number, unit: string): number {
       return num / 2.54;
     case 'meters':
       return num * 39.37007874015748;
+    default:
+      return 0;
+  }
+} */
+
+export function lengthToInches(value: number, unit: string): number {
+  const num = numberOrZero(value);
+
+  switch (unit) {
+    case 'inches':
+      return num;
+
+    case 'feet':
+      return num * 12;
+
+    case 'centimeters':
+      return num / 2.54;
+
+    case 'meters':
+      return num * 39.37007874015748;
+
     default:
       return 0;
   }

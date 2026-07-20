@@ -11,6 +11,7 @@ import Swiper from 'swiper';
 import { Pagination } from 'swiper/modules';
 import { ElementRef, ViewChild, NgZone } from '@angular/core';
 import PocketBase from 'pocketbase';
+import { InstallerAvailabilityService } from '../../services/installer-availability.service';
 declare const google: any;
 declare var WOW: any;
 
@@ -73,7 +74,8 @@ export class Home implements OnInit, AfterViewInit, OnDestroy {
     projectType: '',
     message: ''
   };
-  constructor(public router: Router, private formBuilder: FormBuilder, @Inject(PLATFORM_ID) private platformId: Object, private http: HttpClient, private portfolioService: PortfolioService, private cdr: ChangeDetectorRef, private ngZone: NgZone
+  constructor(public router: Router, private formBuilder: FormBuilder, @Inject(PLATFORM_ID) private platformId: Object, private http: HttpClient, private portfolioService: PortfolioService, private cdr: ChangeDetectorRef, private ngZone: NgZone, private installerAvailability:
+    InstallerAvailabilityService
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
     {
@@ -486,7 +488,7 @@ export class Home implements OnInit, AfterViewInit, OnDestroy {
   isVideoActive(portfolio: any): boolean {
     return this.activeVideoId === portfolio.id;
   }
-  async findInstaller() {
+ /*  async findInstaller() {
     console.log('1. Entró a findInstaller');
 
     this.formError = '';
@@ -581,7 +583,146 @@ export class Home implements OnInit, AfterViewInit, OnDestroy {
     } finally {
       this.isSavingSearch = false;
     }
+  } */
+ async findInstaller(): Promise<void> {
+  this.formError = '';
+  this.locationError = '';
+
+  if (!this.projectType) {
+    this.formError =
+      'Please select a project type.';
+    return;
   }
+
+  if (!this.locationQuery.trim()) {
+    this.formError =
+      'Please enter your ZIP code or location.';
+    return;
+  }
+
+  if (!this.selectedLocation) {
+    this.formError =
+      'Please select a valid location from the suggestions.';
+    return;
+  }
+
+  if (!this.selectedLocation.zipCode) {
+    this.formError =
+      'The selected location does not include a valid ZIP Code.';
+    return;
+  }
+
+  if (!this.timeline) {
+    this.formError =
+      'Please select when you want to start.';
+    return;
+  }
+
+  if (!this.hasMeasurements) {
+    this.formError =
+      'Please select if you already have measurements.';
+    return;
+  }
+
+  if (this.isSavingSearch) {
+    return;
+  }
+
+  try {
+    this.isSavingSearch = true;
+
+    const installerDraft = {
+      source: 'home',
+
+      projectType: this.projectType,
+      timeline: this.timeline,
+      hasMeasurements: this.hasMeasurements,
+
+      location: {
+        query: this.locationQuery,
+        formattedAddress:
+          this.selectedLocation.formattedAddress,
+        city:
+          this.selectedLocation.city,
+        state:
+          this.selectedLocation.state,
+        stateCode:
+          this.selectedLocation.stateCode,
+        country:
+          this.selectedLocation.country,
+        countryCode:
+          this.selectedLocation.countryCode,
+        zipCode:
+          this.selectedLocation.zipCode,
+        lat:
+          this.selectedLocation.lat,
+        lng:
+          this.selectedLocation.lng,
+        placeId:
+          this.selectedLocation.placeId,
+      },
+
+      createdAt: new Date().toISOString(),
+    };
+
+    sessionStorage.setItem(
+      'installerRequestDraft',
+      JSON.stringify(installerDraft)
+    );
+
+    const hasAvailability =
+      await this.installerAvailability.hasAvailability(
+        this.selectedLocation.zipCode,
+        this.projectType
+      );
+
+    if (!hasAvailability) {
+      await this.router.navigate(
+        ['/installer-unavailable'],
+        {
+          queryParams: {
+            zipCode:
+              this.selectedLocation.zipCode,
+            city:
+              this.selectedLocation.city,
+            state:
+              this.selectedLocation.state,
+            stateCode:
+              this.selectedLocation.stateCode,
+            projectType:
+              this.projectType
+          }
+        }
+      );
+
+      return;
+    }
+
+    if (this.projectType === 'commercial') {
+      await this.router.navigate([
+        '/installer/commercial'
+      ]);
+
+      return;
+    }
+
+    await this.router.navigate([
+      '/installer/residential'
+    ]);
+
+  } catch (error) {
+    console.error(
+      'Error checking installer availability:',
+      error
+    );
+
+    this.formError =
+      'We could not verify installer availability. Please try again.';
+  } finally {
+    this.isSavingSearch = false;
+    this.cdr.detectChanges();
+  }
+}
   mapTimelineToDate(timeline: string): string {
     const date = new Date();
 

@@ -277,6 +277,19 @@ export const routes: Routes = [
       './page/join-installer/join-installer'
     ).then(component => component.JoinInstaller),
 },
+{
+  path: 'installer-unavailable',
+  loadComponent: () =>
+    import(
+      './page/installer-unavailable/installer-unavailable'
+    ).then(c => c.InstallerUnavailable),
+  title: 'Installer Availability',
+  data: {
+    description:
+      'Join the installer availability waitlist for your area.',
+    canonical: '/installer-unavailable',
+  },
+},
   {
     path: '**',
     redirectTo: 'home'

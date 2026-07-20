@@ -1,0 +1,369 @@
+<section class="availability-page">
+
+  <div class="availability-background">
+    <div class="background-shape shape-one"></div>
+    <div class="background-shape shape-two"></div>
+  </div>
+
+  <div class="availability-container">
+
+    @if (!showForm && !submitted) {
+
+      <article class="availability-card initial-state">
+
+        <div class="status-icon">
+          <i class="ph ph-map-pin-line"></i>
+        </div>
+
+        <span class="eyebrow">
+          Installer availability
+        </span>
+
+        <h1>
+          We’re not fully available
+          <span>in your area yet.</span>
+        </h1>
+
+        <p class="main-description">
+          We’re currently expanding our installer network.
+          You can still use our tools to plan your wallpaper project.
+        </p>
+
+        @if (zipCode) {
+          <div class="location-summary">
+            <i class="ph ph-map-pin"></i>
+
+            <div>
+              <span>Selected area</span>
+
+              <strong>
+                {{ zipCode }}
+
+                @if (city || stateCode) {
+                  — {{ city }}@if (city && stateCode) {, }
+                  {{ stateCode }}
+                }
+              </strong>
+            </div>
+          </div>
+        }
+
+        <div class="primary-action">
+          <button
+            type="button"
+            class="button button-primary"
+            (click)="openForm()">
+
+            <i class="ph ph-bell-ringing"></i>
+
+            Notify Me When Available
+          </button>
+        </div>
+
+        <div class="secondary-actions">
+
+          <a
+            routerLink="/wallpaper"
+            class="tool-card">
+
+            <span class="tool-icon">
+              <i class="ph ph-scroll"></i>
+            </span>
+
+            <span class="tool-copy">
+              <strong>Help Me Find Wallpaper</strong>
+              <small>Browse wallpaper options and inspiration</small>
+            </span>
+
+            <i class="ph ph-arrow-right"></i>
+          </a>
+
+          <a
+            routerLink="/estimate"
+            class="tool-card">
+
+            <span class="tool-icon">
+              <i class="ph ph-ruler"></i>
+            </span>
+
+            <span class="tool-copy">
+              <strong>Calculate Quantity</strong>
+              <small>Estimate how much wallpaper you need</small>
+            </span>
+
+            <i class="ph ph-arrow-right"></i>
+          </a>
+
+        </div>
+
+      </article>
+
+    } @else if (showForm && !submitted) {
+
+      <article class="availability-card form-state">
+
+        <button
+          type="button"
+          class="back-button"
+          (click)="showForm = false">
+
+          <i class="ph ph-arrow-left"></i>
+          Back
+        </button>
+
+        <div class="form-heading">
+          <div class="status-icon small-icon">
+            <i class="ph ph-bell-ringing"></i>
+          </div>
+
+          <span class="eyebrow">
+            Installer waitlist
+          </span>
+
+          <h1>Notify Me When Available</h1>
+
+          <p>
+            Leave your contact information and we’ll let you know
+            when qualified installers become available in your area.
+          </p>
+        </div>
+
+        <form
+          class="waitlist-form"
+          (ngSubmit)="submitWaitlist()">
+
+          <div class="form-field full-width">
+            <label for="fullName">
+              Full Name
+              <span>*</span>
+            </label>
+
+            <div class="input-wrapper">
+              <i class="ph ph-user"></i>
+
+              <input
+                id="fullName"
+                name="fullName"
+                type="text"
+                [(ngModel)]="fullName"
+                (ngModelChange)="submitError = ''"
+                autocomplete="name"
+                placeholder="Enter your full name"
+                required>
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label for="email">
+              Email
+              <span>*</span>
+            </label>
+
+            <div class="input-wrapper">
+              <i class="ph ph-envelope-simple"></i>
+
+              <input
+                id="email"
+                name="email"
+                type="email"
+                [(ngModel)]="email"
+                (ngModelChange)="submitError = ''"
+                autocomplete="email"
+                placeholder="name@example.com"
+                required>
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label for="phone">
+              Phone Number
+              <span>*</span>
+            </label>
+
+            <div class="input-wrapper">
+              <i class="ph ph-phone"></i>
+
+              <input
+                id="phone"
+                name="phone"
+                type="tel"
+                [(ngModel)]="phone"
+                (ngModelChange)="submitError = ''"
+                autocomplete="tel"
+                placeholder="Enter your phone number"
+                required>
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label for="zipCode">
+              ZIP Code
+              <span>*</span>
+            </label>
+
+            <div class="input-wrapper">
+              <i class="ph ph-map-pin"></i>
+
+              <input
+                id="zipCode"
+                name="zipCode"
+                type="text"
+                [(ngModel)]="zipCode"
+                (ngModelChange)="submitError = ''"
+                inputmode="numeric"
+                autocomplete="postal-code"
+                placeholder="ZIP Code"
+                maxlength="10"
+                required>
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label for="projectType">
+              Project Type
+              <span>*</span>
+            </label>
+
+            <div class="input-wrapper select-wrapper">
+              <i class="ph ph-buildings"></i>
+
+              <select
+                id="projectType"
+                name="projectType"
+                [(ngModel)]="projectType"
+                (ngModelChange)="submitError = ''"
+                required>
+
+                <option value="residential">
+                  Residential
+                </option>
+
+                <option value="commercial">
+                  Commercial
+                </option>
+
+              </select>
+            </div>
+          </div>
+
+          @if (city || stateCode) {
+            <div class="confirmed-location full-width">
+              <i class="ph ph-check-circle"></i>
+
+              <span>
+                Location:
+                <strong>
+                  {{ city }}@if (city && stateCode) {, }
+                  {{ stateCode }} {{ zipCode }}
+                </strong>
+              </span>
+            </div>
+          }
+
+          @if (submitError) {
+            <div class="form-error full-width">
+              <i class="ph ph-warning-circle"></i>
+              {{ submitError }}
+            </div>
+          }
+
+          <div class="form-submit full-width">
+            <button
+              type="submit"
+              class="button button-primary"
+              [disabled]="isSubmitting">
+
+              @if (isSubmitting) {
+                <i class="ph ph-spinner spinner"></i>
+                Saving...
+              } @else {
+                <i class="ph ph-bell-ringing"></i>
+                Notify Me When Available
+              }
+
+            </button>
+          </div>
+
+          <p class="privacy-note full-width">
+            <i class="ph ph-lock-key"></i>
+            Your information will only be used to contact you about
+            installer availability.
+          </p>
+
+        </form>
+
+      </article>
+
+    } @else {
+
+      <article class="availability-card success-state">
+
+        <div class="success-icon">
+          <i class="ph ph-check"></i>
+        </div>
+
+        <span class="eyebrow">
+          You’re on the list
+        </span>
+
+        <h1>Thank you!</h1>
+
+        <p class="success-message">
+          We’ll notify you when qualified installers become
+          available in your area.
+        </p>
+
+        @if (zipCode) {
+          <div class="location-summary success-location">
+            <i class="ph ph-map-pin"></i>
+
+            <div>
+              <span>Waitlist area</span>
+
+              <strong>
+                {{ zipCode }}
+
+                @if (city || stateCode) {
+                  — {{ city }}@if (city && stateCode) {, }
+                  {{ stateCode }}
+                }
+              </strong>
+            </div>
+          </div>
+        }
+
+        <div class="success-actions">
+
+          <a
+            routerLink="/wallpaper"
+            class="button button-primary">
+
+            <i class="ph ph-scroll"></i>
+            Help Me Find Wallpaper
+          </a>
+
+          <a
+            routerLink="/estimate"
+            class="button button-secondary">
+
+            <i class="ph ph-ruler"></i>
+            Calculate Quantity
+          </a>
+
+          <a
+            routerLink="/home"
+            class="button button-text">
+
+            <i class="ph ph-house"></i>
+            Back to Home
+          </a>
+
+        </div>
+
+      </article>
+
+    }
+
+  </div>
+
+</section>

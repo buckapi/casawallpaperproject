@@ -36,35 +36,34 @@ export class JoinInstaller {
   selectedPortfolioFiles: File[] = [];
 
   readonly installerTypes = [
-    {
-      value: 'residential',
-      label: 'Residential',
-    },
-    {
-      value: 'commercial',
-      label: 'Commercial',
-    },
-    {
-      value: 'both',
-      label: 'Both',
-    },
-  ] as const;
+  {
+    value: 'Residential',
+    label: 'Residential',
+  },
+  {
+    value: 'Commercial',
+    label: 'Commercial',
+  },
+  {
+    value: 'Both',
+    label: 'Both',
+  },
+] as const;
 
   readonly insuranceOptions = [
-    {
-      value: 'yes',
-      label: 'Yes',
-    },
-    {
-      value: 'no',
-      label: 'No',
-    },
-    {
-      value: 'in-progress',
-      label: 'In Progress',
-    },
-  ] as const;
-
+  {
+    value: 'Yes',
+    label: 'Yes',
+  },
+  {
+    value: 'No',
+    label: 'No',
+  },
+  {
+    value: 'In Progress',
+    label: 'In Progress',
+  },
+] as const;
   readonly wallpaperTypes = [
     'Traditional Paste Wallpaper',
     'Peel & Stick Wallpaper',
@@ -305,7 +304,7 @@ export class JoinInstaller {
       );
   }
 
-  async submitApplication(): Promise<void> {
+ /*  async submitApplication(): Promise<void> {
     this.submitError = '';
     this.submittedSuccessfully = false;
 
@@ -364,8 +363,117 @@ export class JoinInstaller {
     } finally {
       this.isSubmitting = false;
     }
+  } */
+  async submitApplication(): Promise<void> {
+  this.submitError = '';
+  this.submittedSuccessfully = false;
+
+  if (this.applicationForm.invalid) {
+    this.applicationForm.markAllAsTouched();
+
+    this.submitError =
+      'Please complete all required fields before submitting.';
+
+    this.scrollToFirstError();
+    return;
   }
 
+  const rawValue =
+    this.applicationForm.getRawValue();
+
+  const selectedWallpaperTypes =
+    Array.isArray(
+      rawValue.wallpaperTypesInstalled
+    )
+      ? rawValue.wallpaperTypesInstalled
+      : [];
+
+  if (selectedWallpaperTypes.length === 0) {
+    this.submitError =
+      'Please select at least one wallpaper type.';
+
+    this.applicationForm
+      .get('wallpaperTypesInstalled')
+      ?.markAsTouched();
+
+    document
+      .querySelector('.tag-selector')
+      ?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+      });
+
+    return;
+  }
+
+  const payload: InstallerApplicationPayload = {
+    fullName: rawValue.fullName,
+    companyName:
+      rawValue.companyName || '',
+    email: rawValue.email,
+    phone: rawValue.phone,
+    city: rawValue.city,
+    state: rawValue.state,
+    serviceArea:
+      rawValue.serviceArea,
+
+    yearsOfExperience:
+      Number(
+        rawValue.yearsOfExperience
+      ),
+
+    projectType:
+      rawValue.projectType,
+
+    wallpaperTypesInstalled:
+      selectedWallpaperTypes,
+
+    insurance:
+      rawValue.insurance,
+
+    website:
+  typeof rawValue.website === 'string'
+    ? rawValue.website.trim()
+    : '',
+
+    instagram:
+      rawValue.instagram || '',
+
+    notes:
+      rawValue.notes || '',
+
+    portfolioPhotos:
+      this.selectedPortfolioFiles,
+  };
+
+  this.isSubmitting = true;
+
+  try {
+    await this.installerApplications
+      .submitApplication(payload);
+
+    this.submittedSuccessfully = true;
+    this.resetApplicationForm();
+
+    setTimeout(() => {
+      document
+        .getElementById(
+          'application-card'
+        )
+        ?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
+    });
+  } catch (error: unknown) {
+    this.submitError =
+      error instanceof Error
+        ? error.message
+        : 'We could not submit your application. Please try again.';
+  } finally {
+    this.isSubmitting = false;
+  }
+}
   private resetApplicationForm(): void {
     this.applicationForm.reset({
       fullName: '',
@@ -401,4 +509,44 @@ export class JoinInstaller {
       });
     });
   }
+  /* startNewApplication(): void {
+  this.submittedSuccessfully = false;
+  this.submitError = '';
+
+  this.resetApplicationForm();
+
+  setTimeout(() => {
+    document
+      .getElementById('installer-application')
+      ?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
+  });
+} */
+startNewApplication(): void {
+  this.submittedSuccessfully = false;
+  this.submitError = '';
+
+  this.resetApplicationForm();
+
+  setTimeout(() => {
+    const section = document.getElementById('installer-application');
+
+    if (section) {
+      section.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  }, 150);
+}
+scrollToApplication(): void {
+  document
+    .getElementById('installer-application')
+    ?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    });
+}
 }

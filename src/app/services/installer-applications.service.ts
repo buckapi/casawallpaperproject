@@ -4,7 +4,9 @@ import PocketBase, {
   RecordModel,
 } from 'pocketbase';
 
-export const POCKETBASE_URL = 'https://db.buckapi.site:8091';
+export const POCKETBASE_URL =
+  'https://db.buckapi.site:8091';
+
 export const INSTALLER_APPLICATIONS_COLLECTION =
   'installer_applications';
 
@@ -17,16 +19,27 @@ export interface InstallerApplicationPayload {
   state: string;
   serviceArea: string;
   yearsOfExperience: number;
-  projectType: 'residential' | 'commercial' | 'both';
+
+  projectType:
+    | 'Residential'
+    | 'Commercial'
+    | 'Both';
+
   wallpaperTypesInstalled: string[];
-  insurance: 'yes' | 'no' | 'in-progress';
-  website: string;
+
+  insurance:
+    | 'Yes'
+    | 'No'
+    | 'In Progress';
+
+  website?: string;
   instagram: string;
   notes: string;
   portfolioPhotos: File[];
 }
 
-export interface InstallerApplicationRecord extends RecordModel {
+export interface InstallerApplicationRecord
+  extends RecordModel {
   full_name: string;
   company_name: string;
   email: string;
@@ -35,56 +48,199 @@ export interface InstallerApplicationRecord extends RecordModel {
   state: string;
   service_area: string;
   years_of_experience: number;
-  project_type: 'residential' | 'commercial' | 'both';
+
+  project_type:
+    | 'Residential'
+    | 'Commercial'
+    | 'Both';
+
   wallpaper_types_installed: string[];
-  insurance: 'yes' | 'no' | 'in-progress';
+
+  insurance:
+    | 'Yes'
+    | 'No'
+    | 'In Progress';
+
   portfolio_photos: string[];
-  website: string;
+  website?: string;
   instagram: string;
   notes: string;
-  status: 'pending' | 'reviewing' | 'approved' | 'rejected';
+
+  status:
+    | 'Pending'
+    | 'Reviewing'
+    | 'Approved'
+    | 'Rejected';
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class InstallerApplicationsService {
-  private readonly pocketBase = new PocketBase(POCKETBASE_URL);
+  private readonly pocketBase =
+    new PocketBase(POCKETBASE_URL);
 
   async submitApplication(
     payload: InstallerApplicationPayload
   ): Promise<InstallerApplicationRecord> {
-    const data = {
-      full_name: payload.fullName.trim(),
-      company_name: payload.companyName.trim(),
-      email: payload.email.trim().toLowerCase(),
-      phone: payload.phone.trim(),
-      city: payload.city.trim(),
-      state: payload.state.trim(),
-      service_area: payload.serviceArea.trim(),
-      years_of_experience: payload.yearsOfExperience,
-      project_type: payload.projectType,
-      wallpaper_types_installed:
-        payload.wallpaperTypesInstalled,
-      insurance: payload.insurance,
-      portfolio_photos: payload.portfolioPhotos,
-      website: payload.website.trim(),
-      instagram: payload.instagram.trim(),
-      notes: payload.notes.trim(),
-      status: 'pending',
-    };
+    const formData = new FormData();
+
+    formData.append(
+      'full_name',
+      payload.fullName.trim()
+    );
+
+    formData.append(
+      'company_name',
+      payload.companyName.trim()
+    );
+
+    formData.append(
+      'email',
+      payload.email.trim().toLowerCase()
+    );
+
+    formData.append(
+      'phone',
+      payload.phone.trim()
+    );
+
+    formData.append(
+      'city',
+      payload.city.trim()
+    );
+
+    formData.append(
+      'state',
+      payload.state.trim()
+    );
+
+    formData.append(
+      'service_area',
+      payload.serviceArea.trim()
+    );
+
+    formData.append(
+      'years_of_experience',
+      String(payload.yearsOfExperience)
+    );
+
+    formData.append(
+      'project_type',
+      payload.projectType
+    );
+
+    /*
+     * IMPORTANTE:
+     * repetir el campo por cada valor.
+     * No usar JSON.stringify().
+     */
+    for (
+      const wallpaperType of
+      payload.wallpaperTypesInstalled
+    ) {
+      formData.append(
+        'wallpaper_types_installed',
+        wallpaperType
+      );
+    }
+
+    formData.append(
+      'insurance',
+      payload.insurance
+    );
+
+    formData.append(
+      'status',
+      'Pending'
+    );
+
+    const website =
+      payload.website?.trim() ?? '';
+
+    if (website) {
+      formData.append(
+        'website',
+        website
+      );
+    }
+
+    const instagram =
+      payload.instagram.trim();
+
+    if (instagram) {
+      formData.append(
+        'instagram',
+        instagram
+      );
+    }
+
+    const notes =
+      payload.notes.trim();
+
+    if (notes) {
+      formData.append(
+        'notes',
+        notes
+      );
+    }
+
+    for (
+      const file of
+      payload.portfolioPhotos
+    ) {
+      formData.append(
+        'portfolio_photos',
+        file
+      );
+    }
+
+    console.log(
+      'Wallpaper types sent:',
+      formData.getAll(
+        'wallpaper_types_installed'
+      )
+    );
 
     try {
       return await this.pocketBase
-        .collection(INSTALLER_APPLICATIONS_COLLECTION)
-        .create<InstallerApplicationRecord>(data);
+        .collection(
+          INSTALLER_APPLICATIONS_COLLECTION
+        )
+        .create<InstallerApplicationRecord>(
+          formData
+        );
     } catch (error: unknown) {
-      throw this.normalizePocketBaseError(error);
+      if (
+        error instanceof
+        ClientResponseError
+      ) {
+        console.error(
+          'PocketBase error:',
+          {
+            status: error.status,
+            response: error.response,
+            data:
+              error.response?.['data'],
+          }
+        );
+      }
+
+      throw this.normalizePocketBaseError(
+        error
+      );
     }
   }
 
-  private normalizePocketBaseError(error: unknown): Error {
-    if (!(error instanceof ClientResponseError)) {
+  private normalizePocketBaseError(
+    error: unknown
+  ): Error {
+    if (
+      !(
+        error instanceof
+        ClientResponseError
+      )
+    ) {
       return new Error(
         'The installer application could not be submitted.'
       );
@@ -92,21 +248,41 @@ export class InstallerApplicationsService {
 
     if (error.status === 0) {
       return new Error(
-        'Could not connect to the application server. Check the connection and try again.'
+        'Could not connect to the application server.'
       );
     }
 
-    const validationMessages = Object.values(
-      error.response?.['data'] ?? {}
-    )
-      .map((fieldError: any) => fieldError?.message)
-      .filter(
-        (message): message is string =>
-          typeof message === 'string' && message.length > 0
-      );
+    const errors =
+      error.response?.['data'] ?? {};
 
-    if (validationMessages.length > 0) {
-      return new Error(validationMessages.join(' '));
+    const validationMessages =
+      Object.entries(errors)
+        .map(
+          ([field, fieldError]: [
+            string,
+            any,
+          ]) => {
+            const message =
+              fieldError?.message;
+
+            return message
+              ? `${field}: ${message}`
+              : null;
+          }
+        )
+        .filter(
+          (
+            message
+          ): message is string =>
+            Boolean(message)
+        );
+
+    if (
+      validationMessages.length > 0
+    ) {
+      return new Error(
+        validationMessages.join(' ')
+      );
     }
 
     return new Error(

@@ -70,15 +70,22 @@
 ========================================================= */
 
 .installer-hero {
+        margin-top: 90px;
   position: relative;
-  min-height: 620px;
-  display: grid;
-  place-items: center;
-  overflow: hidden;
-  padding: 100px 20px;
+  min-height: 650px;
+
   background:
-    linear-gradient(rgba(25, 21, 17, 0.68), rgba(25, 21, 17, 0.68)),
-    url('/assets/images/join-installer-hero.jpg') center / cover no-repeat;
+    linear-gradient(
+      90deg,
+      rgba(24,20,17,.88) 0%,
+      rgba(24,20,17,.55) 35%,
+      rgba(24,20,17,.15) 65%,
+      rgba(24,20,17,0) 100%
+    ),
+    url('/assets/img/join-installer-hero.jpg');
+
+  background-size: cover;
+  background-position: center;
 }
 
 .installer-hero::after {
@@ -96,6 +103,7 @@
 }
 
 .installer-hero-content {
+    padding-top: 25px;
   position: relative;
   z-index: 1;
   max-width: 820px;
@@ -273,8 +281,7 @@
 .eligibility-card {
   padding: 34px;
   border-radius: 24px;
-  background:
-    linear-gradient(145deg, #2a241f, #191511);
+  background:linear-gradient(  145deg,  #a38b72,  #786754,  #4e4338);
   color: #fff;
   box-shadow: var(--cw-shadow);
 
@@ -773,7 +780,7 @@
 ========================================================= */
 
 .application-success {
-  margin: 36px 36px 0;
+  margin: 36px 36px 36px;
   padding: 28px;
   border: 1px solid rgba(47, 125, 77, 0.2);
   border-radius: 18px;
@@ -913,5 +920,77 @@
 @keyframes spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+#installer-application {
+  scroll-margin-top: 100px;
+}
+.hero-cta {
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+}
+
+.new-application-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  min-height: 54px;
+  padding: 0 28px;
+
+  border: 2px solid #c98a2b;
+  border-radius: 14px;
+
+  background: #ffffff;
+  color: #c98a2b;
+
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: .2px;
+
+  cursor: pointer;
+
+  transition:
+    background .25s ease,
+    color .25s ease,
+    border-color .25s ease,
+    transform .2s ease,
+    box-shadow .25s ease;
+
+  box-shadow:
+    0 8px 20px rgba(201, 138, 43, .12);
+
+  i {
+    font-size: 20px;
+    transition: transform .25s ease;
+  }
+
+  &:hover {
+    background: #c98a2b;
+    color: #fff;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+      0 14px 28px rgba(201, 138, 43, .25);
+
+    i {
+      transform: rotate(90deg);
+    }
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow:
+      0 6px 12px rgba(201, 138, 43, .18);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow:
+      0 0 0 4px rgba(201, 138, 43, .18);
   }
 }

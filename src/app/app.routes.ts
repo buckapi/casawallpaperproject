@@ -197,6 +197,29 @@ export const routes: Routes = [
     },
   },
   {
+  path: 'leadsDashboard',
+  canActivate: [adminGuard],
+  loadComponent: () =>
+    import('./page/dashboard/leads/leads').then(c => c.Leads),
+  title: 'Installer Leads',
+  data: {
+    description: 'Manage residential and commercial installer leads.',
+    canonical: '/leadsDashboard',
+  },
+},
+{
+  path: 'leadDetailsDashboard/:requestId',
+  canActivate: [adminGuard],
+  loadComponent: () =>
+    import('./page/dashboard/lead-details/lead-details')
+      .then(c => c.LeadDetails),
+  title: 'Lead Details',
+  data: {
+    description: 'Review and manage an installer lead.',
+    canonical: '/leadDetailDashboard',
+  },
+},
+  {
     path: 'blogDashboard',
     canActivate: [adminGuard],
     loadComponent: () =>

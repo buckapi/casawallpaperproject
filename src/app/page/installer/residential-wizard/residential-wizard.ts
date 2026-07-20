@@ -21,17 +21,17 @@ export class ResidentialWizard {
   requestSent = false;
   selectedResidentialProjectTypes: string[] = [];
   residentialProjectTypes = [
-  { label: 'Accent Wall', value: 'accent_wall' },
-  { label: 'Mural', value: 'mural' },
-  { label: 'Bedroom', value: 'bedroom' },
-  { label: 'Bathroom', value: 'bathroom' },
-  { label: 'Living Room', value: 'living_room' },
-  { label: 'Dining Room', value: 'dining_room' },
-  { label: 'Hallway', value: 'hallway' },
-  { label: 'Stairwell', value: 'stairwell' },
-  { label: 'Ceiling', value: 'ceiling' },
-  { label: 'Other', value: 'other' },
-];
+    { label: 'Accent Wall', value: 'accent_wall' },
+    { label: 'Mural', value: 'mural' },
+    { label: 'Bedroom', value: 'bedroom' },
+    { label: 'Bathroom', value: 'bathroom' },
+    { label: 'Living Room', value: 'living_room' },
+    { label: 'Dining Room', value: 'dining_room' },
+    { label: 'Hallway', value: 'hallway' },
+    { label: 'Stairwell', value: 'stairwell' },
+    { label: 'Ceiling', value: 'ceiling' },
+    { label: 'Other', value: 'other' },
+  ];
   selectedLocation: {
     formattedAddress: string;
     city: string;
@@ -87,120 +87,120 @@ export class ResidentialWizard {
   photoPreviews: string[] = [];
   photoError = '';
   wizardSteps = [
-  { value: 1, label: 'Intro', icon: 'ph-camera' },
-  { value: 2, label: 'Location', icon: 'ph-map-pin' },
-  { value: 3, label: 'Project', icon: 'ph-house-line' },
-  { value: 4, label: 'Height', icon: 'ph-ruler' },
-  { value: 5, label: 'Timeline', icon: 'ph-clock' },
-  { value: 6, label: 'Wallpaper', icon: 'ph-scroll' },
-  { value: 7, label: 'Photos', icon: 'ph-images' },
-  { value: 8, label: 'Review', icon: 'ph-clipboard-text' },
-  { value: 9, label: 'Submit', icon: 'ph-user' },
-];
-stepError = '';
-  constructor(private ngZone: NgZone,   private cdr: ChangeDetectorRef,  private appRef: ApplicationRef) { }
+    { value: 1, label: 'Intro', icon: 'ph-camera' },
+    { value: 2, label: 'Location', icon: 'ph-map-pin' },
+    { value: 3, label: 'Project', icon: 'ph-house-line' },
+    { value: 4, label: 'Height', icon: 'ph-ruler' },
+    { value: 5, label: 'Timeline', icon: 'ph-clock' },
+    { value: 6, label: 'Wallpaper', icon: 'ph-scroll' },
+    { value: 7, label: 'Photos', icon: 'ph-images' },
+    { value: 8, label: 'Review', icon: 'ph-clipboard-text' },
+    { value: 9, label: 'Submit', icon: 'ph-user' },
+  ];
+  stepError = '';
+  constructor(private ngZone: NgZone, private cdr: ChangeDetectorRef, private appRef: ApplicationRef) { }
 
   nextStep() {
-  this.stepError = '';
+    this.stepError = '';
 
-  if (!this.validateCurrentStep()) {
-    return;
-  }
+    if (!this.validateCurrentStep()) {
+      return;
+    }
 
-  if (this.currentStep < this.totalSteps) {
-    this.currentStep++;
+    if (this.currentStep < this.totalSteps) {
+      this.currentStep++;
 
-    if (this.currentStep === 2) {
-      setTimeout(() => this.initGoogleAutocomplete(), 300);
+      if (this.currentStep === 2) {
+        setTimeout(() => this.initGoogleAutocomplete(), 300);
+      }
     }
   }
-}
-validateCurrentStep(): boolean {
-  switch (this.currentStep) {
-    case 1:
-      return true;
+  validateCurrentStep(): boolean {
+    switch (this.currentStep) {
+      case 1:
+        return true;
 
-    case 2:
-      return this.isLocationValid();
+      case 2:
+        return this.isLocationValid();
 
-    case 3:
-      if (!this.selectedResidentialProjectTypes) {
-        this.stepError = 'Please select a project type.';
-        return false;
-      }
-      return true;
+      case 3:
+        if (!this.selectedResidentialProjectTypes) {
+          this.stepError = 'Please select a project type.';
+          return false;
+        }
+        return true;
 
-    case 4:
-      if (!this.selectedCeilingHeight) {
-        this.stepError = 'Please select your ceiling height.';
-        return false;
-      }
-      return true;
+      case 4:
+        if (!this.selectedCeilingHeight) {
+          this.stepError = 'Please select your ceiling height.';
+          return false;
+        }
+        return true;
 
-    case 5:
-      if (!this.selectedTimeline) {
-        this.stepError = 'Please select your timeline.';
-        return false;
-      }
-      return true;
+      case 5:
+        if (!this.selectedTimeline) {
+          this.stepError = 'Please select your timeline.';
+          return false;
+        }
+        return true;
 
-    case 6:
-      if (!this.selectedWallpaper) {
-        this.stepError = 'Please select a wallpaper option.';
-        return false;
-      }
-      return true;
+      case 6:
+        if (!this.selectedWallpaper) {
+          this.stepError = 'Please select a wallpaper option.';
+          return false;
+        }
+        return true;
 
-    case 7:
-      if (!this.uploadedPhotos.length) {
-        this.photoError = 'Please upload at least one photo.';
-        return false;
-      }
-      return true;
+      case 7:
+        if (!this.uploadedPhotos.length) {
+          this.photoError = 'Please upload at least one photo.';
+          return false;
+        }
+        return true;
 
-    case 8:
-      return true;
+      case 8:
+        return true;
 
-    case 9:
-      if (!this.fullName.trim() || !this.email.trim() || !this.phone.trim()) {
-        this.submitError = 'Please enter your name, email and phone number.';
-        return false;
-      }
+      case 9:
+        if (!this.fullName.trim() || !this.email.trim() || !this.phone.trim()) {
+          this.submitError = 'Please enter your name, email and phone number.';
+          return false;
+        }
 
-      if (!this.isEmailValid(this.email)) {
-        this.submitError = 'Please enter a valid email address.';
-        return false;
-      }
+        if (!this.isEmailValid(this.email)) {
+          this.submitError = 'Please enter a valid email address.';
+          return false;
+        }
 
-      return true;
+        return true;
 
-    default:
-      return true;
+      default:
+        return true;
+    }
   }
-}
-toggleResidentialProjectType(value: string): void {
-  if (this.selectedResidentialProjectTypes.includes(value)) {
-    this.selectedResidentialProjectTypes =
-      this.selectedResidentialProjectTypes.filter(item => item !== value);
-    return;
+  toggleResidentialProjectType(value: string): void {
+    if (this.selectedResidentialProjectTypes.includes(value)) {
+      this.selectedResidentialProjectTypes =
+        this.selectedResidentialProjectTypes.filter(item => item !== value);
+      return;
+    }
+
+    this.selectedResidentialProjectTypes = [
+      ...this.selectedResidentialProjectTypes,
+      value
+    ];
   }
 
-  this.selectedResidentialProjectTypes = [
-    ...this.selectedResidentialProjectTypes,
-    value
-  ];
-}
+  getSelectedProjectTypeLabel(): string {
+    return this.selectedResidentialProjectTypes
+      .map(value => this.residentialProjectTypes.find(item => item.value === value)?.label)
+      .filter(Boolean)
+      .join(', ');
+  }
+  isEmailValid(email: string): boolean {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+  }
 
-getSelectedProjectTypeLabel(): string {
-  return this.selectedResidentialProjectTypes
-    .map(value => this.residentialProjectTypes.find(item => item.value === value)?.label)
-    .filter(Boolean)
-    .join(', ');
-}
-isEmailValid(email: string): boolean {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
-}
-  
   onPhotosSelected(event: Event) {
     const input = event.target as HTMLInputElement;
 
@@ -212,42 +212,42 @@ isEmailValid(email: string): boolean {
   }
 
   handlePhotos(files: File[]) {
-  this.photoError = '';
+    this.photoError = '';
 
-  const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
-  const maxSize = 10 * 1024 * 1024;
-  const maxFiles = 6;
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+    const maxSize = 10 * 1024 * 1024;
+    const maxFiles = 6;
 
-  for (const file of files) {
-    if (!allowedTypes.includes(file.type)) {
-      this.photoError = 'Only JPG, PNG or WEBP images are allowed.';
-      continue;
+    for (const file of files) {
+      if (!allowedTypes.includes(file.type)) {
+        this.photoError = 'Only JPG, PNG or WEBP images are allowed.';
+        continue;
+      }
+
+      if (file.size > maxSize) {
+        this.photoError = 'Each image must be 10MB or less.';
+        continue;
+      }
+
+      if (this.uploadedPhotos.length >= maxFiles) {
+        this.photoError = `You can upload up to ${maxFiles} photos.`;
+        break;
+      }
+
+      this.uploadedPhotos = [...this.uploadedPhotos, file];
+
+      this.photoPreviews = [
+        ...this.photoPreviews,
+        URL.createObjectURL(file)
+      ];
     }
 
-    if (file.size > maxSize) {
-      this.photoError = 'Each image must be 10MB or less.';
-      continue;
-    }
-
-    if (this.uploadedPhotos.length >= maxFiles) {
-      this.photoError = `You can upload up to ${maxFiles} photos.`;
-      break;
-    }
-
-    this.uploadedPhotos = [...this.uploadedPhotos, file];
-
-    this.photoPreviews = [
-      ...this.photoPreviews,
-      URL.createObjectURL(file)
-    ];
+    this.cdr.detectChanges();
   }
-
-  this.cdr.detectChanges();
-}
-removePhoto(index: number) {
-  this.uploadedPhotos = this.uploadedPhotos.filter((_, i) => i !== index);
-  this.photoPreviews = this.photoPreviews.filter((_, i) => i !== index);
-}
+  removePhoto(index: number) {
+    this.uploadedPhotos = this.uploadedPhotos.filter((_, i) => i !== index);
+    this.photoPreviews = this.photoPreviews.filter((_, i) => i !== index);
+  }
   initGoogleAutocomplete() {
     if (this.autocompleteInitialized) return;
     if (!this.locationInput?.nativeElement) return;
@@ -338,151 +338,187 @@ removePhoto(index: number) {
     return Array.from({ length: this.totalSteps }, (_, i) => i + 1);
   }
 
- async submitRequest() {
-  if (!this.validateCurrentStep()) return;
-  if (this.isSubmitting) return;
+  async submitRequest() {
+    if (!this.validateCurrentStep()) return;
+    if (this.isSubmitting) return;
 
-  if (!this.fullName.trim() || !this.phone.trim() || !this.email.trim()) {
-    this.submitError = 'Please enter your name, email and phone number.';
-    return;
-  }
+    if (!this.fullName.trim() || !this.phone.trim() || !this.email.trim()) {
+      this.submitError = 'Please enter your name, email and phone number.';
+      return;
+    }
 
-  try {
-    this.isSubmitting = true;
-    this.submitError = '';
+    try {
+      this.isSubmitting = true;
+      this.submitError = '';
 
-    const requestData = {
-      status: 'sent',
+      const requestData = {
+        status: 'new',
 
-      project_type: 'residential',
-      source: 'website',
+        project_type: 'residential',
+        source: 'website',
 
-      city: this.selectedLocation?.city || this.city || '',
-      zip_code: this.selectedLocation?.zipCode || this.zipCode || '',
-      state: this.selectedLocation?.state || '',
-      state_code: this.selectedLocation?.stateCode || this.state || '',
-      country: this.selectedLocation?.countryCode || 'US',
-      formatted_address: this.selectedLocation?.formattedAddress || '',
+        city: this.selectedLocation?.city || this.city || '',
+        zip_code: this.selectedLocation?.zipCode || this.zipCode || '',
+        state: this.selectedLocation?.state || '',
+        state_code: this.selectedLocation?.stateCode || this.state || '',
+        country: this.selectedLocation?.countryCode || 'US',
+        formatted_address: this.selectedLocation?.formattedAddress || '',
 
-      lat: this.selectedLocation?.lat || 0,
-      lng: this.selectedLocation?.lng || 0,
+        lat: this.selectedLocation?.lat || 0,
+        lng: this.selectedLocation?.lng || 0,
 
-      space_type: this.selectedResidentialProjectTypes.join(','),
-project_category_label: this.getSelectedProjectTypeLabel(),
+        space_type: this.selectedResidentialProjectTypes.join(','),
+        project_category_label: this.getSelectedProjectTypeLabel(),
 
-      wallpaper_type: this.selectedWallpaper,
-      height_m: this.mapCeilingHeightToMeters(),
-      desired_date: this.mapTimelineToDate(),
-      intention_level: this.mapTimelineToIntentionLevel(),
+        wallpaper_type: this.selectedWallpaper,
+        height_m: this.mapCeilingHeightToMeters(),
+        desired_date: this.mapTimelineToDate(),
+        intention_level: this.mapTimelineToIntentionLevel(),
 
-      max_leads: 3,
-      sold_leads: 0,
-      is_available: true,
+        max_leads: 3,
+        sold_leads: 0,
+        is_available: true,
 
-      client_name: this.fullName.trim(),
-      client_email: this.email.trim(),
-      client_phone: this.phone.trim(),
-    };
+        client_name: this.fullName.trim(),
+        client_email: this.email.trim(),
+        client_phone: this.phone.trim(),
+      };
 
-    const requestRecord = await this.pb.collection('requests').create(requestData);
+      const requestRecord = await this.pb.collection('requests').create(requestData);
+      await this.pb.collection('request_status_history').create({
+        request: requestRecord.id,
+        new_status: 'new',
+        note: 'Request submitted from website'
+      });
 
-    const photoIds: string[] = [];
+      try {
+        await this.pb.collection('admin_notifications').create({
+          type: 'new_lead',
+          title: 'New residential installer request',
+          message: `${this.fullName.trim()} submitted a residential installer request in ${this.selectedLocation?.city || this.city
+            }, ${this.selectedLocation?.stateCode || this.state
+            } ${this.selectedLocation?.zipCode || this.zipCode
+            }.`,
+          request: requestRecord.id,
+          read: false
+        });
+      } catch (notificationError) {
+        console.error(
+          'Request created, but admin notification failed:',
+          notificationError
+        );
+      }
+      try {
+        await this.pb.collection('admin_notifications').create({
+          type: 'new_lead',
+          title: 'New residential installer request',
+          message: `${this.fullName.trim()} submitted a residential installer request.`,
+          request: requestRecord.id,
+          read: false
+        });
+      } catch (notificationError) {
+        console.error(
+          'Request created, but admin notification failed:',
+          notificationError
+        );
+      }
+      const photoIds: string[] = [];
 
-    for (const [index, photo] of this.uploadedPhotos.entries()) {
-  const photoData = new FormData();
+      for (const [index, photo] of this.uploadedPhotos.entries()) {
+        const photoData = new FormData();
 
-  photoData.append('request_id', requestRecord.id);
-  photoData.append('file', photo);
-  photoData.append('sort_order', String(index + 1));
+        photoData.append('request_id', requestRecord.id);
+        photoData.append('file', photo);
+        photoData.append('sort_order', String(index + 1));
 
-  const photoRecord = await this.pb
-    .collection('request_photos')
-    .create(photoData);
+        const photoRecord = await this.pb
+          .collection('request_photos')
+          .create(photoData);
 
-  photoIds.push(photoRecord.id);
-}
+        photoIds.push(photoRecord.id);
+      }
 
-    if (photoIds.length > 0) {
-      await this.pb.collection('requests').update(requestRecord.id, {
+      if (photoIds.length > 0) {
+        await this.pb.collection('requests').update(requestRecord.id, {
+          photos: photoIds,
+        });
+      }
+
+      this.ngZone.run(() => {
+        this.isSubmitting = false;
+        this.requestSent = true;
+        this.cdr.detectChanges();
+
+      });
+      this.appRef.tick();
+      console.log('Request created:', {
+        request: requestRecord,
         photos: photoIds,
+      });
+
+    } catch (error: any) {
+      console.error('Error creating request:', error);
+      console.error('PocketBase error data:', error?.data);
+
+      this.ngZone.run(() => {
+        this.submitError =
+          error?.data?.data
+            ? JSON.stringify(error.data.data)
+            : 'We could not send your request. Please try again.';
+
+        this.isSubmitting = false;
+        this.cdr.detectChanges();
+
       });
     }
 
-    this.ngZone.run(() => {
-      this.isSubmitting = false;
-      this.requestSent = true;
-        this.cdr.detectChanges();
-
-    });
-    this.appRef.tick();
-    console.log('Request created:', {
-      request: requestRecord,
-      photos: photoIds,
-    });
-
-  }  catch (error: any) {
-  console.error('Error creating request:', error);
-  console.error('PocketBase error data:', error?.data);
-
-  this.ngZone.run(() => {
-    this.submitError =
-      error?.data?.data
-        ? JSON.stringify(error.data.data)
-        : 'We could not send your request. Please try again.';
-
-    this.isSubmitting = false;
-      this.cdr.detectChanges();
-
-  });
-}
-
-}
+  }
   mapCeilingHeightToMeters(): number {
-  switch (this.selectedCeilingHeight) {
-    case '8 ft or less':
-      return 2.44;
-    case '9 - 10 ft':
-      return 3.05;
-    case 'Over 10 ft':
-      return 3.35;
-    default:
-      return 0;
-  }
-}
-
-mapTimelineToDate(): string {
-  const date = new Date();
-
-  switch (this.selectedTimeline) {
-    case 'ASAP':
-      date.setDate(date.getDate() + 3);
-      break;
-    case 'Within 1 - 2 Weeks':
-      date.setDate(date.getDate() + 14);
-      break;
-    case 'Within 1 Month':
-      date.setMonth(date.getMonth() + 1);
-      break;
-    default:
-      date.setMonth(date.getMonth() + 2);
-      break;
+    switch (this.selectedCeilingHeight) {
+      case '8 ft or less':
+        return 2.44;
+      case '9 - 10 ft':
+        return 3.05;
+      case 'Over 10 ft':
+        return 3.35;
+      default:
+        return 0;
+    }
   }
 
-  return date.toISOString();
-}
+  mapTimelineToDate(): string {
+    const date = new Date();
 
-mapTimelineToIntentionLevel(): string {
-  switch (this.selectedTimeline) {
-    case 'ASAP':
-      return 'high';
-    case 'Within 1 - 2 Weeks':
-      return 'medium';
-    case 'Within 1 Month':
-      return 'medium';
-    default:
-      return 'low';
+    switch (this.selectedTimeline) {
+      case 'ASAP':
+        date.setDate(date.getDate() + 3);
+        break;
+      case 'Within 1 - 2 Weeks':
+        date.setDate(date.getDate() + 14);
+        break;
+      case 'Within 1 Month':
+        date.setMonth(date.getMonth() + 1);
+        break;
+      default:
+        date.setMonth(date.getMonth() + 2);
+        break;
+    }
+
+    return date.toISOString();
   }
-}
+
+  mapTimelineToIntentionLevel(): string {
+    switch (this.selectedTimeline) {
+      case 'ASAP':
+        return 'high';
+      case 'Within 1 - 2 Weeks':
+        return 'medium';
+      case 'Within 1 Month':
+        return 'medium';
+      default:
+        return 'low';
+    }
+  }
   onZipInput() {
     this.zipCode = this.zipCode.replace(/\D/g, '').slice(0, 5);
 

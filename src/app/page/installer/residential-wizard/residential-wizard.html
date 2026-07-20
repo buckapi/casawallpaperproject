@@ -33,7 +33,7 @@
       </div>
 
       @if (requestSent) {
-      <div class="submitted-card">
+      <!-- <div class="submitted-card">
         <div class="submitted-illustration">
           <div class="submitted-circle">
             <i class="ph ph-envelope-simple"></i>
@@ -69,7 +69,39 @@
             <span>→</span>
           </button>
         </div>
-      </div>
+      </div> -->
+      <div class="submitted-card">
+  <div class="submitted-content">
+    <h1>We received your request!</h1>
+
+    <p>
+      Casa Wallpaper is reviewing your project and will contact you with the next steps.
+    </p>
+
+    <div class="submitted-alert">
+      <i class="ph ph-check-circle"></i>
+      Your request has been saved successfully.
+    </div>
+
+    <div class="submitted-note">
+      <i class="ph ph-envelope"></i>
+
+      <span>
+        Please keep an eye on your email and text messages.
+        <br>
+        We’ll contact you as soon as your request has been reviewed.
+      </span>
+    </div>
+
+    <button
+      type="button"
+      class="next-btn submitted-btn"
+      routerLink="/installer">
+      Start another request
+      <span>→</span>
+    </button>
+  </div>
+</div>
       } @else {
 
       @switch (currentStep) {

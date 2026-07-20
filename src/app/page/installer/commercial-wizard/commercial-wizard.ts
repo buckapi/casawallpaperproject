@@ -69,7 +69,7 @@ export class CommercialWizard {
     { value: 7, label: 'Review', icon: 'ph-list-checks' },
     { value: 8, label: 'Submit', icon: 'ph-user' },
   ];
-  constructor(private ngZone: NgZone,   private cdr: ChangeDetectorRef) { }
+  constructor(private ngZone: NgZone, private cdr: ChangeDetectorRef) { }
 
   spaceTypes = [
     { label: 'Office', value: 'office', icon: 'ph-buildings' },
@@ -480,7 +480,7 @@ export class CommercialWizard {
       this.submitError = '';
 
       const requestData = {
-        status: 'sent',
+        status: 'new',
 
         project_type: 'commercial',
         source: 'website',
@@ -517,7 +517,33 @@ export class CommercialWizard {
         client_phone: this.phone.trim(),
       };
 
-      const requestRecord = await this.pb.collection('requests').create(requestData);
+      const requestRecord = await this.pb
+        .collection('requests')
+        .create(requestData);
+
+      await this.pb.collection('request_status_history').create({
+        request: requestRecord.id,
+        new_status: 'new',
+        note: 'Request submitted from website'
+      });
+
+      try {
+        await this.pb.collection('admin_notifications').create({
+          type: 'new_lead',
+          title: 'New commercial installer request',
+          message: `${this.fullName.trim()} submitted a commercial installer request in ${this.selectedLocation?.city || ''
+            }, ${this.selectedLocation?.stateCode || ''
+            } ${this.selectedLocation?.zipCode || ''
+            }.`,
+          request: requestRecord.id,
+          read: false
+        });
+      } catch (notificationError) {
+        console.error(
+          'Commercial request created, but admin notification failed:',
+          notificationError
+        );
+      }
 
       const photoIds: string[] = [];
 

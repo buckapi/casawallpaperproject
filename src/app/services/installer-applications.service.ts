@@ -5,7 +5,7 @@ import PocketBase, {
 } from 'pocketbase';
 
 export const POCKETBASE_URL =
-  'https://db.buckapi.site:8091';
+  'https://db.buckapi.site:8055';
 
 export const INSTALLER_APPLICATIONS_COLLECTION =
   'installer_applications';

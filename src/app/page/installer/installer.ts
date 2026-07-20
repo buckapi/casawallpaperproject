@@ -24,4 +24,17 @@ export class Installer {
     if (!this.selectedAudience) return;
     this.router.navigate(['/installer', this.selectedAudience]);
   }
+  goBack() {
+  this.router.navigate(['/']).then(() => {
+    setTimeout(() => {
+      document
+        .getElementById('help-section')
+        ?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+    }, 100);
+  });
+}
+
 }

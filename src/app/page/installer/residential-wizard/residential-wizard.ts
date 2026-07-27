@@ -80,7 +80,7 @@ export class ResidentialWizard {
 
   wallpaperOptions = [
     'Yes, I already have wallpaper',
-    'No, help me find wallpaper',
+    'No, help me Find the Right Wallpaper',
   ];
   autocompleteInitialized = false;
   uploadedPhotos: File[] = [];
@@ -545,4 +545,49 @@ export class ResidentialWizard {
     this.locationError = 'Please select a valid location from the suggestions.';
     return false;
   }
+  startAnotherRequest(): void {
+  this.requestSent = false;
+  this.currentStep = 1;
+
+  this.selectedResidentialProjectTypes = [];
+  this.selectedCeilingHeight = '';
+  this.selectedTimeline = '';
+  this.selectedWallpaper = '';
+
+  this.locationQuery = '';
+  this.selectedLocation = null;
+  this.locationError = '';
+  this.city = '';
+  this.state = '';
+  this.zipCode = '';
+
+  this.fullName = '';
+  this.email = '';
+  this.phone = '';
+
+  this.uploadedPhotos.forEach((_, index) => {
+    const preview = this.photoPreviews[index];
+
+    if (preview?.startsWith('blob:')) {
+      URL.revokeObjectURL(preview);
+    }
+  });
+
+  this.uploadedPhotos = [];
+  this.photoPreviews = [];
+  this.photoError = '';
+
+  this.submitError = '';
+  this.stepError = '';
+  this.isSubmitting = false;
+
+  this.autocompleteInitialized = false;
+
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth',
+  });
+
+  this.cdr.detectChanges();
+}
 }

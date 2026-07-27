@@ -33,75 +33,54 @@
       </div>
 
       @if (requestSent) {
-      <!-- <div class="submitted-card">
-        <div class="submitted-illustration">
-          <div class="submitted-circle">
-            <i class="ph ph-envelope-simple"></i>
-            <span>
-              <i class="ph ph-shield-check"></i>
-            </span>
-          </div>
-        </div>
-
+      <div class="submitted-card">
         <div class="submitted-content">
+
+          <div class="submitted-success-icon">
+            <i class="ph ph-check-circle"></i>
+          </div>
+
           <h1>Your project has been submitted!</h1>
 
           <p>
-            Your request has been sent to up to 3 trusted installers in your area.
+            Your request was saved successfully. Qualified independent installers
+            may contact you directly about pricing and availability.
           </p>
 
           <div class="submitted-alert">
-            <i class="ph ph-lightning"></i>
-            Most homeowners receive their first response within a few hours.
+            <i class="ph ph-shield-check"></i>
+            Submitting your request is free and does not obligate you to hire anyone.
           </div>
 
           <div class="submitted-note">
             <i class="ph ph-envelope"></i>
+
             <span>
-              Please keep an eye on your email or text message.
+              Keep an eye on your email and text messages.
               <br>
-              We’ll notify you as soon as an installer reaches out.
+              Response times may vary depending on your location and project.
             </span>
           </div>
 
-          <button class="next-btn submitted-btn" type="button" routerLink="/installer">
-            Start another request
-            <span>→</span>
-          </button>
+          <div class="submitted-actions">
+
+            <button type="button" class="next-btn submitted-btn submitted-btn-primary" (click)="startAnotherRequest()">
+              Start Another Request
+              <span>→</span>
+            </button>
+
+            <button type="button" class="submitted-btn-secondary" routerLink="/wallpaper">
+              <i class="ph ph-scroll"></i>
+              Find the Right Wallpaper
+            </button>
+
+            <button type="button" class="submitted-btn-link" routerLink="/home">
+              Return to Home
+            </button>
+
+          </div>
         </div>
-      </div> -->
-      <div class="submitted-card">
-  <div class="submitted-content">
-    <h1>We received your request!</h1>
-
-    <p>
-      Casa Wallpaper is reviewing your project and will contact you with the next steps.
-    </p>
-
-    <div class="submitted-alert">
-      <i class="ph ph-check-circle"></i>
-      Your request has been saved successfully.
-    </div>
-
-    <div class="submitted-note">
-      <i class="ph ph-envelope"></i>
-
-      <span>
-        Please keep an eye on your email and text messages.
-        <br>
-        We’ll contact you as soon as your request has been reviewed.
-      </span>
-    </div>
-
-    <button
-      type="button"
-      class="next-btn submitted-btn"
-      routerLink="/installer">
-      Start another request
-      <span>→</span>
-    </button>
-  </div>
-</div>
+      </div>
       } @else {
 
       @switch (currentStep) {
@@ -308,7 +287,7 @@
       <h1>Send your project request</h1>
 
       <p class="description">
-        This will be sent to the installers you selected.
+        Share your contact details so qualified installers can reach you.
       </p>
 
       <div class="contact-grid">
@@ -322,18 +301,56 @@
           <label>Phone Number</label>
           <input type="tel" placeholder="(704) 555-1234" [(ngModel)]="phone">
         </div>
+
         @if (submitError) {
         <small class="field-error">
           {{ submitError }}
         </small>
         }
+
         <div class="info-card">
           <i class="ph ph-paper-plane-tilt"></i>
-          <h3>We'll do the rest!</h3>
+
+          <h3>What happens next?</h3>
+
           <p>
-            The best installers in your area will review your project and contact you soon.
+            Qualified independent installers may review your project and
+            contact you about pricing and availability.
           </p>
-          <small>Usually within 24 hours.</small>
+
+          <small>Response times may vary by location.</small>
+        </div>
+      </div>
+
+      <div class="submit-trust-box">
+        <div class="submit-trust-heading">
+          <i class="ph ph-shield-check"></i>
+
+          <div>
+            <strong>Submitting your project request is free.</strong>
+
+            <p>
+              No obligation. Qualified independent installers may contact you
+              directly about pricing and availability.
+            </p>
+          </div>
+        </div>
+
+        <div class="submit-trust-indicators">
+          <span>
+            <i class="ph ph-check-circle"></i>
+            Free to submit
+          </span>
+
+          <span>
+            <i class="ph ph-check-circle"></i>
+            No obligation
+          </span>
+
+          <span>
+            <i class="ph ph-check-circle"></i>
+            You choose the installer
+          </span>
         </div>
       </div>
       }
@@ -364,7 +381,7 @@
 
           @if (currentStep === 9) {
           <button class="next-btn" type="button" [disabled]="isSubmitting" (click)="submitRequest()">
-            {{ isSubmitting ? 'Sending...' : 'Send Project Request' }}
+            {{ isSubmitting ? 'Submitting...' : 'Submit Project Request' }}
             <span>→</span>
           </button>
           }

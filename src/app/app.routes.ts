@@ -112,7 +112,7 @@ export const routes: Routes = [
     path: 'wallpaper',
     loadComponent: () =>
       import('./page/wallpaper/wallpaper').then(c => c.Wallpaper),
-    title: 'Find Wallpaper',
+    title: 'Find the Right Wallpaper',
     data: {
       description: 'Read our calculator page for using our services.',
       canonical: '/wallpaper',

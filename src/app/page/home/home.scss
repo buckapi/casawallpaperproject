@@ -334,9 +334,9 @@
 .commercial-tag {
     background-color: #c98a2b; 
 }
-.cw-help-section{
-  padding:120px 0;
-  background:#f7f4ef;
+.cw-help-section {
+  padding: 100px 0;
+  background: #f7f4ef;
 }
 
 .cw-help-header{
@@ -361,11 +361,7 @@
   color:#666;
 }
 
-.cw-help-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:24px;
-}
+
 
 .cw-help-card{
   background:#fff;
@@ -408,9 +404,7 @@
 
 @media(max-width:991px){
 
-  .cw-help-grid{
-    grid-template-columns:1fr 1fr;
-  }
+ 
 
   .cw-help-header h2{
     font-size:42px;
@@ -419,13 +413,11 @@
 
 @media(max-width:767px){
 
-  .cw-help-section{
-    padding:70px 0;
+  .cw-help-section {
+    padding: 65px 0;
   }
 
-  .cw-help-grid{
-    grid-template-columns:1fr;
-  }
+ 
 
   .cw-help-header h2{
     font-size:34px;
@@ -755,7 +747,7 @@
     padding-right: 0;
   }
 
-  .cw-help-section,
+ 
   .cw-transformations-section,
   .cw-testimonials {
     padding: 55px 0;
@@ -795,9 +787,10 @@
   line-height: 1;
 }
 
-.cw-help-card span i {
-  font-size: 24px;
+
+.cw-help-card span {
   color: #c98a2b;
+  font-size: 24px;
 }
 
 .cw-help-card:hover .cw-help-icon i {
@@ -1071,10 +1064,10 @@
 .cw-estimate-card input,
 .cw-estimate-card select {
   width: 100%;
-  height: 42px;
-  border: 1px solid #ded8d0;
-  border-radius: 7px;
-  padding: 0 12px;
+  height: 46px;
+  border: 1.5px solid #d5c6b5;
+  border-radius: 8px;
+  padding: 0 14px;
   background: #fff;
   color: #333;
   font-size: 14px;
@@ -1082,23 +1075,24 @@
 }
 
 .cw-radio-row {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 14px;
   margin: 8px 0 20px;
 }
 
 .cw-radio-row label {
-  height: 38px;
-  min-width: 98px;
+  width: 100%;
+  height: 42px;
+  min-width: 0;
   margin: 0;
   padding: 0 12px;
-  border: 1px solid #ded8d0;
-  border-radius: 7px;
+  border: 1.5px solid #d5c6b5;
+  border-radius: 8px;
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  font-weight: 600;
+  justify-content: center;
+  gap: 9px;
 }
 
 .cw-estimate-card button {
@@ -1350,3 +1344,257 @@
     font-size: 18px;
   }
 }
+.cw-help-section {
+  padding: 100px 0;
+  background: #f7f4ef;
+}
+
+.cw-section-title b {
+  color: #c98a2b;
+  font-weight: inherit;
+}
+
+.cw-help-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.cw-help-card {
+  --card-accent: #c98a2b;
+  --card-soft: #fff8ed;
+
+  position: relative;
+  min-height: 360px;
+  padding: 42px 32px 34px;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  text-align: left;
+  background: #fff;
+  border: 1px solid #e8e0d6;
+  border-top: 5px solid var(--card-accent);
+  border-radius: 18px;
+
+  cursor: pointer;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.cw-help-card::before {
+  content: "";
+  position: absolute;
+  top: -70px;
+  right: -70px;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: var(--card-soft);
+  transition: transform 0.3s ease;
+}
+
+.cw-help-card:hover {
+  transform: translateY(-8px);
+  border-color: var(--card-accent);
+  box-shadow: 0 22px 45px rgba(40, 30, 20, 0.11);
+}
+
+.cw-help-card:hover::before {
+  transform: scale(1.12);
+}
+
+.cw-help-card:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--card-accent) 35%, transparent);
+  outline-offset: 4px;
+}
+
+.cw-help-icon {
+  position: relative;
+  z-index: 1;
+
+  width: 68px;
+  height: 68px;
+  margin-bottom: 28px;
+  border-radius: 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: var(--card-soft);
+  color: var(--card-accent);
+}
+
+.cw-help-icon i {
+  font-size: 38px;
+  line-height: 1;
+}
+
+.cw-help-card h3 {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 16px;
+
+  font-size: 29px;
+  line-height: 1.15;
+  color: #17130f;
+}
+
+.cw-help-card p {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 28px;
+  min-height: auto;
+
+  font-size: 17px;
+  line-height: 1.65;
+  color: #665f58;
+}
+
+.cw-help-link {
+  position: relative;
+  z-index: 1;
+
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  color: var(--card-accent);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.cw-help-link i {
+  font-size: 18px;
+  transition: transform 0.25s ease;
+}
+
+.cw-help-card:hover .cw-help-link i {
+  transform: translateX(5px);
+}
+
+/* Installer */
+.cw-help-card-installer {
+  --card-accent: #b87925;
+  --card-soft: #fff5e6;
+}
+
+/* Wallpaper */
+.cw-help-card-wallpaper {
+  --card-accent: #536b5d;
+  --card-soft: #edf4ef;
+}
+
+/* Calculator */
+.cw-help-card-calculator {
+  --card-accent: #6b667d;
+  --card-soft: #f1eff7;
+}
+
+@media (max-width: 991px) {
+  .cw-help-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .cw-help-card:last-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 767px) {
+  .cw-help-section {
+    padding: 65px 0;
+  }
+
+  .cw-help-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cw-help-card,
+  .cw-help-card:last-child {
+    grid-column: auto;
+  }
+
+  .cw-help-card {
+    min-height: 310px;
+    padding: 34px 26px 28px;
+  }
+
+  .cw-help-card h3 {
+    font-size: 25px;
+  }
+
+  .cw-help-card p {
+    font-size: 16px;
+  }
+}
+.cw-estimate-card {
+  width: 100%;
+  max-width: 420px;
+  background: #fff;
+  border: 1px solid #e5d8ca;
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 22px 50px rgba(44, 32, 20, 0.16);
+}
+
+.cw-estimate-card input,
+.cw-estimate-card select {
+  width: 100%;
+  height: 46px;
+  border: 1.5px solid #d5c6b5;
+  border-radius: 8px;
+  padding: 0 14px;
+  background: #fff;
+  color: #333;
+  font-size: 14px;
+  outline: none;
+}
+
+.cw-estimate-card input:focus,
+.cw-estimate-card select:focus {
+  border-color: #c98a2b;
+  box-shadow: 0 0 0 3px rgba(201, 138, 43, 0.12);
+}
+
+.cw-radio-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin: 8px 0 20px;
+}
+
+.cw-radio-row label {
+  width: 100%;
+  height: 42px;
+  min-width: 0;
+  margin: 0;
+  padding: 0 12px;
+  border: 1.5px solid #d5c6b5;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+}
+
+.zip-location-confirmation {
+  margin-top: 8px;
+  padding: 9px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #d8e4d9;
+  border-radius: 7px;
+  background: #f3f8f4;
+  color: #3f6249;
+  font-size: 13px;
+  font-weight: 600;
+}
+

@@ -799,3 +799,139 @@ h1 {
 .submitted-btn {
   margin-top: 22px;
 }
+
+.submit-trust-box {
+  margin-top: 24px;
+  padding: 20px;
+  border: 1px solid #ded3c5;
+  border-radius: 14px;
+  background: #fffaf2;
+}
+
+.submit-trust-heading {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.submit-trust-heading > i {
+  flex: 0 0 auto;
+  margin-top: 2px;
+  color: #c98a2b;
+  font-size: 28px;
+}
+
+.submit-trust-heading strong {
+  display: block;
+  margin-bottom: 6px;
+  color: #1c1814;
+  font-size: 17px;
+}
+
+.submit-trust-heading p {
+  margin: 0;
+  color: #655e56;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.submit-trust-indicators {
+  margin-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+}
+
+.submit-trust-indicators span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #4e4943;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.submit-trust-indicators i {
+  color: #668164;
+  font-size: 17px;
+}
+
+@media (max-width: 767px) {
+  .submit-trust-box {
+    padding: 17px;
+  }
+
+  .submit-trust-indicators {
+    flex-direction: column;
+    gap: 9px;
+  }
+}
+.submitted-actions {
+  width: 100%;
+  margin-top: 26px;
+  display: grid;
+  gap: 12px;
+}
+
+.submitted-btn-primary {
+  width: 100%;
+}
+
+.submitted-btn-secondary {
+  width: 100%;
+  min-height: 50px;
+  padding: 0 20px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+
+  border: 1px solid #c98a2b;
+  border-radius: 9px;
+  background: #fff;
+  color: #b87820;
+
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.submitted-btn-secondary:hover {
+  background: #fff8ec;
+  transform: translateY(-1px);
+}
+
+.submitted-btn-link {
+  width: 100%;
+  padding: 10px;
+
+  border: 0;
+  background: transparent;
+  color: #5e5851;
+
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.submitted-btn-link:hover {
+  color: #c98a2b;
+  text-decoration: underline;
+}
+
+.submitted-success-icon {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+  background: #edf7ef;
+  color: #5d825f;
+  font-size: 42px;
+}

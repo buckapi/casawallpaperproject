@@ -30,84 +30,35 @@
       </div>
 
       @if (requestSent) {
-<!-- <div class="submitted-card">
-  <div class="submitted-illustration">
-    <div class="submitted-circle">
-      <i class="ph ph-envelope-simple"></i>
-      <span>
-        <i class="ph ph-shield-check"></i>
-      </span>
-    </div>
-  </div>
+      <div class="submitted-card">
+        <div class="submitted-content">
+          <h1>We received your request!</h1>
 
-  <div class="submitted-content">
-  <h1>Your project has been submitted!</h1>
+          <p>
+            Your project has been submitted and may be reviewed by qualified commercial
+            wallpaper installers. </p>
 
-  <p>
-    Your request has been sent to up to 3 trusted installers in your area.
-  </p>
+          <div class="submitted-alert">
+            <i class="ph ph-check-circle"></i>
+            Your request has been saved successfully.
+          </div>
 
-  <div class="submitted-alert">
-    <i class="ph ph-lightning"></i>
-    Qualified commercial installers typically respond within a few hours.
-  </div>
+          <div class="submitted-note">
+            <i class="ph ph-envelope"></i>
 
-  <div class="submitted-note">
-    <i class="ph ph-envelope"></i>
-    <span>
-      Please keep an eye on your email or text message.
-      <br>
-      We’ll notify you as soon as an installer reaches out.
-    </span>
-  </div>
+            <span>
+              Please keep an eye on your email and text messages.
+              <br>
+              Qualified installers may contact you directly about pricing and availability. </span>
+          </div>
 
-  <div class="submitted-actions">
-    <button class="next-btn submitted-btn" type="button" routerLink="/installer">
-      Start another request
-      <span>→</span>
-    </button>
-
-    <button class="next-btn submitted-btn secondary" type="button" routerLink="/wallpaper">
-      Help me find wallpaper
-      <span>→</span>
-    </button>
-  </div>
-
-</div>
-</div> -->
-<div class="submitted-card">
-  <div class="submitted-content">
-    <h1>We received your request!</h1>
-
-    <p>
-      Casa Wallpaper is reviewing your project and will contact you with the next steps.
-    </p>
-
-    <div class="submitted-alert">
-      <i class="ph ph-check-circle"></i>
-      Your request has been saved successfully.
-    </div>
-
-    <div class="submitted-note">
-      <i class="ph ph-envelope"></i>
-
-      <span>
-        Please keep an eye on your email and text messages.
-        <br>
-        We’ll contact you as soon as your request has been reviewed.
-      </span>
-    </div>
-
-    <button
-      type="button"
-      class="next-btn submitted-btn"
-      routerLink="/installer">
-      Start another request
-      <span>→</span>
-    </button>
-  </div>
-</div>
-} @else {
+          <button type="button" class="next-btn submitted-btn" routerLink="/installer">
+            Start another request
+            <span>→</span>
+          </button>
+        </div>
+      </div>
+      } @else {
 
       @switch (currentStep) {
 
@@ -199,90 +150,80 @@
       }
 
       @case (6) {
-<h1>Upload photos or files relevant to the project</h1>
+      <h1>Upload photos or files relevant to the project</h1>
 
-<p class="description">
-  Select the categories of files you want to upload, then attach the files below.
-</p>
+      <p class="description">
+        Select the categories of files you want to upload, then attach the files below.
+      </p>
 
-<div class="file-category-grid">
-  @for (category of fileCategories; track category) {
-  <button
-    type="button"
-    class="file-category-option"
-    [class.selected]="selectedFileCategories.includes(category)"
-    (click)="toggleFileCategory(category)">
-    <span></span>
-    {{ category }}
-  </button>
-  }
-</div>
+      <div class="file-category-grid">
+        @for (category of fileCategories; track category) {
+        <button type="button" class="file-category-option" [class.selected]="selectedFileCategories.includes(category)"
+          (click)="toggleFileCategory(category)">
+          <span></span>
+          {{ category }}
+        </button>
+        }
+      </div>
 
-@if (selectedFileCategories.includes('Other')) {
-<div class="form-block large other-file-category">
-  <label>Other document type</label>
-  <input
-    type="text"
-    placeholder="Write another document type"
-    [(ngModel)]="otherFileCategory">
-</div>
-}
+      @if (selectedFileCategories.includes('Other')) {
+      <div class="form-block large other-file-category">
+        <label>Other document type</label>
+        <input type="text" placeholder="Write another document type" [(ngModel)]="otherFileCategory">
+      </div>
+      }
 
-<label class="upload-box upload-box-clean">
-  <input
-    type="file"
-    multiple
-    accept="image/jpeg,image/png,image/webp,application/pdf"
-    hidden
-    (change)="onFilesSelected($event)">
+      <label class="upload-box upload-box-clean">
+        <input type="file" multiple accept="image/jpeg,image/png,image/webp,application/pdf" hidden
+          (change)="onFilesSelected($event)">
 
-  <i class="ph ph-cloud-arrow-up"></i>
-  <strong>Upload photos</strong>
-  <span>Click to browse or drag and drop</span>
-  <small>JPG, PNG or WEBP up to 10MB each</small>
-</label>
+        <i class="ph ph-cloud-arrow-up"></i>
+        <strong>Upload photos</strong>
+        <span>Click to browse or drag and drop</span>
+        <small>JPG, PNG or WEBP up to 10MB each</small>
+      </label>
 
-@if (fileError) {
-<small class="field-error">
-  {{ fileError }}
-</small>
-}
+      @if (fileError) {
+      <small class="field-error">
+        {{ fileError }}
+      </small>
+      }
 
-@if (filePreviews.length > 0) {
-<div class="uploaded-header">
-  <strong>Uploaded Photos</strong>
-  <span>({{ filePreviews.length }})</span>
-  <small>You can upload up to 8 files</small>
-</div>
+      @if (filePreviews.length > 0) {
+      <div class="uploaded-header">
+        <strong>Uploaded Photos</strong>
+        <span>({{ filePreviews.length }})</span>
+        <small>You can upload up to 8 files</small>
+      </div>
 
-<div class="photo-preview-grid clean-preview-grid">
-  @for (file of filePreviews; track file.name; let i = $index) {
-  <div class="photo-preview-card clean-preview-card">
-    <button type="button" class="remove-photo-btn" (click)="removeFile(i)">
-      ×
-    </button>
+      <div class="photo-preview-grid clean-preview-grid">
+        @for (file of filePreviews; track file.name; let i = $index) {
+        <div class="photo-preview-card clean-preview-card">
+          <button type="button" class="remove-photo-btn" (click)="removeFile(i)">
+            ×
+          </button>
 
-    @if (file.url) {
-    <img [src]="file.url" alt="Uploaded project file">
-    } @else {
-    <div class="file-preview">
-      <i class="ph ph-file-pdf"></i>
-      <span>{{ file.name }}</span>
-    </div>
-    }
+          @if (file.url) {
+          <img [src]="file.url" alt="Uploaded project file">
+          } @else {
+          <div class="file-preview">
+            <i class="ph ph-file-pdf"></i>
+            <span>{{ file.name }}</span>
+          </div>
+          }
 
-    <div class="uploaded-file-info">
-      <strong>{{ file.name }}</strong>
-      <span>
-        <i class="ph ph-check-circle"></i>
-        Uploaded
-      </span>
-    </div>
-  </div>
-  }
-</div>
-}
-}
+          <div class="uploaded-file-info">
+            <strong>{{ file.name }}</strong>
+            <span>
+              <i class="ph ph-check-circle"></i>
+              Uploaded
+            </span>
+          </div>
+        </div>
+        }
+      </div>
+      }
+      }
 
       @case (7) {
       <span class="review-label">REVIEW</span>
@@ -374,32 +315,28 @@
         </div>
 
         <div class="info-card">
-  <i class="ph ph-paper-plane-tilt"></i>
+          <i class="ph ph-paper-plane-tilt"></i>
 
-  <h3>We’ll do the rest.</h3>
+          <h3>We’ll do the rest.</h3>
 
-  <p>
-    Qualified installers send their first response within a few hours.
-    Keep an eye on your email and text messages so you don’t miss a reply.
-  </p>
+          <p>
+            Your project will be reviewed by qualified commercial wallpaper installers.
+            Most respond within a few hours.
+          </p>
 
-  <button
-    class="next-btn info-card-btn"
-    type="button"
-    [disabled]="isSubmitting"
-    (click)="submitRequest()">
-    {{ isSubmitting ? 'Sending...' : 'Send Project Request' }}
-    <span>→</span>
-  </button>
-</div>
+          <button class="next-btn info-card-btn" type="button" [disabled]="isSubmitting" (click)="submitRequest()">
+            {{ isSubmitting ? 'Sending...' : 'Send Project Request' }}
+            <span>→</span>
+          </button>
+        </div>
       </div>
       }
       }
       @if (stepError) {
-<small class="field-error step-error">
-  {{ stepError }}
-</small>
-}
+      <small class="field-error step-error">
+        {{ stepError }}
+      </small>
+      }
       <div class="actions">
         <button class="back-btn" type="button" [routerLink]="currentStep === 1 ? '/installer' : null"
           (click)="currentStep > 1 && previousStep()">
@@ -418,7 +355,7 @@
           }
 
           @if (currentStep === 8) {
-         <!--  <button class="next-btn" type="button" [disabled]="isSubmitting" (click)="submitRequest()">
+          <!--  <button class="next-btn" type="button" [disabled]="isSubmitting" (click)="submitRequest()">
             {{ isSubmitting ? 'Sending...' : 'Send Project Request' }}
             <span>→</span>
           </button> -->

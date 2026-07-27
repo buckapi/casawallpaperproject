@@ -1,6 +1,8 @@
 <section class="cw-commercial-hero">
-
   <div class="cw-commercial-copy">
+    <span class="prep-eyebrow">
+      COMMERCIAL WALLCOVERING PROJECTS
+    </span>
 
     <h1>
       Commercial
@@ -9,64 +11,52 @@
     </h1>
 
     <p>
-      Professional installation for designers,
-      builders, hospitality, offices and
-      large-scale commercial spaces.
+      Connect with qualified commercial wallpaper installers for design,
+      construction, property management and large-scale business projects.
     </p>
 
     <div class="cw-commercial-benefits">
-
       <div>
         <i class="ph ph-shield-check"></i>
-        <span>Experienced Professionals</span>
+        <span>Qualified Professionals</span>
       </div>
 
       <div>
-        <i class="ph ph-users-three"></i>
-        <span>Reliable & Responsive</span>
+        <i class="ph ph-file-text"></i>
+        <span>Project Documentation</span>
       </div>
 
       <div>
-        <i class="ph ph-seal-check"></i>
-        <span>Premium Results</span>
+        <i class="ph ph-buildings"></i>
+        <span>Commercial Experience</span>
       </div>
-
     </div>
-
   </div>
 
   <div class="cw-commercial-image">
-
     <img
       src="assets/img/hero/07.jpg"
-      alt="Commercial Wallpaper"
+      alt="Commercial wallpaper installation project"
     />
-
   </div>
-
 </section>
-<section class="cw-commercial-steps">
-
-  <!-- <div class="active">
-    <span>1</span>
-    Project Type
+<section class="cw-commercial-audience">
+  <div class="cw-section-heading">
+    <span>BUILT FOR COMMERCIAL PROJECTS</span>
+    <h2>Who is this for?</h2>
+    <p>
+      Submit project requirements and supporting documents in one place.
+    </p>
   </div>
 
-  <div>
-    <span>2</span>
-    Project Details
+  <div class="cw-audience-grid">
+    @for (audience of audiences; track audience.label) {
+      <article class="cw-audience-card">
+        <i [class]="audience.icon"></i>
+        <strong>{{ audience.label }}</strong>
+      </article>
+    }
   </div>
-
-  <div>
-    <span>3</span>
-    Review Summary
-  </div>
-
-  <div>
-    <span>4</span>
-    Submit
-  </div> -->
-
 </section>
 <section class="cw-commercial-section">
   <h2>Select your project type</h2>
@@ -106,56 +96,473 @@
 </section>
 
 <!-- Formulario envuelto en la directiva formGroup -->
-<section class="cw-commercial-form">
-  <h2>Tell us more about your project</h2>
-  
-  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="cw-form-grid">
-    
-    <label>
-      <span>Project Type</span>
-      <select formControlName="projectType">
-        <option value="" disabled>Select an option</option>
-        <option *ngFor="let type of projectTypes" [value]="type">{{ type }}</option>
-      </select>
-    </label>
+@if (!requestSent) {
 
-    <label>
-      <span>Estimated Timeline</span>
-      <select formControlName="timeline">
-        <option value="" disabled>Select an option</option>
-        <option *ngFor="let time of timelineOptions" [value]="time">{{ time }}</option>
-      </select>
-    </label>
+  <!-- FORMULARIO COMERCIAL -->
+  <section class="cw-commercial-form">
+    <h2>Tell us more about your project</h2>
 
-    <label>
-      <span>Wall Conditions</span>
-      <select formControlName="wallConditions">
-        <option value="" disabled>Select an option</option>
-        <option *ngFor="let condition of wallConditions" [value]="condition">{{ condition }}</option>
-      </select>
-    </label>
+    <p>
+      Add the property details, project files and mandatory requirements.
+    </p>
 
-    <label>
-      <span>Approximate Square Footage</span>
-      <select formControlName="squareFootage">
-        <option value="" disabled>Select an option</option>
-        <option *ngFor="let sqft of squareFootageOptions" [value]="sqft">{{ sqft }}</option>
-      </select>
-    </label>
+    <form
+      [formGroup]="form"
+      (ngSubmit)="onSubmit()"
+      class="cw-form-grid"
+    >
 
-    <label class="full">
-      <span>Anything else we should know?</span>
-      <textarea rows="5" formControlName="additionalInfo" placeholder="Describe any specific requirements..."></textarea>
-    </label>
+      <!-- 1 -->
+      <label>
+        <span>Property Type</span>
 
-    <div class="full">
-      <button type="submit" class="cw-btn-black" [disabled]="form.invalid">
-        Get Summary & Submit
+        <select formControlName="propertyType">
+          <option value="" disabled>Select an option</option>
+
+          @for (type of propertyTypes; track type) {
+            <option [value]="type">
+              {{ type }}
+            </option>
+          }
+        </select>
+      </label>
+
+      <!-- 2 -->
+      <label>
+        <span>Project Scope</span>
+
+        <select formControlName="projectScope">
+          <option value="" disabled>Select an option</option>
+
+          @for (scope of projectScopeOptions; track scope) {
+            <option [value]="scope">
+              {{ scope }}
+            </option>
+          }
+        </select>
+      </label>
+
+      <!-- 3 -->
+      <label>
+        <span>Estimated Timeline</span>
+
+        <select formControlName="timeline">
+          <option value="" disabled>Select an option</option>
+
+          @for (time of timelineOptions; track time) {
+            <option [value]="time">
+              {{ time }}
+            </option>
+          }
+        </select>
+      </label>
+
+      <!-- 4 -->
+      <label>
+        <span>Wall Conditions</span>
+
+        <select formControlName="wallConditions">
+          <option value="" disabled>Select an option</option>
+
+          @for (condition of wallConditions; track condition) {
+            <option [value]="condition">
+              {{ condition }}
+            </option>
+          }
+        </select>
+      </label>
+
+      <!-- 5 -->
+      <label>
+        <span>Approximate Square Footage</span>
+
+        <select formControlName="squareFootage">
+          <option value="" disabled>Select an option</option>
+
+          @for (sqft of squareFootageOptions; track sqft) {
+            <option [value]="sqft">
+              {{ sqft }}
+            </option>
+          }
+        </select>
+      </label>
+
+      <!-- 6 -->
+      <label class="full">
+        <span>Anything else we should know?</span>
+
+        <textarea
+          rows="5"
+          formControlName="additionalInfo"
+          placeholder="Describe the installation areas, access requirements, wall preparation needs or special project conditions."
+        ></textarea>
+      </label>
+
+      <!-- PROJECT FILES -->
+      <div class="full cw-commercial-subsection">
+        <div class="cw-subsection-heading">
+          <div>
+            <h3>Project Files</h3>
+
+            <p>
+              Select the types of files included with this project.
+            </p>
+          </div>
+        </div>
+
+        <div class="cw-file-type-grid">
+          @for (fileType of fileTypes; track fileType.value) {
+            <button
+              type="button"
+              class="cw-file-type-card"
+              [class.active]="selectedFileTypes.includes(fileType.value)"
+              (click)="toggleFileType(fileType.value)"
+            >
+              <i [class]="fileType.icon"></i>
+
+              <span>{{ fileType.label }}</span>
+
+              <i class="ph ph-check-circle cw-file-check"></i>
+            </button>
+          }
+        </div>
+
+        <label class="cw-upload-box">
+          <input
+            type="file"
+            multiple
+            accept="image/jpeg,image/png,image/webp,application/pdf"
+            hidden
+            (change)="onFilesSelected($event)"
+          />
+
+          <i class="ph ph-cloud-arrow-up"></i>
+
+          <strong>Upload project files</strong>
+
+          <span>
+            Photos, blueprints, floor plans, layouts,
+            elevations or finish schedules
+          </span>
+
+          <small>
+            JPG, PNG, WEBP or PDF · Up to 20 MB each
+          </small>
+        </label>
+
+        @if (fileError) {
+          <small class="cw-field-error">
+            {{ fileError }}
+          </small>
+        }
+
+        @if (uploadedFiles.length > 0) {
+          <div class="cw-uploaded-files">
+            @for (
+              file of uploadedFiles;
+              track file.name;
+              let index = $index
+            ) {
+              <article class="cw-uploaded-file">
+                <i
+                  [class]="
+                    file.type === 'application/pdf'
+                      ? 'ph ph-file-pdf'
+                      : 'ph ph-image'
+                  "
+                ></i>
+
+                <div>
+                  <strong>{{ file.name }}</strong>
+                  <small>{{ formatFileSize(file.size) }}</small>
+                </div>
+
+                <button
+                  type="button"
+                  aria-label="Remove file"
+                  (click)="removeFile(index)"
+                >
+                  <i class="ph ph-x"></i>
+                </button>
+              </article>
+            }
+          </div>
+        }
+      </div>
+
+      <!-- REQUIRED DOCUMENTS -->
+      <div class="full cw-commercial-subsection">
+        <div class="cw-subsection-heading">
+          <div>
+            <h3>Required Documents</h3>
+
+            <p>
+              Only select documents that are mandatory for your project.
+            </p>
+          </div>
+        </div>
+
+        <div class="cw-document-grid">
+          @for (document of requiredDocuments; track document) {
+            <button
+              type="button"
+              class="cw-document-option"
+              [class.active]="selectedDocuments.includes(document)"
+              (click)="toggleDocument(document)"
+            >
+              <span class="cw-document-checkbox">
+                <i class="ph ph-check"></i>
+              </span>
+
+              {{ document }}
+            </button>
+          }
+        </div>
+
+        @if (selectedDocuments.includes('Other')) {
+          <label class="cw-other-document">
+            <span>Other required document</span>
+
+            <input
+              type="text"
+              formControlName="otherRequiredDocument"
+              placeholder="Enter another required document"
+            />
+          </label>
+        }
+      </div>
+
+      <!-- CONTACT INFORMATION -->
+      <div class="full cw-commercial-subsection">
+        <div class="cw-subsection-heading">
+          <div>
+            <h3>Contact Information</h3>
+
+            <p>
+              Provide the main contact for this commercial project.
+            </p>
+          </div>
+        </div>
+
+        <div class="cw-contact-form-grid">
+          <label>
+            <span>Full Name</span>
+
+            <input
+              type="text"
+              formControlName="fullName"
+              placeholder="Full name"
+            />
+          </label>
+
+          <label>
+            <span>Company</span>
+
+            <input
+              type="text"
+              formControlName="company"
+              placeholder="Company or organization"
+            />
+          </label>
+
+          <label>
+            <span>Email</span>
+
+            <input
+              type="email"
+              formControlName="email"
+              placeholder="name@company.com"
+            />
+          </label>
+
+          <label>
+            <span>Phone</span>
+
+            <input
+              type="tel"
+              formControlName="phone"
+              placeholder="(704) 555-1234"
+            />
+          </label>
+        </div>
+      </div>
+
+      <!-- SUBMIT -->
+      <div class="full cw-submit-area">
+        <div class="cw-submit-help">
+          <i class="ph ph-shield-check"></i>
+
+          <div>
+            <strong>
+              Submitting your commercial project is free.
+            </strong>
+
+            <p>
+              Qualified independent installers may contact you directly
+              about requirements, pricing and availability.
+            </p>
+          </div>
+        </div>
+
+        @if (submitError) {
+          <div class="cw-submit-error">
+            <i class="ph ph-warning-circle"></i>
+            <span>{{ submitError }}</span>
+          </div>
+        }
+
+        <button
+          type="submit"
+          class="cw-btn-black"
+          [disabled]="form.invalid || isSubmitting"
+        >
+          {{ isSubmitting
+            ? 'Submitting...'
+            : 'Get Summary & Submit'
+          }}
+
+          <i class="ph ph-arrow-right"></i>
+        </button>
+      </div>
+
+    </form>
+  </section>
+
+  <!-- RESUMEN -->
+  <section
+    class="cw-summary-card"
+    *ngIf="form.dirty"
+  >
+    <h2>Your project summary</h2>
+
+    <table>
+      <tr>
+        <td>Project Type</td>
+        <td>
+          <strong>
+            {{ form.get('projectType')?.value || '-' }}
+          </strong>
+        </td>
+      </tr>
+
+      <tr>
+        <td>Property Type</td>
+        <td>
+          {{ form.get('propertyType')?.value || '-' }}
+        </td>
+      </tr>
+
+      <tr>
+        <td>Project Scope</td>
+        <td>
+          {{ form.get('projectScope')?.value || '-' }}
+        </td>
+      </tr>
+
+      <tr>
+        <td>Estimated Timeline</td>
+        <td>
+          {{ form.get('timeline')?.value || '-' }}
+        </td>
+      </tr>
+
+      <tr>
+        <td>Wall Conditions</td>
+        <td>
+          {{ form.get('wallConditions')?.value || '-' }}
+        </td>
+      </tr>
+
+      <tr>
+        <td>Approximate Square Footage</td>
+        <td>
+          {{ form.get('squareFootage')?.value || '-' }}
+        </td>
+      </tr>
+
+      <tr>
+        <td>Project Files</td>
+        <td>
+          {{ uploadedFiles.length }}
+          {{ uploadedFiles.length === 1 ? 'file' : 'files' }}
+        </td>
+      </tr>
+
+      <tr>
+        <td>File Types</td>
+        <td>
+          {{
+            selectedFileTypes.length
+              ? getSelectedFileTypeLabels()
+              : '-'
+          }}
+        </td>
+      </tr>
+
+      <tr>
+        <td>Required Documents</td>
+        <td>
+          {{
+            selectedDocuments.length
+              ? selectedDocuments.join(', ')
+              : '-'
+          }}
+        </td>
+      </tr>
+
+      <tr>
+        <td>Additional Information</td>
+        <td>
+          {{ form.get('additionalInfo')?.value || '-' }}
+        </td>
+      </tr>
+    </table>
+  </section>
+
+} @else {
+
+  <!-- MENSAJE DE ENVÍO -->
+  <section class="cw-commercial-success">
+    <div class="cw-success-icon">
+      <i class="ph ph-check-circle"></i>
+    </div>
+
+    <span>PROJECT SUBMITTED</span>
+
+    <h1>
+      Your commercial project has been submitted!
+    </h1>
+
+    <p>
+      Your request and supporting files were saved successfully.
+    </p>
+
+    <div class="cw-success-info">
+      <i class="ph ph-clock"></i>
+
+      <div>
+        <strong>What happens next?</strong>
+
+        <p>
+          Qualified commercial wallpaper installers may review
+          your project and contact you about pricing and availability.
+        </p>
+      </div>
+    </div>
+
+    <div class="cw-success-actions">
+      <button
+        type="button"
+        class="cw-btn-black"
+        (click)="startAnotherRequest()"
+      >
+        Start Another Request
         <i class="ph ph-arrow-right"></i>
       </button>
     </div>
-  </form>
-</section>
+  </section>
+
+}
 
 <!-- Tarjeta de Resumen (Se actualiza automáticamente) -->
 <section class="cw-summary-card" *ngIf="form.dirty">

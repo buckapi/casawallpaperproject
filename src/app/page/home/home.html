@@ -7,14 +7,13 @@
 
     <div class="cw-hero-inner">
         <div class="cw-hero-copy">
-            <h1>
+            <h2>
                 Wallpaper <br>
-                <strong>Installation</strong>
-            </h1>
+                <strong style="color: #c98a2b;">made easier.</strong>
+            </h2>
 
             <p>
-                Designed to impress. <br>
-                Installed with care.
+                Find wallpaper, calculate quantity, and connect with qualified installers.
             </p>
 
             <div class="cw-estimate-card">
@@ -24,8 +23,8 @@
                     </div>
 
                     <div>
-                        <h3>Looking for an estimate?</h3>
-                        <span>Enter a few details to get started.</span>
+                        <h3>Start your wallpaper project</h3>
+                        <span>Tell us a few details to find the right installer.</span>
                     </div>
                 </div>
 
@@ -60,13 +59,18 @@
                 }
                 <label>How soon are you looking to start?</label>
 
-                <select class="cw-native-select" name="timeline" [(ngModel)]="timeline"
-                    (ngModelChange)="formError = ''">
-                    <option value="">Select an option</option>
-                    <option value="As soon as possible">As soon as possible</option>
-                    <option value="In 1-2 weeks">In 1-2 weeks</option>
-                    <option value="In 1 month">In 1 month</option>
-                </select>
+                <select
+  class="cw-native-select"
+  name="timeline"
+  [(ngModel)]="timeline"
+  (ngModelChange)="formError = ''"
+>
+  <option value="">Select an option</option>
+  <option value="ASAP">ASAP</option>
+  <option value="Within 1–2 Weeks">Within 1–2 Weeks</option>
+  <option value="Within 1 Month">Within 1 Month</option>
+  <option value="Not sure yet">Not sure yet</option>
+</select>
 
                 <label>Do you already have measurements?</label>
                 <div class="cw-radio-row">
@@ -85,10 +89,18 @@
                     {{ locationError || formError }}
                 </small>
                 }
-                <button type="button" [disabled]="isSavingSearch" (click)="findInstaller()">
+               <!--  <button type="button" [disabled]="isSavingSearch" (click)="findInstaller()">
                     {{ isSavingSearch ? 'Searching...' : 'Find My Installer' }}
                     <i class="fas fa-arrow-right"></i>
-                </button>
+                </button> -->
+                <button
+  type="button"
+  [disabled]="isSavingSearch"
+  (click)="findInstaller()"
+>
+  {{ isSavingSearch ? 'Searching...' : 'Connect With an Installer' }}
+  <i class="fas fa-arrow-right"></i>
+</button>
             </div>
         </div>
 
@@ -121,65 +133,88 @@
         <div class="cw-section-title">
 
             <h2>
+                <!-- Connect With an <b style="color: #c98a2b;">Installer</b> -->
+
                 What do you need <b style="color: #c98a2b;">help</b> with today?
             </h2>
 
-            <p>Choose an option below and we'll guide you to the right solution.</p>
+            <p><!-- Choose an option below and we'll guide you to the right solution. -->
+                Share your project and connect with qualified wallpaper installers.
+            </p>
         </div>
 
         <div class="cw-help-grid">
 
-
-
-            <div class="cw-help-card" (click)="goTo($event, '/installer')">
-                <div class="cw-help-icon">
-                    <i class="ph-light ph-user"></i>
-                </div>
-
-                <h3>Find My Installer</h3>
-
-                <p>
-                    Connect with a trusted wallpaper installer near you.
-                </p>
-
-                <span>
-                    <i class="ph ph-caret-right"></i>
-                </span>
-            </div>
-
-            <div class="cw-help-card" (click)="goTo($event, '/wallpaper')">
-                <div class="cw-help-icon">
-                    <i class="ph-light ph-scroll"></i>
-                </div>
-
-                <h3>Find Wallpaper</h3>
-
-                <p>
-                    Explore our collections and find the perfect match.
-                </p>
-
-                <span>
-                    <i class="ph ph-caret-right"></i>
-                </span>
-            </div>
-
-            <div class="cw-help-card" (click)="goTo($event, '/estimate')">
-                <div class="cw-help-icon">
-                    <i class="ph-light ph-ruler"></i>
-                </div>
-
-                <h3>Calculate Quantity</h3>
-
-                <p>
-                    Calculate how much wallpaper you need.
-                </p>
-
-                <span>
-                    <i class="ph ph-caret-right"></i>
-                </span>
-            </div>
-
+      <article
+        class="cw-help-card cw-help-card-installer"
+        role="link"
+        tabindex="0"
+        (click)="goTo($event, '/installer')"
+        (keydown.enter)="goTo($event, '/installer')"
+      >
+        <div class="cw-help-icon">
+          <i class="ph-light ph-user-circle-check"></i>
         </div>
+
+        <h3>Connect With an Installer</h3>
+
+        <p>
+          Share your project and connect with qualified wallpaper installers.
+        </p>
+
+        <span class="cw-help-link">
+          Start your project
+          <i class="ph ph-arrow-right"></i>
+        </span>
+      </article>
+
+      <article
+        class="cw-help-card cw-help-card-wallpaper"
+        role="link"
+        tabindex="0"
+        (click)="goTo($event, '/wallpaper')"
+        (keydown.enter)="goTo($event, '/wallpaper')"
+      >
+        <div class="cw-help-icon">
+          <i class="ph-light ph-scroll"></i>
+        </div>
+
+        <h3>Find the Right Wallpaper</h3>
+
+        <p>
+          Discover trusted wallpaper websites and local stores.
+        </p>
+
+        <span class="cw-help-link">
+          Explore wallpaper
+          <i class="ph ph-arrow-right"></i>
+        </span>
+      </article>
+
+      <article
+        class="cw-help-card cw-help-card-calculator"
+        role="link"
+        tabindex="0"
+        (click)="goTo($event, '/estimate')"
+        (keydown.enter)="goTo($event, '/estimate')"
+      >
+        <div class="cw-help-icon">
+          <i class="ph-light ph-ruler"></i>
+        </div>
+
+        <h3>Calculate Quantity</h3>
+
+        <p>
+          Estimate how much wallpaper your project may require.
+        </p>
+
+        <span class="cw-help-link">
+          Calculate now
+          <i class="ph ph-arrow-right"></i>
+        </span>
+      </article>
+
+    </div>
 
     </div>
 

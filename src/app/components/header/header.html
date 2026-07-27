@@ -31,7 +31,8 @@
                                     <a href="/gallery" (click)="goTo($event, '/gallery')">Our Work</a>
                                 </li>
                                 <li [class.active-link]="activeRoute === '/gallery'">
-                                    <a href="/join-installer" (click)="goTo($event, '/join-installer')">Become an Installer</a>
+                                    <a href="/join-installer" (click)="goTo($event, '/join-installer')">Become an
+                                        Installer</a>
                                 </li>
                                 <li [class.active-link]="activeRoute === '/contact'">
                                     <a href="/contact" (click)="goTo($event, '/contact')">Contact Us</a>
@@ -40,10 +41,10 @@
                                     <a href="/blog-post" (click)="goTo($event, '/blog-post')">Blog</a>
                                 </li>
                                 <li [class.active-link]="activeRoute === '/homeDashboard'">
-    <a routerLink="/dashboard/login" class="admin-access">
-  Admin
-</a>
-</li>
+                                    <a routerLink="/dashboard/login" class="admin-access">
+                                        Admin
+                                    </a>
+                                </li>
                             </ul>
                         </nav>
                     </div>
@@ -52,7 +53,9 @@
                         <button type="button" class="cw-btn-primary desktop-estimate-btn"
                             (click)="goTo($event, '/installer')">
                             <i class="fas fa-calendar-check"></i>
-                            Get Your Estimate
+                            <!-- Get Your Estimate -->
+                            Start Your Project
+
                             <i class="fas fa-chevron-right"></i>
                         </button>
 
@@ -69,13 +72,13 @@
                         (click)="goTo($event, '/commercial')">Commercial Work</a>
                     <a href="/gallery" [class.active]="activeRoute === '/gallery'"
                         (click)="goTo($event, '/gallery')">Our Work</a>
-                        <a href="/blog-post" [class.active]="activeRoute === '/blog-post'"
+                    <a href="/blog-post" [class.active]="activeRoute === '/blog-post'"
                         (click)="goTo($event, '/blog-post')">Blog</a>
                     <a href="/contact" [class.active]="activeRoute === '/contact'"
                         (click)="goTo($event, '/contact')">Contact Us</a>
                     <a routerLink="/dashboard/login">
-  Admin
-</a>
+                        Admin
+                    </a>
                     <div class="mobile-help-grid">
                         <button type="button" class="mobile-help-card" (click)="goTo($event, '/installer')">
                             <i class="ph-light ph-user"></i>

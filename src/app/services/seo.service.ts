@@ -1,69 +1,160 @@
 import { Injectable, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
-import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
+import {
+  ActivatedRoute,
+  NavigationEnd,
+  Router,
+} from '@angular/router';
 import { filter, map, mergeMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SeoService {
-  private title = inject(Title);
-  private meta = inject(Meta);
-  private router = inject(Router);
-  private activatedRoute = inject(ActivatedRoute);
+  private readonly titleService = inject(Title);
+  private readonly meta = inject(Meta);
+  private readonly router = inject(Router);
+  private readonly activatedRoute = inject(ActivatedRoute);
 
-  private siteUrl = 'https://casainstall.com';
+  private readonly siteUrl = 'https://casawallpaper.com';
 
-  init() {
+  private readonly defaultTitle =
+    'Casa Wallpaper | Find Wallpaper Installers and Project Resources';
+
+  private readonly defaultDescription =
+    'Find wallpaper installers, calculate project quantities and explore resources for residential and commercial wallpaper projects.';
+
+  init(): void {
     this.router.events
       .pipe(
-        filter(event => event instanceof NavigationEnd),
-        map(() => this.activatedRoute),
-        map(route => {
-          while (route.firstChild) route = route.firstChild;
+        filter(
+          (event): event is NavigationEnd =>
+            event instanceof NavigationEnd
+        ),
+        map(() => {
+          let route = this.activatedRoute;
+
+          while (route.firstChild) {
+            route = route.firstChild;
+          }
+
           return route;
         }),
         mergeMap(route => route.data)
       )
       .subscribe(data => {
-        const title = data['title'] || 'Casa Wallpaper | Premium Wallpaper Installation';
-        const description = data['description'] || 'Premium wallpaper installation services in Raleigh, NC.';
-        const canonical = data['canonical'] || this.router.url;
+        const title = data['title'] || this.defaultTitle;
+        const description =
+          data['description'] || this.defaultDescription;
+        const canonical =
+          data['canonical'] || this.cleanRouterUrl(this.router.url);
+        const robots = data['robots'] || 'index, follow';
+        const image =
+          data['image'] || '/assets/img/og-image.jpg';
 
-        this.updateTags(title, description, canonical);
+        this.updateTags({
+          title,
+          description,
+          canonical,
+          robots,
+          image,
+        });
       });
   }
 
-  private updateTags(title: string, description: string, canonical: string) {
-    const url = `${this.siteUrl}${canonical}`;
+  private updateTags(config: {
+    title: string;
+    description: string;
+    canonical: string;
+    robots: string;
+    image: string;
+  }): void {
+    const canonicalUrl = this.buildUrl(config.canonical);
+    const imageUrl = this.buildUrl(config.image);
 
-    this.title.setTitle(title);
+    this.titleService.setTitle(config.title);
 
-    this.meta.updateTag({ name: 'description', content: description });
-    this.meta.updateTag({ name: 'robots', content: 'index, follow' });
+    this.meta.updateTag({
+      name: 'description',
+      content: config.description,
+    });
 
-    this.meta.updateTag({ property: 'og:title', content: title });
-    this.meta.updateTag({ property: 'og:description', content: description });
-    this.meta.updateTag({ property: 'og:type', content: 'website' });
-    this.meta.updateTag({ property: 'og:url', content: url });
+    this.meta.updateTag({
+      name: 'robots',
+      content: config.robots,
+    });
+
+    this.meta.updateTag({
+      property: 'og:title',
+      content: config.title,
+    });
+
+    this.meta.updateTag({
+      property: 'og:description',
+      content: config.description,
+    });
+
+    this.meta.updateTag({
+      property: 'og:type',
+      content: 'website',
+    });
+
+    this.meta.updateTag({
+      property: 'og:url',
+      content: canonicalUrl,
+    });
+
     this.meta.updateTag({
       property: 'og:image',
-      content: `${this.siteUrl}/assets/img/og-image.jpg`,
+      content: imageUrl,
     });
 
-    this.meta.updateTag({ name: 'twitter:card', content: 'summary_large_image' });
-    this.meta.updateTag({ name: 'twitter:title', content: title });
-    this.meta.updateTag({ name: 'twitter:description', content: description });
+    this.meta.updateTag({
+      name: 'twitter:card',
+      content: 'summary_large_image',
+    });
+
+    this.meta.updateTag({
+      name: 'twitter:title',
+      content: config.title,
+    });
+
+    this.meta.updateTag({
+      name: 'twitter:description',
+      content: config.description,
+    });
+
     this.meta.updateTag({
       name: 'twitter:image',
-      content: `${this.siteUrl}/assets/img/og-image.jpg`,
+      content: imageUrl,
     });
 
-    this.setCanonical(url);
+    this.setCanonical(canonicalUrl);
   }
 
-  private setCanonical(url: string) {
-    let link: HTMLLinkElement | null = document.querySelector("link[rel='canonical']");
+  private cleanRouterUrl(url: string): string {
+    const path = url.split('?')[0].split('#')[0];
+
+    return path || '/';
+  }
+
+  private buildUrl(path: string): string {
+    if (/^https?:\/\//i.test(path)) {
+      return path;
+    }
+
+    const normalizedPath = path.startsWith('/')
+      ? path
+      : `/${path}`;
+
+    return `${this.siteUrl}${normalizedPath}`;
+  }
+
+  private setCanonical(url: string): void {
+    let link =
+      document.querySelector<HTMLLinkElement>(
+        "link[rel='canonical']"
+      );
 
     if (!link) {
       link = document.createElement('link');

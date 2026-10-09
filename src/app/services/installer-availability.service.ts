@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import PocketBase from 'pocketbase';
+import { Injectable, inject } from '@angular/core';
+import { PocketBaseService } from './pocketbase.service';
 
 export type InstallerProjectType =
   'residential' | 'commercial';
@@ -9,7 +9,7 @@ export type InstallerProjectType =
 })
 export class InstallerAvailabilityService {
   private pb =
-    new PocketBase('https://db.buckapi.site:8055');
+    inject(PocketBaseService).client;
 
   async hasAvailability(
     zipCode: string,

@@ -36,11 +36,11 @@
   
   .btn-outline-light {
     color: #333;
-    border-color: #b87322;
+    border-color: #D4B076;
     background-color: white;
     
     &:hover {
-      background-color: #b87322;
+      background-color: #D4B076;
       color: white;
     }
     
@@ -90,7 +90,7 @@
 }
 
 .result-box {
-  background: #b87322;
+  background: #D4B076;
   padding: 20px;
   border-radius: 10px;
   font-weight: bold;
@@ -103,6 +103,6 @@
 }
 
 .form-control:focus {
-  border-color: #b87322;
+  border-color: #D4B076;
   box-shadow: none;
 }

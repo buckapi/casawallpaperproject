@@ -22,7 +22,7 @@ export const routes: Routes = [
     path: 'home',
     loadComponent: () =>
       import('./page/home/home').then(c => c.Home),
-    title: 'Casawallpaper',
+    title: 'Walivio',
     data: {
       description: 'Transform your space with expert wallpaper installations.',
       canonical: '/',
@@ -138,6 +138,51 @@ export const routes: Routes = [
       import('./page/installer/installer').then(c => c.Installer),
     title: 'Find Installer',
   },
+{
+  path: 'installer/homeowner',
+  redirectTo: 'installer/homeowner/location',
+  pathMatch: 'full'
+},
+
+{
+  path: 'installer/homeowner/:step',
+  loadComponent: () =>
+    import(
+      './page/installer/homeowner-wizard/homeowner-wizard'
+    ).then(m => m.HomeownerWizard)
+},
+{
+  path: 'installer/interior-designer',
+  redirectTo: 'installer/interior-designer/project',
+  pathMatch: 'full'
+},
+{
+  path: 'installer/interior-designer/:step',
+  loadComponent: () =>
+    import('./page/installer/interior-designer-wizard/interior-designer-wizard')
+      .then(m => m.InteriorDesignerWizard),
+  title: 'Interior Designer Project'
+},
+{
+  path: 'installer/contractor',
+  redirectTo: 'installer/contractor/project',
+  pathMatch: 'full'
+},
+{
+  path: 'installer/contractor/:step',
+  loadComponent: () =>
+    import('./page/installer/builder-contractor-wizard/builder-contractor-wizard')
+      .then(m => m.BuilderContractorWizard),
+  title: 'Builder / Contractor Project'
+},
+{
+  path: 'installer/business', redirectTo: 'installer/business/location', pathMatch: 'full'
+},
+{
+  path: 'installer/business/:step',
+  loadComponent: () => import('./page/installer/business-commercial-wizard/business-commercial-wizard').then(m => m.BusinessCommercialWizard),
+  title: 'Business / Commercial Request'
+},
   {
     path: 'blog-post',
     loadComponent: () =>
@@ -152,6 +197,7 @@ export const routes: Routes = [
   },
   {
     path: 'portfolioDashboard',
+    canActivate: [adminGuard],
     loadComponent: () =>
       import('./page/dashboard/portfolio/portfolio').then(c => c.Portfolio),
     title: 'Portfolio',
@@ -162,6 +208,7 @@ export const routes: Routes = [
   },
   {
     path: 'servicesDashboard',
+    canActivate: [adminGuard],
     loadComponent: () =>
       import('./page/dashboard/services/services').then(c => c.Services),
     title: 'Services',
@@ -172,6 +219,7 @@ export const routes: Routes = [
   },
   {
     path: 'aboutDashboard',
+    canActivate: [adminGuard],
     loadComponent: () =>
       import('./page/dashboard/about/about').then(c => c.About),
     title: 'About',

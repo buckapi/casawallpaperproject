@@ -1,4 +1,4 @@
-<section class="cw-hero-new">
+<!-- <section class="cw-hero-new">
     <div class="cw-hero-bg">
         <img src="assets/img/hero/01.jpg" alt="Wallpaper installation">
     </div>
@@ -89,10 +89,7 @@
                     {{ locationError || formError }}
                 </small>
                 }
-               <!--  <button type="button" [disabled]="isSavingSearch" (click)="findInstaller()">
-                    {{ isSavingSearch ? 'Searching...' : 'Find My Installer' }}
-                    <i class="fas fa-arrow-right"></i>
-                </button> -->
+           
                 <button
   type="button"
   [disabled]="isSavingSearch"
@@ -133,12 +130,11 @@
         <div class="cw-section-title">
 
             <h2>
-                <!-- Connect With an <b style="color: #c98a2b;">Installer</b> -->
 
                 What do you need <b style="color: #c98a2b;">help</b> with today?
             </h2>
 
-            <p><!-- Choose an option below and we'll guide you to the right solution. -->
+            <p>
                 Share your project and connect with qualified wallpaper installers.
             </p>
         </div>
@@ -217,6 +213,120 @@
     </div>
 
     </div>
+
+</section> -->
+
+<section class="cw-project-hero">
+
+  <div class="cw-project-hero__background">
+    <img
+      src="assets/img/home.png"
+      alt="Wallpaper interior project"
+    />
+  </div>
+
+  <div class="cw-project-hero__overlay"></div>
+
+  <div class="container cw-project-hero__container">
+
+    <div class="cw-project-hero__content">
+      <h2>
+        Everything you need
+        <br>
+        for your wallpaper
+        <br>
+        project, 
+        
+                        <b style="color: #c98a2b;">
+in one place.</b>
+      </h2>
+    </div>
+
+    <div class="cw-project-actions">
+
+      <article
+        class="cw-project-action cw-project-action--active"
+        role="link"
+        tabindex="0"
+        (click)="goTo($event, '/installer')"
+        (keydown.enter)="goTo($event, '/installer')"
+      >
+
+        <div class="cw-project-action__icon">
+          <i class="ph-light ph-user-circle"></i>
+        </div>
+
+        <div class="cw-project-action__content">
+          <h3>Find My Installer</h3>
+
+          <p>
+            Find a professional
+            <br>
+            for your project.
+          </p>
+        </div>
+
+        <i class="ph ph-caret-right cw-project-action__arrow"></i>
+
+      </article>
+
+
+      <article
+        class="cw-project-action"
+        role="link"
+        tabindex="0"
+        (click)="goTo($event, '/wallpaper')"
+        (keydown.enter)="goTo($event, '/wallpaper')"
+      >
+
+        <div class="cw-project-action__icon">
+          <i class="ph-light ph-scroll"></i>
+        </div>
+
+        <div class="cw-project-action__content">
+          <h3>Choose Wallpaper</h3>
+
+          <p>
+            Explore wallpaper
+            <br>
+            options.
+          </p>
+        </div>
+
+        <i class="ph ph-caret-right cw-project-action__arrow"></i>
+
+      </article>
+
+
+      <article
+        class="cw-project-action"
+        role="link"
+        tabindex="0"
+        (click)="goTo($event, '/estimate')"
+        (keydown.enter)="goTo($event, '/estimate')"
+      >
+
+        <div class="cw-project-action__icon">
+          <i class="ph-light ph-ruler"></i>
+        </div>
+
+        <div class="cw-project-action__content">
+          <h3>Calculate Quantity</h3>
+
+          <p>
+            Estimate how much
+            <br>
+            wallpaper you need.
+          </p>
+        </div>
+
+        <i class="ph ph-caret-right cw-project-action__arrow"></i>
+
+      </article>
+
+    </div>
+
+  </div>
 
 </section>
 <section class="cw-transformations-section">
@@ -514,7 +624,7 @@
                                         <input class="form-check-input" type="checkbox" id="termsCheck1">
                                         <label class="form-check-label text-white" for="termsCheck1"
                                             (click)="router.navigate(['/terms'])" style="text-align: justify;">
-                                            I consent to receive marketing text messages from Casa Wallpaper at the
+                                            I consent to receive marketing text messages from Walivio at the
                                             phone number provided. Frequency may vary. Message & data rates may apply.
                                             Text HELP for assistance, reply STOP to opt out.
 
@@ -526,7 +636,7 @@
                                         <input class="form-check-input" type="checkbox" id="termsCheck2">
                                         <label class="form-check-label text-white" for="termsCheck2"
                                             (click)="router.navigate(['/terms'])" style="text-align: justify;">
-                                            I consent to receive non-marketing text messages from Casa Wallpaper about
+                                            I consent to receive non-marketing text messages from Walivio about
                                             my order updates, appointment reminders etc. Frequency may vary. Message &
                                             data rates may apply. Text HELP for assistance, reply STOP to opt out
                                         </label>

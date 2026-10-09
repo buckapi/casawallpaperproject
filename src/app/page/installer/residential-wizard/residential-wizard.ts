@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, AfterViewInit, ElementRef, ViewChild, NgZone, ChangeDetectorRef, ApplicationRef } from '@angular/core';
+import { Component, AfterViewInit, ElementRef, ViewChild, NgZone, ChangeDetectorRef, ApplicationRef, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import PocketBase from 'pocketbase';
+import { PocketBaseService } from '../../../services/pocketbase.service';
 declare const google: any;
 
 @Component({
@@ -14,7 +14,7 @@ declare const google: any;
 })
 export class ResidentialWizard {
   @ViewChild('locationInput') locationInput!: ElementRef<HTMLInputElement>;
-  private pb = new PocketBase('https://db.buckapi.site:8055');
+  private pb = inject(PocketBaseService).client;
   isSubmitting = false;
   submitError = '';
   locationQuery = '';

@@ -1,5 +1,5 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Component, HostListener, AfterViewInit, OnInit, OnDestroy } from '@angular/core';
+import { Component, HostListener, AfterViewInit, OnInit, OnDestroy, inject } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink, RouterModule } from '@angular/router';
 import { Inject, PLATFORM_ID } from '@angular/core';
@@ -10,8 +10,8 @@ import Swal from 'sweetalert2';
 import Swiper from 'swiper';
 import { Pagination } from 'swiper/modules';
 import { ElementRef, ViewChild, NgZone } from '@angular/core';
-import PocketBase from 'pocketbase';
 import { InstallerAvailabilityService } from '../../services/installer-availability.service';
+import { PocketBaseService } from '../../services/pocketbase.service';
 declare const google: any;
 declare var WOW: any;
 
@@ -24,7 +24,7 @@ declare var WOW: any;
 })
 export class Home implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('locationInput') locationInput!: ElementRef<HTMLInputElement>;
-  private pb = new PocketBase('https://db.buckapi.site:8055');
+  private pb = inject(PocketBaseService).client;
 
   isSavingSearch = false;
   formError = '';
@@ -429,7 +429,7 @@ export class Home implements OnInit, AfterViewInit, OnDestroy {
 
   sendContact() {
     this.http.post(
-      'https://casawallpaper.com/api/send-contact.php',
+      'https://walivio.com//api/send-contact.php',
       this.form
     ).subscribe({
       next: () => {
@@ -782,4 +782,3 @@ export class Home implements OnInit, AfterViewInit, OnDestroy {
     this.formError = '';
   }
 }
-

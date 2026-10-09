@@ -16,10 +16,10 @@ export class SeoService {
   private readonly router = inject(Router);
   private readonly activatedRoute = inject(ActivatedRoute);
 
-  private readonly siteUrl = 'https://casawallpaper.com';
+  private readonly siteUrl = 'https://walivio.com/';
 
   private readonly defaultTitle =
-    'Casa Wallpaper | Find Wallpaper Installers and Project Resources';
+    'Walivio | Find Wallpaper Installers and Project Resources';
 
   private readonly defaultDescription =
     'Find wallpaper installers, calculate project quantities and explore resources for residential and commercial wallpaper projects.';

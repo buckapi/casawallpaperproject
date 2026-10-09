@@ -1,6 +1,6 @@
 <section class="cw-admin-login">
   <div class="cw-admin-card">
-    <img src="assets/img/logo/header-logo.png" alt="Casa Wallpaper" />
+    <img src="/assets/img/logo/header-logo.png" alt="Walivio" />
 
     <h1>Admin Access</h1>
     <p>Sign in to manage your dashboard.</p>
@@ -20,7 +20,7 @@
         {{ error }}
       </div>
 
-      <button type="submit">
+      <button type="submit" [disabled]="isSubmitting">
         Sign In
         <i class="fa-solid fa-arrow-right"></i>
       </button>

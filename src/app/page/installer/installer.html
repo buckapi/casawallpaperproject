@@ -1,64 +1,136 @@
+<section class="installer-page">
 
-  <section class="installer-page">
+  <div class="wizard-card">
 
-   
+    <main class="wizard-body">
 
-    <div class="wizard-card">
-      
+      <div class="wizard-content">
 
-      <main class="wizard-body">
-        <div class="wizard-content">
-          <span class="eyebrow">FIND INSTALLER</span>
+        <span class="eyebrow">
+          FIND INSTALLER
+        </span>
 
-         
+        <h2>
+          Which best describes you?
+        </h2>
 
-          <h1>What type of project is this?</h1>
+        <p class="description">
+          Select the option that best describes you so we can match you
+          with the right installer.
+        </p>
 
-          <p class="description">
-            This helps us match you with the right installer for your project.
-          </p>
+        <div class="type-grid">
 
-          <div class="type-grid">
-            <button
-  type="button"
-  class="type-card"
-  [class.selected]="selectedAudience === 'residential'"
-  (click)="selectAudience('residential')">
+  <label
+    class="type-card"
+    [class.selected]="selectedAudience === 'homeowner'"
+  >
+    <input
+      type="radio"
+      name="audience"
+      value="homeowner"
+      [checked]="selectedAudience === 'homeowner'"
+      (change)="selectAudience('homeowner')"
+    />
 
-  <i class="ph ph-house-line"></i>
-  <strong>Residential</strong>
-  <span>For your home</span>
-</button>
+    <i class="ph ph-house-line"></i>
 
-<button
-  type="button"
-  class="type-card"
-  [class.selected]="selectedAudience === 'commercial'"
-  (click)="selectAudience('commercial')">
+    <strong>Homeowner</strong>
 
-  <i class="ph ph-buildings"></i>
-  <strong>Commercial</strong>
-  <span>For your business</span>
-</button>
-          </div>
+    <span>For your home</span>
+  </label>
 
-          <div class="actions">
-            <button class="back-btn" type="button" (click)="goBack()" >
-              ← Back
-            </button>
 
-            <button
-              class="next-btn"
-              type="button"
-              [disabled]="!selectedAudience"
-              (click)="nextStep()">
-              Next <span>→</span>
-            </button>
-          </div>
+  <label
+    class="type-card"
+    [class.selected]="selectedAudience === 'interior-designer'"
+  >
+    <input
+      type="radio"
+      name="audience"
+      value="interior-designer"
+      [checked]="selectedAudience === 'interior-designer'"
+      (change)="selectAudience('interior-designer')"
+    />
+
+    <i class="ph ph-palette"></i>
+
+    <strong>Interior Designer</strong>
+
+    <span>Design professionals</span>
+  </label>
+
+
+  <label
+    class="type-card"
+    [class.selected]="selectedAudience === 'contractor'"
+  >
+    <input
+      type="radio"
+      name="audience"
+      value="contractor"
+      [checked]="selectedAudience === 'contractor'"
+      (change)="selectAudience('contractor')"
+    />
+
+    <i class="ph ph-blueprint"></i>
+
+    <strong>Builder / Contractor</strong>
+
+    <span>Construction professionals</span>
+  </label>
+
+
+  <label
+    class="type-card"
+    [class.selected]="selectedAudience === 'business'"
+  >
+    <input
+      type="radio"
+      name="audience"
+      value="business"
+      [checked]="selectedAudience === 'business'"
+      (change)="selectAudience('business')"
+    />
+
+    <i class="ph ph-buildings"></i>
+
+    <strong>Business / Commercial</strong>
+
+    <span>For commercial spaces</span>
+  </label>
+
+</div>
+
+
+        <div class="actions">
+
+          <button
+            class="back-btn"
+            type="button"
+            (click)="goBack()"
+          >
+            ← Back
+          </button>
+
+          <button
+            class="next-btn"
+            type="button"
+            [disabled]="!selectedAudience"
+            (click)="nextStep()"
+          >
+            Next
+            <span>→</span>
+          </button>
+
         </div>
 
-        <div class="wizard-image"></div>
-      </main>
-    </div>
+      </div>
 
-  </section>
+<!--       <div class="wizard-image"></div>
+ -->
+    </main>
+
+  </div>
+
+</section>

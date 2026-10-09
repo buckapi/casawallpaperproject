@@ -3,6 +3,7 @@ import PocketBase, { RecordSubscription } from 'pocketbase';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Service } from '../models/service.interface';
 import { Services } from '../page/dashboard/services/services';
+import { PocketBaseService } from './pocketbase.service';
 
 // Actualizamos la interfaz para extender de RecordSubscription
 export interface RealtimeEvent extends Omit<RecordSubscription<Service>, 'action'> {
@@ -58,8 +59,8 @@ async deleteInspection(id: string): Promise<void> {
 }
 
 
-  constructor() {
-    this.pb = new PocketBase('https://db.buckapi.site:8091');
+  constructor(pocketBase: PocketBaseService) {
+    this.pb = pocketBase.client;
     
     this.pb.authStore.onChange((token, model) => {
       if (!token && this.isSubscribed) {

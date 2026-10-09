@@ -2,6 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import PocketBase, { RecordSubscription } from 'pocketbase';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Portfolio } from '../models/portfolio.interface';
+import { PocketBaseService } from './pocketbase.service';
 
 // Actualizamos la interfaz para extender de RecordSubscription
 export interface RealtimePortfolioEvent extends Omit<RecordSubscription<Portfolio>, 'action'> {
@@ -35,8 +36,8 @@ export class RealtimePortfolioService implements OnDestroy {
     return this.loadingSubject.asObservable();
   }
 
-  constructor() {
-    this.pb = new PocketBase('https://db.buckapi.site:8091');
+  constructor(pocketBase: PocketBaseService) {
+    this.pb = pocketBase.client;
 
     this.pb.authStore.onChange((token, model) => {
       if (!token && this.isSubscribed) {

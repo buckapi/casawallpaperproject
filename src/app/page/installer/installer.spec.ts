@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter, Router } from '@angular/router';
 
 import { Installer } from './installer';
 
@@ -8,7 +9,8 @@ describe('Installer', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Installer]
+      imports: [Installer],
+      providers: [provideRouter([{ path: 'installer/contractor', component: Installer }])]
     })
     .compileComponents();
 
@@ -19,5 +21,12 @@ describe('Installer', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('routes Builder / Contractor selection to GC01', async () => {
+    const router = TestBed.inject(Router);
+    component.selectAudience('contractor');
+    await component.nextStep();
+    expect(router.url).toBe('/installer/contractor');
   });
 });

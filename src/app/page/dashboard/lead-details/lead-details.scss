@@ -50,14 +50,14 @@
   text-decoration: none;
 
   &:hover {
-    color: #b87322;
+    color: #D4B076;
   }
 }
 
 .eyebrow,
 .card-eyebrow {
   display: block;
-  color: #b87322;
+  color: #D4B076;
   font-size: 0.75rem;
   font-weight: 800;
   letter-spacing: 0.11em;
@@ -121,7 +121,7 @@
   background:
     linear-gradient(
       135deg,
-      #b87322,
+      #D4B076,
       #ff9f68
     );
   font-size: 1.1rem;
@@ -151,7 +151,7 @@
   }
 
   a {
-    color: #b87322;
+    color: #D4B076;
     font-weight: 700;
     text-decoration: none;
 
@@ -210,7 +210,7 @@
 
   > i {
     margin-top: 3px;
-    color: #b87322;
+    color: #D4B076;
     font-size: 1.3rem;
   }
 
@@ -288,7 +288,7 @@
     display: inline-flex;
     align-items: center;
     gap: 7px;
-    color: #b87322;
+    color: #D4B076;
     font-size: 0.82rem;
     font-weight: 800;
     text-decoration: none;
@@ -315,7 +315,7 @@
 
   i {
     margin-bottom: 10px;
-    color: #b87322;
+    color: #D4B076;
     font-size: 2rem;
   }
 
@@ -458,7 +458,7 @@
     font: inherit;
 
     &:focus {
-      border-color: #b87322;
+      border-color: #D4B076;
       box-shadow:
         0 0 0 4px
         rgba(184, 115, 34, 0.12);
@@ -487,7 +487,7 @@
   border-radius: 10px;
   padding: 10px 16px;
   color: #ffffff;
-  background: #b87322;
+  background: #D4B076;
   font: inherit;
   font-weight: 800;
   cursor: pointer;
@@ -557,7 +557,7 @@
     height: 38px;
     place-items: center;
     border-radius: 10px;
-    color: #b87322;
+    color: #D4B076;
     background: #fff4e8;
   }
 
@@ -576,7 +576,7 @@
   }
 
   &:hover {
-    border-color: #b87322;
+    border-color: #D4B076;
     background: #fffaf4;
   }
 }
@@ -695,7 +695,7 @@
   height: 42px;
   margin-bottom: 18px;
   border: 4px solid #f0e2d3;
-  border-top-color: #b87322;
+  border-top-color: #D4B076;
   border-radius: 50%;
   animation: loader-spin 800ms linear infinite;
 }

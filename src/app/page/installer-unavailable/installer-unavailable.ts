@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import PocketBase, { RecordModel } from 'pocketbase';
+import { RecordModel } from 'pocketbase';
+import { PocketBaseService } from '../../services/pocketbase.service';
 
 @Component({
   selector: 'app-installer-unavailable',
@@ -17,7 +18,7 @@ import PocketBase, { RecordModel } from 'pocketbase';
 })
 export class InstallerUnavailable implements OnInit {
   private pb =
-    new PocketBase('https://db.buckapi.site:8055');
+    inject(PocketBaseService).client;
 
   showForm = false;
   submitted = false;

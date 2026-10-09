@@ -8,9 +8,12 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import PocketBase, { RecordModel } from 'pocketbase';
+import { RecordModel } from 'pocketbase';
+import { PocketBaseService } from '../../services/pocketbase.service';
+import { InstallerMatchingService } from '../../services/installer-matching.service';
 
 declare const google: any;
 
@@ -46,7 +49,8 @@ export class InstallerResults
   @ViewChild('mapContainer')
   mapContainer?: ElementRef<HTMLDivElement>;
 
-  private pb = new PocketBase('https://db.buckapi.site:8055');
+  private pb = inject(PocketBaseService).client;
+  private matching = inject(InstallerMatchingService);
 
   /*
    * Cambia este nombre únicamente si tu colección
@@ -187,127 +191,29 @@ export class InstallerResults
       this.cdr.detectChanges();
     }
   } */
-private async loadNearbyInstallers(): Promise<void> {
-  if (!this.request) return;
+  private async loadNearbyInstallers(): Promise<void> {
+   if (!this.request) return;
 
-  this.loadingInstallers = true;
-  this.installerError = '';
+   this.loadingInstallers = true;
+   this.installerError = '';
 
-  const projectLat = Number(this.request['lat'] || 0);
-  const projectLng = Number(this.request['lng'] || 0);
+   const projectLat = Number(this.request['lat'] || 0);
+   const projectLng = Number(this.request['lng'] || 0);
 
-  this.installers = this.createMockInstallers(
-    projectLat,
-    projectLng
-  );
+   const zip = String(this.request['zip_code'] || '').trim();
+   const records = await this.matching.findEligibleInstallers({
+     requestId: this.request.id,
+     zipCode: zip,
+     projectType: this.request['project_type'] || 'residential'
+   });
+   this.installers = records.map(record => this.mapProfessionalRecord(record, projectLat, projectLng));
+   if (!this.installers.length) this.installerError = 'No installers are currently available for this ZIP code.';
 
-  this.applyDistanceFilter();
+   this.applyDistanceFilter();
 
-  this.loadingInstallers = false;
-  this.cdr.detectChanges();
-}
-private createMockInstallers(
-  projectLat: number,
-  projectLng: number
-): InstallerResult[] {
-  const mockData = [
-    {
-      id: 'demo-installer-1',
-      name: 'Michael Carter',
-      companyName: 'Carter Wallcovering Studio',
-      rating: 4.9,
-      reviews: 128,
-      responseTime: 'Usually responds in 2 hours',
-      specialties: [
-        'Residential',
-        'Accent Walls',
-        'Murals'
-      ],
-      avatar: 'assets/img/testimonial/01.png',
-      latOffset: 0.018,
-      lngOffset: -0.022,
-    },
-    {
-      id: 'demo-installer-2',
-      name: 'Sarah Johnson',
-      companyName: 'Premium Wallpaper Pros',
-      rating: 4.8,
-      reviews: 94,
-      responseTime: 'Usually responds today',
-      specialties: [
-        'Commercial',
-        'Offices',
-        'Large Spaces'
-      ],
-      avatar: 'assets/img/testimonial/02.png',
-      latOffset: -0.026,
-      lngOffset: 0.019,
-    },
-    {
-      id: 'demo-installer-3',
-      name: 'David Miller',
-      companyName: 'Miller Install Co.',
-      rating: 4.7,
-      reviews: 76,
-      responseTime: 'Usually responds within 24 hours',
-      specialties: [
-        'Residential',
-        'Bathrooms',
-        'Dining Rooms'
-      ],
-      avatar: 'assets/img/testimonial/03.png',
-      latOffset: 0.034,
-      lngOffset: 0.027,
-    },
-    {
-      id: 'demo-installer-4',
-      name: 'Emily Thompson',
-      companyName: 'Elegant Walls LLC',
-      rating: 4.9,
-      reviews: 63,
-      responseTime: 'Usually responds in 3 hours',
-      specialties: [
-        'Murals',
-        'Bedrooms',
-        'Premium Wallpaper'
-      ],
-      avatar: 'assets/img/testimonial/04.png',
-      latOffset: -0.014,
-      lngOffset: -0.037,
-    }
-  ];
-
-  return mockData.map(item => {
-    const lat = projectLat + item.latOffset;
-    const lng = projectLng + item.lngOffset;
-
-    const distanceMiles = this.calculateDistanceMiles(
-      projectLat,
-      projectLng,
-      lat,
-      lng
-    );
-
-    return {
-      id: item.id,
-      name: item.name,
-      companyName: item.companyName,
-      avatar: item.avatar,
-      rating: item.rating,
-      reviews: item.reviews,
-      city: this.request?.['city'] || 'Local area',
-      stateCode: this.request?.['state_code'] || '',
-      lat,
-      lng,
-      distanceMiles,
-      distanceLabel: `${distanceMiles.toFixed(1)} mi`,
-      verified: true,
-      responseTime: item.responseTime,
-      specialties: item.specialties,
-      selected: false,
-    };
-  });
-}
+   this.loadingInstallers = false;
+   this.cdr.detectChanges();
+ }
   private mapProfessionalRecord(
     record: RecordModel,
     projectLat: number,
@@ -704,17 +610,7 @@ private createMockInstallers(
        * selected_professional se asignará después,
        * cuando el cliente elija definitivamente uno.
        */
-      await this.pb
-        .collection('requests')
-        .update(this.request.id, {
-          interested_professionals:
-            this.selectedInstallerIds,
-
-          status: 'sent',
-
-          max_leads:
-            this.selectedInstallerIds.length,
-        });
+       await this.matching.selectInstallers(this.request.id, this.selectedInstallerIds);
 
       /*
        * Aquí decidimos a qué flujo continúa.
@@ -723,7 +619,11 @@ private createMockInstallers(
       const projectType =
         this.request['project_type'];
 
-      if (projectType === 'commercial') {
+       if (this.request['customer_role'] === 'homeowner') {
+         await this.router.navigate(['/installer/homeowner/project-home']);
+         return;
+       }
+       if (projectType === 'commercial') {
         await this.router.navigate([
           '/installer/commercial',
         ], {

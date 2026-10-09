@@ -55,7 +55,7 @@ form = {
 
   sendContact() {
   this.http.post(
-    'https://casawallpaper.com/api/send-contact.php',
+    'https://walivio.com//api/send-contact.php',
     this.form
   ).subscribe({
     next: () => {

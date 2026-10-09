@@ -5,7 +5,7 @@
                 <div class="text-center mb-4">
                     <h1 class="display-4 fw-bold text-dark">Portfolio</h1>
                     <button *ngIf="!showForm" (click)="toggleForm()" class="btn btn-lg mt-3"
-                        style="background-color: #b87322;">
+                        style="background-color: #D4B076;">
                         <i class="fas fa-plus me-2"></i>Add Portfolio
                     </button>
                 </div>
@@ -13,7 +13,7 @@
                 <!-- Form Section -->
                 <div *ngIf="showForm" class="mb-5">
                     <div class="card shadow-lg">
-                        <div class="card-header text-white" style="background: #b87322;">
+                        <div class="card-header text-white" style="background: #D4B076;">
                             <h4 class="mb-0">{{ isEditing ? 'Edit Portfolio' : 'Upload Portfolio' }}</h4>
                         </div>
                         <div class="card-body">

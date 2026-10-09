@@ -1,0 +1,161 @@
+{
+  "status": "Expected examples; not execution against a production engine",
+  "cases": [
+    {
+      "id": "T01",
+      "input_description": "Bedroom 44 LF; all walls; sin extras",
+      "expected_description": "S; base $700",
+      "expected_known_component_or_subtotal_cents": 70000
+    },
+    {
+      "id": "T02",
+      "input_description": "Bedroom 44.1 LF; all walls; sin extras",
+      "expected_description": "M; base $780",
+      "expected_known_component_or_subtotal_cents": 78000
+    },
+    {
+      "id": "T03",
+      "input_description": "Bedroom >68 LF",
+      "expected_description": "INSTALLER_REVIEW; no total automático",
+      "expected_known_component_or_subtotal_cents": null
+    },
+    {
+      "id": "T04",
+      "input_description": "Powder Room 19 LF; 2 remates inclinados; sin otros extras",
+      "expected_description": "S; base $450; slanted $0",
+      "expected_known_component_or_subtotal_cents": 45000
+    },
+    {
+      "id": "T05",
+      "input_description": "Single Wall 8 ft, sin extras",
+      "expected_description": "XS; $230",
+      "expected_known_component_or_subtotal_cents": 23000
+    },
+    {
+      "id": "T06",
+      "input_description": "Single Wall 8.01 ft, sin extras",
+      "expected_description": "S; $250",
+      "expected_known_component_or_subtotal_cents": 25000
+    },
+    {
+      "id": "T07",
+      "input_description": "Single Wall S, arriba de panelado que reduce alcance",
+      "expected_description": "$220; sin restar además descuento de habitación",
+      "expected_known_component_or_subtotal_cents": 22000
+    },
+    {
+      "id": "T08",
+      "input_description": "Bedroom S, 2 paredes, cobertura <80%, sin extras",
+      "expected_description": "700 x 0.70 = $490",
+      "expected_known_component_or_subtotal_cents": 49000
+    },
+    {
+      "id": "T09",
+      "input_description": "Bedroom S, 3 paredes, cobertura <80%, sin extras",
+      "expected_description": "700 x 0.85 = $595; empate de redondeo: P01, no resolver automáticamente",
+      "expected_known_component_or_subtotal_cents": null
+    },
+    {
+      "id": "T10",
+      "input_description": "Bedroom S, 2 paredes que cubren 80%, sin extras",
+      "expected_description": "100% = $700",
+      "expected_known_component_or_subtotal_cents": 70000
+    },
+    {
+      "id": "T11",
+      "input_description": "Bedroom S altura 9.99 ft; sin extras",
+      "expected_description": "$700",
+      "expected_known_component_or_subtotal_cents": 70000
+    },
+    {
+      "id": "T12",
+      "input_description": "Bedroom S altura exactamente 10 ft; sin otros extras",
+      "expected_description": "700 + 80 = $780; no repetir pregunta de altura",
+      "expected_known_component_or_subtotal_cents": 78000
+    },
+    {
+      "id": "T13",
+      "input_description": "Bedroom S papel 36 in; altura <10; sin otros extras",
+      "expected_description": "$700; ancho sin recargo",
+      "expected_known_component_or_subtotal_cents": 70000
+    },
+    {
+      "id": "T14",
+      "input_description": "Bedroom S papel 36.01 in; altura <10; sin otros extras",
+      "expected_description": "700 + 100 = $800",
+      "expected_known_component_or_subtotal_cents": 80000
+    },
+    {
+      "id": "T15",
+      "input_description": "Bedroom S, ancho Not sure; altura <10; sin otros extras",
+      "expected_description": "Subtotal $700; potencial +$100 visible, no incluido",
+      "expected_known_component_or_subtotal_cents": 70000
+    },
+    {
+      "id": "T16",
+      "input_description": "Bedroom S; 2 remates ordinarios; altura <10; ancho <=36",
+      "expected_description": "700 + 2 x 60 = $820",
+      "expected_known_component_or_subtotal_cents": 82000
+    },
+    {
+      "id": "T17",
+      "input_description": "Unpasted; proveedor aporta adhesivo; área conocida 250 sqft",
+      "expected_description": "1 gal; componente $35",
+      "expected_known_component_or_subtotal_cents": 3500
+    },
+    {
+      "id": "T18",
+      "input_description": "Mismo caso 250.01 sqft",
+      "expected_description": "2 gal; componente $70",
+      "expected_known_component_or_subtotal_cents": 7000
+    },
+    {
+      "id": "T19",
+      "input_description": "Peel & Stick; sin adhesivo adicional contratado",
+      "expected_description": "Componente adhesivo $0; no recargo por ese atributo",
+      "expected_known_component_or_subtotal_cents": 0
+    },
+    {
+      "id": "T20",
+      "input_description": "Ceiling standalone 40 sqft; sin scaffold; papel <=36",
+      "expected_description": "XS; $500; no high-wall regular",
+      "expected_known_component_or_subtotal_cents": 50000
+    },
+    {
+      "id": "T21",
+      "input_description": "Designer residencial base $700 sin otros componentes",
+      "expected_description": "700 x 1.35 = $945",
+      "expected_known_component_or_subtotal_cents": 94500
+    },
+    {
+      "id": "T22",
+      "input_description": "GC con medidas completas",
+      "expected_description": "MATCH_THEN_DIRECT_PROVIDER_QUOTE; no precio residencial automático",
+      "expected_known_component_or_subtotal_cents": null
+    },
+    {
+      "id": "T23",
+      "input_description": "Proyecto conectado; se agrega otra pared",
+      "expected_description": "NO_WALIVIO_REPRICING; cambio directo cliente/profesional",
+      "expected_known_component_or_subtotal_cents": null
+    },
+    {
+      "id": "T24",
+      "input_description": "Solo fotos; recomendación HIGH sin aprobación humana",
+      "expected_description": "No mostrar recomendado al cliente",
+      "expected_known_component_or_subtotal_cents": null
+    },
+    {
+      "id": "T25",
+      "input_description": "Kitchen Island 8 ft con medición ya validada",
+      "expected_description": "Base $260; definición de medición P07 aún debe resolverse",
+      "expected_known_component_or_subtotal_cents": 26000
+    },
+    {
+      "id": "T26",
+      "input_description": "Slanted Yes sin cantidad en Bedroom",
+      "expected_description": "NEEDS_INFO para ese componente; no asumir una pared",
+      "expected_known_component_or_subtotal_cents": null
+    }
+  ]
+}

@@ -2,40 +2,146 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-type ProjectAudience = 'residential' | 'commercial';
+
+/* =====================================================
+   TYPES
+===================================================== */
+
+export type ProjectAudience =
+  | 'homeowner'
+  | 'interior-designer'
+  | 'contractor'
+  | 'business';
+
+
+/* =====================================================
+   COMPONENT
+===================================================== */
 
 @Component({
   selector: 'app-installer',
+
   standalone: true,
-  imports: [CommonModule],
+
+  imports: [
+    CommonModule
+  ],
+
   templateUrl: './installer.html',
-  styleUrl: './installer.scss',
+
+  styleUrl: './installer.scss'
 })
 export class Installer {
-  selectedAudience: ProjectAudience | null = null;
 
-  constructor(private router: Router) {}
+  /* ===================================================
+     AUDIENCE
+  =================================================== */
 
-  selectAudience(type: ProjectAudience) {
+  selectedAudience:
+    ProjectAudience | null = null;
+
+
+  /* ===================================================
+     CONSTRUCTOR
+  =================================================== */
+
+  constructor(
+    private router: Router
+  ) {}
+
+
+  /* ===================================================
+     SELECT AUDIENCE
+  =================================================== */
+
+  selectAudience(
+    type: ProjectAudience
+  ): void {
+
     this.selectedAudience = type;
   }
 
-  nextStep() {
-    if (!this.selectedAudience) return;
-    this.router.navigate(['/installer', this.selectedAudience]);
+
+  /* ===================================================
+     NEXT
+  =================================================== */
+
+  async nextStep(): Promise<void> {
+
+    if (!this.selectedAudience) {
+      return;
+    }
+
+
+    /*
+     * Homeowner inicia su wizard propio.
+     *
+     * /installer/homeowner
+     *
+     * Luego la configuración de rutas
+     * lo redirigirá a:
+     *
+     * /installer/homeowner/location
+     */
+    if (
+      this.selectedAudience ===
+      'homeowner'
+    ) {
+
+      await this.router.navigate([
+        '/installer',
+        'homeowner'
+      ]);
+
+      return;
+    }
+
+
+    /*
+     * Dejamos preparada la navegación
+     * para los demás perfiles.
+     *
+     * Más adelante cada uno tendrá su
+     * propio wizard.
+     *
+     * /installer/interior-designer
+     * /installer/contractor
+     * /installer/business
+     */
+    await this.router.navigate([
+      '/installer',
+      this.selectedAudience
+    ]);
   }
-  goBack() {
-  this.router.navigate(['/']).then(() => {
+
+
+  /* ===================================================
+     BACK
+  =================================================== */
+
+  async goBack(): Promise<void> {
+
+    await this.router.navigate([
+      '/'
+    ]);
+
+
+    /*
+     * Esperamos a que Angular termine
+     * la navegación antes de buscar
+     * la sección de instaladores.
+     */
     setTimeout(() => {
+
       document
-        .getElementById('help-section')
+        .getElementById(
+          'installer-options'
+        )
         ?.scrollIntoView({
           behavior: 'smooth',
-          block: 'start'
+          block: 'center'
         });
+
     }, 100);
-  });
-}
-
-
+  }
 }

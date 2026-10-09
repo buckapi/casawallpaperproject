@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import PocketBase, { RecordModel } from 'pocketbase';
+import { RecordModel } from 'pocketbase';
+import { PocketBaseService } from '../../../services/pocketbase.service';
 
 interface Lead extends RecordModel {
   status: string;
@@ -28,7 +29,7 @@ interface Lead extends RecordModel {
   styleUrl: './leads.scss',
 })
 export class Leads implements OnInit {
-  private pb = new PocketBase('https://db.buckapi.site:8055');
+  private pb = inject(PocketBaseService).client;
 
   leads: Lead[] = [];
   filteredLeads: Lead[] = [];

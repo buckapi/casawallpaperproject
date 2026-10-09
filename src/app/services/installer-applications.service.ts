@@ -1,11 +1,9 @@
-import { Injectable } from '@angular/core';
-import PocketBase, {
+import { Injectable, inject } from '@angular/core';
+import {
   ClientResponseError,
   RecordModel,
 } from 'pocketbase';
-
-export const POCKETBASE_URL =
-  'https://db.buckapi.site:8055';
+import { PocketBaseService } from './pocketbase.service';
 
 export const INSTALLER_APPLICATIONS_COLLECTION =
   'installer_applications';
@@ -78,7 +76,7 @@ export interface InstallerApplicationRecord
 })
 export class InstallerApplicationsService {
   private readonly pocketBase =
-    new PocketBase(POCKETBASE_URL);
+    inject(PocketBaseService).client;
 
   async submitApplication(
     payload: InstallerApplicationPayload

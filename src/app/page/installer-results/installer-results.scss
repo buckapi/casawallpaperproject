@@ -668,3 +668,7 @@
     justify-content: center;
   }
 }
+.installer-result-card { display:flex; justify-content:space-between; gap:1rem; margin:1rem auto; padding:1rem; max-width:720px; border:1px solid #D3D7DA; border-radius:10px; background:#FEFEFE; text-align:left; }
+.installer-result-card.selected { border-color:#D4B076; box-shadow:0 0 0 2px #F4DFC0; }
+.installer-result-card h3 { margin:0; color:#2D3C49; }
+.installer-result-card p,.installer-result-card small { display:block; margin:.3rem 0; color:#5C6F80; }

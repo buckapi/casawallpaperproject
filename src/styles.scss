@@ -1,1 +1,15 @@
-/* You can add global styles to this file, and also import other style files */
+/* Walivio brand tokens. Semantic status colors intentionally remain component-owned. */
+:root {
+  --walivio-primary: #384753;
+  --walivio-primary-dark: #2d3c49;
+  --walivio-primary-soft: #5c6f80;
+  --walivio-secondary: #5c6f80;
+  --walivio-accent: #d4b076;
+  --walivio-accent-soft: #f4dfc0;
+  --walivio-background: #fefefe;
+  --walivio-light: #fefefe;
+  --walivio-surface: #ffffff;
+  --walivio-text: #2d3c49;
+  --walivio-text-muted: #5c6f80;
+  --walivio-border: #d3d7da;
+}

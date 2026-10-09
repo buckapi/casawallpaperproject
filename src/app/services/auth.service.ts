@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import PocketBase, { RecordModel } from 'pocketbase';
-export type UserType = 'root' | 'admin' | 'socio';
+import { PocketBaseService } from './pocketbase.service';
+export type UserType = 'client' | 'professional' | 'admin';
 export interface RegisterMinimalPayload {
   username: string;
   email: string;
@@ -23,21 +24,11 @@ export class AuthPocketbaseService {
     return Array.from(bytes, b => chars[b % chars.length]).join('');
   }
   async login(email: string, password: string) {
-  const authData = await this.pb.collection('users').authWithPassword(email, password);
-
-  const role = authData.record['role'] || 'user';
-  const companyId = authData.record['companyId'] || '';
-
-  localStorage.setItem('token', this.pb.authStore.token);
-  localStorage.setItem('companyId', companyId);
-  localStorage.setItem('role', role);
-  localStorage.setItem('user', JSON.stringify(authData.record));
-
-  return authData;
+    return this.pb.collection('users').authWithPassword(email, password);
 }
 
-  constructor(private router: Router) {
-    this.pb = new PocketBase('https://db.buckapi.site:8091');
+  constructor(private router: Router, pocketBase: PocketBaseService) {
+    this.pb = pocketBase.client;
   }
 
   logout() {
@@ -49,19 +40,19 @@ export class AuthPocketbaseService {
   localStorage.removeItem('user');
 }
 logoutAdmin() {
-  localStorage.removeItem('cw_admin_session');
+  this.logout();
   this.router.navigate(['/dashboard/login']);
 }
 
   get companyId() {
-    return localStorage.getItem('companyId');
+    return this.user?.['companyId'] ?? null;
   }
 
  /*  get role() {
     return localStorage.getItem('role');
   } */
 get role(): string | null {
-  return this.user?.['role'] ?? null;
+  return this.user?.['type'] ?? null;
 }
 
   get isSuperAdmin() {
@@ -69,8 +60,7 @@ get role(): string | null {
   }
 
 get user(): any | null {
-  const raw = localStorage.getItem('user');
-  return raw ? JSON.parse(raw) : null;
+  return this.pb.authStore.record;
 }
 
 
@@ -96,8 +86,7 @@ get user(): any | null {
   return true;
   }
 hasRole(roles: string[]): boolean {
-  if (!this.user || !this.user.role) return false;
-  return roles.includes(this.user.role);
+  return !!this.user && roles.includes(this.user['type']);
 }
 
   fileUrl(record: RecordModel | null | undefined, fileName?: string, thumb?: string): string | null {
@@ -108,42 +97,22 @@ hasRole(roles: string[]): boolean {
   async registerMinimal(payload: RegisterMinimalPayload): Promise<RecordModel> {
     const password = payload.password ?? this.randomPassword();
 
-    const rolwMap: Record<UserType, 'root' | 'admin' | 'socio'> = {
-      admin: 'admin',
-      socio: 'socio',
-      root: 'root',
-    };
-    const rolwValue = rolwMap[payload.type];
-    const isActive = payload.type === 'root';
-
     const data: Record<string, any> = {
       email: payload.email,
       emailVisibility: true,
       password,
       passwordConfirm: password,
-      username: payload.username,
       name: payload.username,
-      phone: Number(payload.phone),
-      dni: payload.dni ?? '',
+      phone: payload.phone,
       type: payload.type,
-      role: rolwValue,
-      status: payload.type === 'root' ? 'active' : 'inactive',
-      active: payload.type === 'root',
-      estado: payload.type === 'root' ? 'incompleto' : 'activo', // 👈 incluido aquí
     };
 
     if (payload.avatar instanceof Blob) {
       data['avatar'] = payload.avatar;
     }
 
-    console.log('Payload a enviar:', data);
     const record = await this.pb.collection('users').create(data);
-
-    if (isActive) {
-      await this.pb.collection('users').authWithPassword(payload.email, password);
-    }
-
-    return record; // ✅ Solo un registro, sin errores
+    return record;
   }
 
   async requestPasswordReset(email: string) {

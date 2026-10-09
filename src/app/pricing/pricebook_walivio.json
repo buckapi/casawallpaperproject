@@ -1,0 +1,1135 @@
+{
+  "document_version": "handoff-2026-09-24-v1",
+  "currency": "USD",
+  "money_unit": "integer_cents",
+  "implementation_status": "SPECIFICATION_NOT_DEPLOYED",
+  "serialization_status": "Propuesta de formato técnico; tarifas transcritas de fuentes aprobadas. Los pendientes no se convierten en defaults.",
+  "sources": {
+    "B01": {
+      "name": "WALIVIO_WAI_Blueprint_de_Continuidad_2026-09-09(2).pdf",
+      "sha256": "22548832603b613217b00f19c928c4a5d32649cc5ea150161926c4271b1df435",
+      "sections": "7-17, 26"
+    },
+    "C01-C08": "Instrucciones posteriores explícitas del usuario en esta conversación; ver Cambios posteriores en la guía."
+  },
+  "room_pricebook": [
+    {
+      "id": "water_closet",
+      "label": "Water Closet",
+      "family": "bathroom",
+      "metric": "gross_perimeter_lf",
+      "bands": [
+        {
+          "category": "XS",
+          "min_exclusive": 0,
+          "max_inclusive": 14,
+          "amount_cents": 40000
+        },
+        {
+          "category": "S",
+          "min_exclusive": 14,
+          "max_inclusive": 17,
+          "amount_cents": 40000
+        },
+        {
+          "category": "M",
+          "min_exclusive": 17,
+          "max_inclusive": 20,
+          "amount_cents": 45000
+        },
+        {
+          "category": "L",
+          "min_exclusive": 20,
+          "max_inclusive": 24,
+          "amount_cents": 45000
+        }
+      ],
+      "above_max": "INSTALLER_REVIEW",
+      "source": "B01 §9"
+    },
+    {
+      "id": "powder_room",
+      "label": "Powder Room",
+      "family": "bathroom",
+      "metric": "gross_perimeter_lf",
+      "bands": [
+        {
+          "category": "XS",
+          "min_exclusive": 0,
+          "max_inclusive": 16,
+          "amount_cents": 40000
+        },
+        {
+          "category": "S",
+          "min_exclusive": 16,
+          "max_inclusive": 19,
+          "amount_cents": 45000
+        },
+        {
+          "category": "M",
+          "min_exclusive": 19,
+          "max_inclusive": 22,
+          "amount_cents": 45000
+        },
+        {
+          "category": "L",
+          "min_exclusive": 22,
+          "max_inclusive": 30,
+          "amount_cents": 53000
+        }
+      ],
+      "above_max": "INSTALLER_REVIEW",
+      "source": "B01 §9"
+    },
+    {
+      "id": "full_bathroom",
+      "label": "Full Bathroom",
+      "family": "bathroom",
+      "metric": "gross_perimeter_lf",
+      "bands": [
+        {
+          "category": "XS",
+          "min_exclusive": 0,
+          "max_inclusive": 26,
+          "amount_cents": 53000
+        },
+        {
+          "category": "S",
+          "min_exclusive": 26,
+          "max_inclusive": 30,
+          "amount_cents": 53000
+        },
+        {
+          "category": "M",
+          "min_exclusive": 30,
+          "max_inclusive": 35,
+          "amount_cents": 58000
+        },
+        {
+          "category": "L",
+          "min_exclusive": 35,
+          "max_inclusive": 42,
+          "amount_cents": 65000
+        }
+      ],
+      "above_max": "INSTALLER_REVIEW",
+      "source": "B01 §9"
+    },
+    {
+      "id": "primary_bathroom",
+      "label": "Primary Bathroom",
+      "family": "bathroom",
+      "metric": "gross_perimeter_lf",
+      "bands": [
+        {
+          "category": "XS",
+          "min_exclusive": 0,
+          "max_inclusive": 30,
+          "amount_cents": 53000
+        },
+        {
+          "category": "S",
+          "min_exclusive": 30,
+          "max_inclusive": 38,
+          "amount_cents": 65000
+        },
+        {
+          "category": "M",
+          "min_exclusive": 38,
+          "max_inclusive": 48,
+          "amount_cents": 73000
+        },
+        {
+          "category": "L",
+          "min_exclusive": 48,
+          "max_inclusive": 60,
+          "amount_cents": 81000
+        }
+      ],
+      "above_max": "INSTALLER_REVIEW",
+      "source": "B01 §9"
+    },
+    {
+      "id": "bedroom",
+      "label": "Bedroom",
+      "family": "open_room",
+      "metric": "gross_perimeter_lf",
+      "bands": [
+        {
+          "category": "XS",
+          "min_exclusive": 0,
+          "max_inclusive": 38,
+          "amount_cents": 63000
+        },
+        {
+          "category": "S",
+          "min_exclusive": 38,
+          "max_inclusive": 44,
+          "amount_cents": 70000
+        },
+        {
+          "category": "M",
+          "min_exclusive": 44,
+          "max_inclusive": 54,
+          "amount_cents": 78000
+        },
+        {
+          "category": "L",
+          "min_exclusive": 54,
+          "max_inclusive": 68,
+          "amount_cents": 86000
+        }
+      ],
+      "above_max": "INSTALLER_REVIEW",
+      "source": "B01 §9"
+    },
+    {
+      "id": "dining_room",
+      "label": "Dining Room",
+      "family": "open_room",
+      "metric": "gross_perimeter_lf",
+      "bands": [
+        {
+          "category": "XS",
+          "min_exclusive": 0,
+          "max_inclusive": 40,
+          "amount_cents": 63000
+        },
+        {
+          "category": "S",
+          "min_exclusive": 40,
+          "max_inclusive": 48,
+          "amount_cents": 70000
+        },
+        {
+          "category": "M",
+          "min_exclusive": 48,
+          "max_inclusive": 58,
+          "amount_cents": 78000
+        },
+        {
+          "category": "L",
+          "min_exclusive": 58,
+          "max_inclusive": 68,
+          "amount_cents": 86000
+        }
+      ],
+      "above_max": "INSTALLER_REVIEW",
+      "source": "B01 §9"
+    },
+    {
+      "id": "office_study_den",
+      "label": "Office / Study / Den",
+      "family": "open_room",
+      "metric": "gross_perimeter_lf",
+      "bands": [
+        {
+          "category": "XS",
+          "min_exclusive": 0,
+          "max_inclusive": 32,
+          "amount_cents": 63000
+        },
+        {
+          "category": "S",
+          "min_exclusive": 32,
+          "max_inclusive": 42,
+          "amount_cents": 70000
+        },
+        {
+          "category": "M",
+          "min_exclusive": 42,
+          "max_inclusive": 56,
+          "amount_cents": 86000
+        },
+        {
+          "category": "L",
+          "min_exclusive": 56,
+          "max_inclusive": 68,
+          "amount_cents": 95000
+        }
+      ],
+      "above_max": "INSTALLER_REVIEW",
+      "source": "B01 §9"
+    },
+    {
+      "id": "sunroom",
+      "label": "Sunroom",
+      "family": "open_room",
+      "metric": "gross_perimeter_lf",
+      "bands": [
+        {
+          "category": "XS",
+          "min_exclusive": 0,
+          "max_inclusive": 36,
+          "amount_cents": 63000
+        },
+        {
+          "category": "S",
+          "min_exclusive": 36,
+          "max_inclusive": 44,
+          "amount_cents": 70000
+        },
+        {
+          "category": "M",
+          "min_exclusive": 44,
+          "max_inclusive": 56,
+          "amount_cents": 86000
+        },
+        {
+          "category": "L",
+          "min_exclusive": 56,
+          "max_inclusive": 72,
+          "amount_cents": 104000
+        }
+      ],
+      "above_max": "INSTALLER_REVIEW",
+      "source": "B01 §9"
+    },
+    {
+      "id": "living_family_great",
+      "label": "Living / Family / Great Room",
+      "family": "open_room",
+      "metric": "gross_perimeter_lf",
+      "bands": [
+        {
+          "category": "XS",
+          "min_exclusive": 0,
+          "max_inclusive": 54,
+          "amount_cents": 78000
+        },
+        {
+          "category": "S",
+          "min_exclusive": 54,
+          "max_inclusive": 66,
+          "amount_cents": 95000
+        },
+        {
+          "category": "M",
+          "min_exclusive": 66,
+          "max_inclusive": 80,
+          "amount_cents": 104000
+        },
+        {
+          "category": "L",
+          "min_exclusive": 80,
+          "max_inclusive": 96,
+          "amount_cents": 122000
+        }
+      ],
+      "above_max": "INSTALLER_REVIEW",
+      "source": "B01 §9"
+    },
+    {
+      "id": "laundry",
+      "label": "Laundry",
+      "family": "utility",
+      "metric": "gross_perimeter_lf",
+      "bands": [
+        {
+          "category": "XS",
+          "min_exclusive": 0,
+          "max_inclusive": 18,
+          "amount_cents": 50000
+        },
+        {
+          "category": "S",
+          "min_exclusive": 18,
+          "max_inclusive": 24,
+          "amount_cents": 58000
+        },
+        {
+          "category": "M",
+          "min_exclusive": 24,
+          "max_inclusive": 32,
+          "amount_cents": 65000
+        },
+        {
+          "category": "L",
+          "min_exclusive": 32,
+          "max_inclusive": 44,
+          "amount_cents": 70000
+        }
+      ],
+      "above_max": "INSTALLER_REVIEW",
+      "source": "B01 §9"
+    },
+    {
+      "id": "mudroom_drop_zone",
+      "label": "Mudroom / Drop Zone",
+      "family": "utility",
+      "metric": "gross_perimeter_lf",
+      "bands": [
+        {
+          "category": "XS",
+          "min_exclusive": 0,
+          "max_inclusive": 18,
+          "amount_cents": 35000
+        },
+        {
+          "category": "S",
+          "min_exclusive": 18,
+          "max_inclusive": 24,
+          "amount_cents": 40000
+        },
+        {
+          "category": "M",
+          "min_exclusive": 24,
+          "max_inclusive": 38,
+          "amount_cents": 58000
+        },
+        {
+          "category": "L",
+          "min_exclusive": 38,
+          "max_inclusive": 46,
+          "amount_cents": 68000
+        }
+      ],
+      "above_max": "INSTALLER_REVIEW",
+      "source": "B01 §9"
+    },
+    {
+      "id": "walk_in_pantry",
+      "label": "Walk-in Pantry",
+      "family": "utility",
+      "metric": "gross_perimeter_lf",
+      "bands": [
+        {
+          "category": "XS",
+          "min_exclusive": 0,
+          "max_inclusive": 14,
+          "amount_cents": 40000
+        },
+        {
+          "category": "S",
+          "min_exclusive": 14,
+          "max_inclusive": 20,
+          "amount_cents": 45000
+        },
+        {
+          "category": "M",
+          "min_exclusive": 20,
+          "max_inclusive": 28,
+          "amount_cents": 53000
+        },
+        {
+          "category": "L",
+          "min_exclusive": 28,
+          "max_inclusive": 36,
+          "amount_cents": 58000
+        }
+      ],
+      "above_max": "INSTALLER_REVIEW",
+      "source": "B01 §9"
+    },
+    {
+      "id": "butler_pantry",
+      "label": "Butler Pantry",
+      "family": "utility",
+      "metric": "gross_perimeter_lf",
+      "bands": [
+        {
+          "category": "XS",
+          "min_exclusive": 0,
+          "max_inclusive": 20,
+          "amount_cents": 48000
+        },
+        {
+          "category": "S",
+          "min_exclusive": 20,
+          "max_inclusive": 28,
+          "amount_cents": 56000
+        },
+        {
+          "category": "M",
+          "min_exclusive": 28,
+          "max_inclusive": 36,
+          "amount_cents": 65000
+        },
+        {
+          "category": "L",
+          "min_exclusive": 36,
+          "max_inclusive": 52,
+          "amount_cents": 76000
+        }
+      ],
+      "above_max": "INSTALLER_REVIEW",
+      "source": "B01 §9"
+    },
+    {
+      "id": "coffee_space",
+      "label": "Coffee Space",
+      "family": "utility",
+      "metric": "gross_perimeter_lf",
+      "bands": [
+        {
+          "category": "XS",
+          "min_exclusive": 0,
+          "max_inclusive": 18,
+          "amount_cents": 40000
+        },
+        {
+          "category": "S",
+          "min_exclusive": 18,
+          "max_inclusive": 24,
+          "amount_cents": 45000
+        },
+        {
+          "category": "M",
+          "min_exclusive": 24,
+          "max_inclusive": 30,
+          "amount_cents": 53000
+        },
+        {
+          "category": "L",
+          "min_exclusive": 30,
+          "max_inclusive": 36,
+          "amount_cents": 58000
+        }
+      ],
+      "above_max": "INSTALLER_REVIEW",
+      "source": "B01 §9"
+    },
+    {
+      "id": "foyer_entrance",
+      "label": "Foyer / Entrance",
+      "family": "utility",
+      "metric": "gross_perimeter_lf",
+      "bands": [
+        {
+          "category": "XS",
+          "min_exclusive": 0,
+          "max_inclusive": 24,
+          "amount_cents": 45000
+        },
+        {
+          "category": "S",
+          "min_exclusive": 24,
+          "max_inclusive": 32,
+          "amount_cents": 53000
+        },
+        {
+          "category": "M",
+          "min_exclusive": 32,
+          "max_inclusive": 40,
+          "amount_cents": 63000
+        },
+        {
+          "category": "L",
+          "min_exclusive": 40,
+          "max_inclusive": 56,
+          "amount_cents": 73000
+        }
+      ],
+      "above_max": "INSTALLER_REVIEW",
+      "source": "B01 §9"
+    },
+    {
+      "id": "hallway",
+      "label": "Hallway",
+      "family": "utility",
+      "metric": "gross_perimeter_lf",
+      "bands": [
+        {
+          "category": "XS",
+          "min_exclusive": 0,
+          "max_inclusive": 20,
+          "amount_cents": 40000
+        },
+        {
+          "category": "S",
+          "min_exclusive": 20,
+          "max_inclusive": 28,
+          "amount_cents": 45000
+        },
+        {
+          "category": "M",
+          "min_exclusive": 28,
+          "max_inclusive": 38,
+          "amount_cents": 58000
+        },
+        {
+          "category": "L",
+          "min_exclusive": 38,
+          "max_inclusive": 50,
+          "amount_cents": 65000
+        }
+      ],
+      "above_max": "INSTALLER_REVIEW",
+      "source": "B01 §9"
+    }
+  ],
+  "single_wall": {
+    "metric": "selected_wall_width_ft",
+    "bands": [
+      {
+        "category": "XS",
+        "min_exclusive": 0,
+        "max_inclusive": 8,
+        "amount_cents": 23000,
+        "wainscoting_amount_cents": 20000
+      },
+      {
+        "category": "S",
+        "min_exclusive": 8,
+        "max_inclusive": 13,
+        "amount_cents": 25000,
+        "wainscoting_amount_cents": 22000
+      },
+      {
+        "category": "M",
+        "min_exclusive": 13,
+        "max_inclusive": 20,
+        "amount_cents": 28000,
+        "wainscoting_amount_cents": 25000
+      },
+      {
+        "category": "L",
+        "min_exclusive": 20,
+        "max_inclusive": 27,
+        "amount_cents": 33000,
+        "wainscoting_amount_cents": 28000
+      }
+    ],
+    "above_max": "INSTALLER_REVIEW",
+    "source": "B01 §10.1"
+  },
+  "partial_rooms": {
+    "category_from": "full_room_gross_perimeter",
+    "one_wall": "single_wall",
+    "two_walls_multiplier": "0.70",
+    "three_walls_multiplier": "0.85",
+    "all_walls_multiplier": "1.00",
+    "selected_perimeter_ratio_gte": "0.80",
+    "ratio_gte_multiplier": "1.00",
+    "round_to_cents": 1000,
+    "rounding_tie_policy": null,
+    "pending": [
+      "P01",
+      "P02"
+    ],
+    "source": "B01 §10.2"
+  },
+  "modifiers": {
+    "high_wall": {
+      "operator": ">=",
+      "threshold_ft": 10,
+      "single_wall_cents": 4000,
+      "room_by_category_cents": {
+        "XS": 6000,
+        "S": 8000,
+        "M": 10000,
+        "L": 14000
+      },
+      "excluded": [
+        "stairwell",
+        "ceiling_standalone",
+        "ceiling_addon",
+        "kitchen_island"
+      ],
+      "reuse_known_height": true,
+      "over_14_ft_policy": null,
+      "source": "B01 §10.3 + C02"
+    },
+    "wide_wallpaper": {
+      "operator": ">",
+      "threshold_in": 36,
+      "category_cents": {
+        "XS": 10000,
+        "S": 10000,
+        "M": 10000,
+        "L": 20000
+      },
+      "stairwell_cents": {
+        "Standard": 10000,
+        "Large": 20000
+      },
+      "ceiling_cents": {
+        "XXS": 10000,
+        "XS": 10000,
+        "S": 10000,
+        "M": 10000,
+        "L": 20000
+      },
+      "excluded": [
+        "kitchen_island"
+      ],
+      "source": "B01 §10.4"
+    },
+    "slanted_top": {
+      "amount_per_wall_cents": 6000,
+      "excluded_room_families": [
+        "bathroom"
+      ],
+      "excluded_special_scopes": [
+        "kitchen_island"
+      ],
+      "special_geometry": "INSTALLER_REVIEW",
+      "not_for": "tray_ceiling_sloped_sides",
+      "count_required_if_yes": true,
+      "source": "B01 §10.5 + C03"
+    },
+    "wainscoting": {
+      "room_discount_cents": {
+        "XS": 3000,
+        "S": 4000,
+        "M": 5000,
+        "L": 7000
+      },
+      "single_wall": "use_reduced_price_not_double_discount",
+      "excluded": [
+        "kitchen_island",
+        "stairwell",
+        "ceiling",
+        "furniture_interiors"
+      ],
+      "scope_reduction_required": true,
+      "source": "B01 §10.5"
+    },
+    "attribute_surcharge_cents": {
+      "grasscloth": 0,
+      "untrimmed": 0,
+      "prepasted": 0,
+      "peel_and_stick": 0,
+      "mural": 0,
+      "type_II": 0,
+      "normal_cabinetry_surround": 0
+    }
+  },
+  "special_scopes": {
+    "kitchen_island": {
+      "metric_definition_pending": "P07",
+      "bands": [
+        {
+          "max_exclusive": 8,
+          "amount_cents": 22000
+        },
+        {
+          "min_inclusive": 8,
+          "max_inclusive": 10,
+          "amount_cents": 26000
+        },
+        {
+          "min_exclusive": 10,
+          "max_inclusive": 14,
+          "amount_cents": 33000
+        }
+      ],
+      "above_max": "INSTALLER_REVIEW",
+      "normal_moldings_included": true,
+      "automatic_material_height_slope_wainscoting_extras": false,
+      "source": "B01 §11.1"
+    },
+    "stairwell": {
+      "metric_definition_pending": "P07",
+      "one_flight_bands": [
+        {
+          "category": "Standard",
+          "min_exclusive": 0,
+          "max_inclusive": 14,
+          "amount_cents": 68000
+        },
+        {
+          "category": "Large",
+          "min_exclusive": 14,
+          "max_inclusive": 20,
+          "amount_cents": 88000
+        }
+      ],
+      "work_height_bands": [
+        {
+          "category": "A0",
+          "min_exclusive": 0,
+          "max_inclusive": 9,
+          "amount_cents": 0
+        },
+        {
+          "category": "A1",
+          "min_exclusive": 9,
+          "max_inclusive": 11,
+          "amount_cents": 10000
+        },
+        {
+          "category": "A2",
+          "min_exclusive": 11,
+          "max_inclusive": 14,
+          "amount_cents": 20000
+        },
+        {
+          "category": "A3",
+          "min_exclusive": 14,
+          "max_inclusive": 18,
+          "amount_cents": 30000
+        }
+      ],
+      "review_if": [
+        "length>20",
+        "multiple_flights_or_landings",
+        "two_story_open",
+        "work_height>18",
+        "complex_access"
+      ],
+      "regular_high_wall": false,
+      "source": "B01 §11.2"
+    },
+    "ceiling_standalone": {
+      "metric": "area_sqft",
+      "bands": [
+        {
+          "category": "XS",
+          "min_exclusive": 0,
+          "max_inclusive": 40,
+          "amount_cents": 50000
+        },
+        {
+          "category": "S",
+          "min_exclusive": 40,
+          "max_inclusive": 80,
+          "amount_cents": 64000
+        },
+        {
+          "category": "M",
+          "min_exclusive": 80,
+          "max_inclusive": 140,
+          "amount_cents": 75000
+        },
+        {
+          "category": "L",
+          "min_exclusive": 140,
+          "max_inclusive": 220,
+          "amount_cents": 90000
+        }
+      ],
+      "above_max": "INSTALLER_REVIEW",
+      "source": "B01 §11.3"
+    },
+    "ceiling_addon": {
+      "metric": "area_sqft",
+      "bands": [
+        {
+          "category": "XXS",
+          "min_exclusive": 0,
+          "max_inclusive": 20,
+          "amount_cents": 20000
+        },
+        {
+          "category": "XS",
+          "min_exclusive": 20,
+          "max_inclusive": 40,
+          "amount_cents": 35000
+        },
+        {
+          "category": "S",
+          "min_exclusive": 40,
+          "max_inclusive": 80,
+          "amount_cents": 50000
+        },
+        {
+          "category": "M",
+          "min_exclusive": 80,
+          "max_inclusive": 140,
+          "amount_cents": 65000
+        },
+        {
+          "category": "L",
+          "min_exclusive": 140,
+          "max_inclusive": 220,
+          "amount_cents": 80000
+        }
+      ],
+      "above_max": "INSTALLER_REVIEW",
+      "eligibility_pending": "P07",
+      "source": "B01 §11.4"
+    },
+    "ceiling_access": {
+      "normal_ladder_cents": 0,
+      "scaffold_category_cents": {
+        "XXS": 10000,
+        "XS": 10000,
+        "S": 10000,
+        "M": 10000,
+        "L": 20000
+      },
+      "regular_high_wall": false,
+      "review_if": [
+        "height>18ft",
+        "complex_access",
+        "sloped_tray_sides",
+        "multiple_levels"
+      ],
+      "source": "B01 §11.4"
+    }
+  },
+  "services": {
+    "removal": {
+      "single_wall_cents": 20000,
+      "room_category_cents": {
+        "XS": 38000,
+        "S": 38000,
+        "M": 38000,
+        "L": 58000
+      },
+      "partial_rooms": "full_room_category_no_installation_percentage",
+      "oversized": "INSTALLER_REVIEW",
+      "review_if": [
+        "multiple_layers",
+        "painted_over",
+        "extraordinary_difficulty"
+      ],
+      "repairs_and_primer_not_automatic": true,
+      "source": "B01 §12.1"
+    },
+    "primer_labor": {
+      "single_wall_cents": 13000,
+      "bands": [
+        {
+          "category": "P1",
+          "min_exclusive": 0,
+          "max_inclusive": 200,
+          "amount_cents": 18000
+        },
+        {
+          "category": "P2",
+          "min_exclusive": 200,
+          "max_inclusive": 350,
+          "amount_cents": 25000
+        },
+        {
+          "category": "P3",
+          "min_exclusive": 350,
+          "max_inclusive": 500,
+          "amount_cents": 32000
+        },
+        {
+          "category": "P4",
+          "min_exclusive": 500,
+          "max_inclusive": 700,
+          "amount_cents": 40000
+        }
+      ],
+      "metric": "surface_area_to_prime_sqft",
+      "above_max": "INSTALLER_REVIEW",
+      "material_amount_cents": null,
+      "single_wall_limits": null,
+      "source": "B01 §12.2"
+    },
+    "repairs": {
+      "automatic_amount_cents": null,
+      "route": "INSTALLER_REVIEW",
+      "includes": [
+        "mudding",
+        "sanding",
+        "skim_coat",
+        "damaged_drywall",
+        "extensive_correction",
+        "oil_based_primer"
+      ],
+      "source": "B01 §12.3"
+    },
+    "adhesive": {
+      "per_gallon_cents": 3500,
+      "budget_sqft_per_gallon": 250,
+      "formula": "ceil(area_sqft / 250) * 3500",
+      "charge_if": "unpasted AND provider_supplies_adhesive",
+      "zero_if": [
+        "prepasted",
+        "peel_and_stick",
+        "customer_supplies"
+      ],
+      "wall_area": "selected_wall_lf * height_ft",
+      "ceiling_area": "ceiling_sqft",
+      "subtract_openings": false,
+      "unknown_product": "PENDING_NOT_ASSUMED_ZERO",
+      "special_adhesive": "INSTALLER_REVIEW",
+      "aggregation_policy": null,
+      "source": "B01 §12.4"
+    }
+  },
+  "designer": {
+    "base_multiplier": "1.35",
+    "applies_to": "residential_designer_base_project",
+    "show_markup_line": false,
+    "modifiers_services_materials_discount_order": null,
+    "source": "B01 §16.2 + C08"
+  },
+  "routing": {
+    "residential_homeowner": "PREMATCH_ESTIMATE",
+    "residential_designer": "PREMATCH_ESTIMATE",
+    "builder_gc": "MATCH_THEN_DIRECT_PROVIDER_QUOTE",
+    "commercial": "MATCH_THEN_DIRECT_PROVIDER_QUOTE",
+    "commercial_designer": "MATCH_THEN_DIRECT_PROVIDER_QUOTE",
+    "postmatch": "NO_WALIVIO_REPRICING",
+    "unknown_role_or_project_use": "NEEDS_INFO",
+    "source": "B01 §7 + C07-C08"
+  },
+  "answers": {
+    "yes": "add_applicable_known_surcharge",
+    "no": "do_not_add_surcharge",
+    "not_sure": "pending_condition_and_potential_rate_visible_not_added",
+    "source": "C04-C05"
+  },
+  "recommended_price": {
+    "before_client_display": "COORDINATOR_APPROVAL_REQUIRED",
+    "confidence": [
+      "HIGH",
+      "MEDIUM",
+      "LOW"
+    ],
+    "low": "request_specific_information_or_review_no_recommended_amount",
+    "reviewer_actions": [
+      "Approve",
+      "Adjust",
+      "Request More Info"
+    ],
+    "autonomy_min_evaluated_cases_per_category": 120,
+    "autonomy_requires_explicit_owner_approval": true,
+    "confidence_does_not_change_price": true,
+    "source": "B01 §14"
+  },
+  "always_review": [
+    "oversized",
+    "full_kitchen",
+    "walk_in_closet",
+    "wallpaper_inside_shelving_cubbies_niches_bookcases_cabinetry",
+    "extraordinary_geometry_or_product"
+  ],
+  "pending": [
+    {
+      "id": "P01",
+      "topic": "Redondeo partial",
+      "description": "Empate exacto de $5 al redondear a $10: regla sin definir. No usar automáticamente el redondeo bancario del lenguaje."
+    },
+    {
+      "id": "P02",
+      "topic": "Partial complejo",
+      "description": "Prioridad de Single Wall si cubre >=80%; cuatro paredes parciales de cuarto irregular; alturas desiguales y recargos en solo parte del alcance."
+    },
+    {
+      "id": "P03",
+      "topic": "Wainscoting parcial",
+      "description": "Cómo tratar solo algunas paredes o moldura decorativa sin reducción real de alcance."
+    },
+    {
+      "id": "P04",
+      "topic": "Designer 35%",
+      "description": "Alcance sobre modificadores, servicios, materiales; orden respecto a descuentos; redondeo. No aplicar 35% a todo el total."
+    },
+    {
+      "id": "P05",
+      "topic": "Adhesivo agrupado",
+      "description": "Por espacio vs producto/proyecto; alturas distintas, altura realmente cubierta sobre panelado, excedentes y materiales compartidos."
+    },
+    {
+      "id": "P06",
+      "topic": "Primer",
+      "description": "Material sin precio, límites de Single Wall y criterio de preparación necesaria vs opcional. No interpretar material desconocido como gratis."
+    },
+    {
+      "id": "P07",
+      "topic": "Medidas especiales",
+      "description": "Island: cara principal vs suma de caras. Stairwell: qué longitud medir. Ceiling Add-on: elegibilidad por visita/fase."
+    },
+    {
+      "id": "P08",
+      "topic": "Altura normal >14 ft",
+      "description": "Blueprint la propone como protección de revisión pendiente de ratificar. No declarar ese límite como regla aprobada; escalar el caso para decisión."
+    },
+    {
+      "id": "P09",
+      "topic": "Removal especial",
+      "description": "Revisión de retiro en techo/escalera requiere ratificación puntual. No trasladar una tarifa de habitación automáticamente."
+    },
+    {
+      "id": "P10",
+      "topic": "Match Fee",
+      "description": "Base del tier; cortes con centavos/decimales; tier >=$3000 ($29.99 o revisión). No cargar fees con una política supuesta."
+    },
+    {
+      "id": "P11",
+      "topic": "Validación / unidades",
+      "description": "Rangos de entrada válidos, dinero/centavos, precisión y redondeo de unidades deben implementarse y probarse; no redondear medidas antes de clasificar."
+    },
+    {
+      "id": "P12",
+      "topic": "Autonomía",
+      "description": "Métrica de acierto, muestra/diversidad, auditoría y revocación pendientes. 120 casos no activa autonomía automáticamente."
+    },
+    {
+      "id": "P13",
+      "topic": "Onsite",
+      "description": "Distribución de $68, comisiones y reglas de payout/antifraude pendientes. No confundir elegibilidad para payout con depósito."
+    },
+    {
+      "id": "P14",
+      "topic": "Material extraordinario / ancho <19in",
+      "description": "No existe tarifa automática especial; no inventar recargo. Revisión cuando el producto/alcance sea extraordinario."
+    },
+    {
+      "id": "P15",
+      "topic": "Impuestos / otras monedas",
+      "description": "No se recuperó una regla aprobada en las fuentes usadas. Este pricebook se transcribe en USD; no inventar impuestos o conversión de moneda."
+    },
+    {
+      "id": "P16",
+      "topic": "Integración y pruebas",
+      "description": "Los ejemplos de este paquete no prueban la implementación de Andrea. Aprobar contrato de datos, resolver bloqueos y ejecutar QA antes de producción."
+    }
+  ],
+  "overrides": [
+    {
+      "id": "C01",
+      "topic": "Orden del estimado",
+      "rule": "Después de Wall measurements se muestra base provisional; luego se completan los ajustes. La pantalla de condición de paredes quedó pausada. No volver a introducirla como paso obligatorio.",
+      "user_statement": "Sí intentémoslo así / condiciones de la pared no las voy a colocar en el momento."
+    },
+    {
+      "id": "C02",
+      "topic": "Altura",
+      "rule": "Umbral regular >=10 ft (antes >10 ft). Reutilizar alturas conocidas; preguntar solo si faltan. Stairwell/Ceiling/Island conservan excepciones.",
+      "user_statement": "Paredes de 10ft o más / esta pregunta no se le vuelve hacer."
+    },
+    {
+      "id": "C03",
+      "topic": "Remate inclinado",
+      "rule": "+$60 por pared ordinaria aplicable; exentos todos los baños, incluidos Powder Rooms. Conservar tipo de espacio incluso si el alcance es Single Wall.",
+      "user_statement": "Todo lo demás menos baños."
+    },
+    {
+      "id": "C04",
+      "topic": "Yes / No / Not sure",
+      "rule": "Yes suma; No no suma; Not sure no suma todavía, registra condición y tarifa potencial visibles para cliente e instalador.",
+      "user_statement": "Not sure se muestra en la descripción que le llega al instalador."
+    },
+    {
+      "id": "C05",
+      "topic": "Precio visible",
+      "rule": "Mostrar junto a cada pregunta el recargo que corresponde a ese proyecto. No mostrar todas las tarifas posibles como si se acumularan.",
+      "user_statement": "Esos precios deben aparecer al lado de ellas."
+    },
+    {
+      "id": "C06",
+      "topic": "Guardado y extras",
+      "rule": "Guardar proyecto/estimate; crear cuenta o iniciar sesión; servicios adicionales dentro del proyecto antes del matching. No perder respuestas ni pendientes.",
+      "user_statement": "En este punto ya esa estimación tiene que quedar guardada y lista."
+    },
+    {
+      "id": "C07",
+      "topic": "Fin del pricing",
+      "rule": "Después del match, cambios y cotizaciones son directamente entre instalador y cliente. El estimate previo queda como referencia; Walivio no lo recotiza.",
+      "user_statement": "Nuestro trabajo de cotizar termina después del match."
+    },
+    {
+      "id": "C08",
+      "topic": "Rutas profesionales",
+      "rule": "Precio antes del match únicamente para residencial y diseñador residencial. Builder/GC y Business/Commercial: conexión primero, cotización directa después. Diseñador comercial sigue rama comercial.",
+      "user_statement": "Costo antes del match solo aplica para residenciales y diseñadores."
+    }
+  ],
+  "integrations": {
+    "onsite_customer_fee_cents": 6800,
+    "onsite_initial_normal_match_fee_cents": 0,
+    "onsite_acceptance_before_customer_payment": true,
+    "installation_payment": "direct_to_professional",
+    "match_activation": "installer_accepts_AND_fee_payment_succeeds",
+    "match_fee_tiers_status": "SEE_GUIDE_PENDING_BOUNDARIES_AND_SUBTOTAL_NOT_EXECUTABLE"
+  }
+}

@@ -1,0 +1,1722 @@
+<section class="homeowner-wizard">
+
+  <div class="wizard-shell">
+
+    @switch (currentStep) {
+
+
+      <!-- ==================================================
+           H03 · LOCATION + TIMELINE
+      =================================================== -->
+
+      @case ('location') {
+
+        <section class="installer-step">
+
+          <div class="installer-step__inner">
+
+            <nav class="wizard-breadcrumb">
+
+              <button
+                type="button"
+                (click)="back()"
+              >
+                Find My Installer
+              </button>
+
+              <span>/</span>
+
+              <strong>
+                Homeowner
+              </strong>
+
+            </nav>
+
+
+            <!-- LOCATION -->
+
+            <section class="wizard-block">
+
+              <h1>
+                Where is your project?
+              </h1>
+
+
+              <div class="zip-field">
+
+                <label for="location">
+                  ZIP code
+                </label>
+
+
+                <input
+                  #locationInput
+                  id="location"
+                  type="text"
+                  autocomplete="off"
+                  placeholder="ZIP code, city or address"
+                  [ngModel]="locationQuery"
+                  (ngModelChange)="
+                    onLocationQueryChange($event)
+                  "
+                  (keyup.enter)="
+                    confirmLocation()
+                  "
+                />
+
+
+                @if (selectedLocation) {
+
+                  <div class="location-result">
+
+                    <strong>
+                      {{ locationLabel }}
+                    </strong>
+
+
+                    @if (
+                      selectedLocation.zipCode
+                    ) {
+
+                      <span>
+                        {{ selectedLocation.zipCode }}
+                      </span>
+
+                    }
+
+                  </div>
+
+                }
+
+
+                @if (locationError) {
+
+                  <p class="field-error">
+                    {{ locationError }}
+                  </p>
+
+                }
+
+
+                <button
+                  class="confirm-location"
+                  type="button"
+                  [disabled]="
+                    !locationQuery.trim() ||
+                    locationLoading
+                  "
+                  (click)="
+                    confirmLocation()
+                  "
+                >
+
+                  @if (locationLoading) {
+
+                    Checking...
+
+                  } @else if (
+                    locationConfirmed
+                  ) {
+
+                    <i
+                      class="ph ph-check"
+                    ></i>
+
+                    Location confirmed
+
+                  } @else {
+
+                    Confirm location
+
+                  }
+
+                </button>
+
+              </div>
+
+            </section>
+
+
+            <div class="divider"></div>
+
+
+            <!-- TIMELINE -->
+
+            <section class="wizard-block timeline-block">
+
+              <h1>
+                When would you like to get started?
+              </h1>
+
+
+              <div class="timeline-grid">
+
+                @for (
+                  option of startOptions;
+                  track option.value
+                ) {
+
+                  <button
+                    type="button"
+                    class="timeline-card"
+                    [class.selected]="
+                      selectedStartTime ===
+                      option.value
+                    "
+                    (click)="
+                      selectStartTime(
+                        option.value
+                      )
+                    "
+                  >
+
+                    @if (
+                      selectedStartTime ===
+                      option.value
+                    ) {
+
+                      <span class="timeline-check">
+
+                        <i
+                          class="ph ph-check"
+                        ></i>
+
+                      </span>
+
+                    }
+
+
+                    <i
+                      class="timeline-icon ph"
+                      [ngClass]="
+                        option.icon
+                      "
+                    ></i>
+
+
+                    <strong>
+                      {{ option.label }}
+                    </strong>
+
+                  </button>
+
+                }
+
+              </div>
+
+
+              <p class="timeline-note">
+                Your preferred timeframe is not a confirmed appointment.
+              </p>
+
+            </section>
+
+
+            <!-- FOOTER -->
+
+            <footer class="wizard-footer">
+
+              <button
+                type="button"
+                class="back-button"
+                (click)="back()"
+              >
+
+                <i
+                  class="ph ph-arrow-left"
+                ></i>
+
+                Back
+
+              </button>
+
+
+              <button
+                type="button"
+                class="continue-button"
+                [disabled]="
+                  !locationConfirmed ||
+                  !selectedLocation ||
+                  !selectedStartTime
+                "
+                (click)="
+                  continueFromLocation()
+                "
+              >
+
+                Next
+
+                <i
+                  class="ph ph-arrow-right"
+                ></i>
+
+              </button>
+
+            </footer>
+
+          </div>
+
+        </section>
+
+      }
+
+
+      <!-- ==================================================
+           H04 · SPACES
+      =================================================== -->
+
+      @case ('spaces') {
+
+        <section class="installer-spaces">
+
+          <div class="installer-spaces__inner">
+
+            <nav class="wizard-breadcrumb">
+
+              <button
+                type="button"
+                (click)="back()"
+              >
+                Find My Installer
+              </button>
+
+              <span>/</span>
+
+              <strong>
+                Homeowner
+              </strong>
+
+            </nav>
+
+
+            <header class="spaces-header">
+
+              <h1>
+                Which spaces are included?
+              </h1>
+
+              <p>
+                Select all that apply.
+              </p>
+
+            </header>
+
+
+            <div class="spaces-grid">
+
+              @for (
+                space of spaces;
+                track space.value
+              ) {
+
+                <button
+                  type="button"
+                  class="space-card"
+                  [class.selected]="
+                    isSelected(
+                      space.value
+                    )
+                  "
+                  [attr.aria-pressed]="
+                    isSelected(
+                      space.value
+                    )
+                  "
+                  (click)="
+                    toggleSpace(
+                      space.value
+                    )
+                  "
+                >
+
+                  <span
+                    class="space-selector"
+                    [class.checked]="
+                      isSelected(
+                        space.value
+                      )
+                    "
+                  >
+
+                    @if (
+                      isSelected(
+                        space.value
+                      )
+                    ) {
+
+                      <i
+                        class="ph ph-check"
+                      ></i>
+
+                    }
+
+                  </span>
+
+
+                  <i
+                    class="space-icon ph"
+                    [ngClass]="
+                      space.icon
+                    "
+                  ></i>
+
+
+                  <span class="space-label">
+                    {{ space.label }}
+                  </span>
+
+                </button>
+
+              }
+
+            </div>
+
+
+            <p class="spaces-note">
+              You can include more than one space.
+            </p>
+
+
+            <footer class="wizard-footer">
+
+              <button
+                type="button"
+                class="back-button"
+                (click)="back()"
+              >
+
+                <i
+                  class="ph ph-arrow-left"
+                ></i>
+
+                Back
+
+              </button>
+
+
+              <div class="footer-actions">
+
+                <span class="selection-count">
+
+                  {{ selectedCount }}
+
+                  @if (
+                    selectedCount === 1
+                  ) {
+
+                    space selected
+
+                  } @else {
+
+                    spaces selected
+
+                  }
+
+                </span>
+
+
+                <button
+                  type="button"
+                  class="continue-button"
+                  [disabled]="
+                    selectedCount === 0
+                  "
+                  (click)="
+                    continueFromSpaces()
+                  "
+                >
+
+                  Next
+
+                  <i
+                    class="ph ph-arrow-right"
+                  ></i>
+
+                </button>
+
+              </div>
+
+            </footer>
+
+          </div>
+
+        </section>
+
+      }
+
+
+      <!-- ==================================================
+           H05 · BATHROOM TYPE
+      =================================================== -->
+
+      @case ('bathroom-type') {
+
+        <section class="wizard-step-page">
+
+          <div class="wizard-step-page__inner">
+
+            <nav class="wizard-breadcrumb">
+
+              <button
+                type="button"
+                (click)="back()"
+              >
+                Find My Installer
+              </button>
+
+              <span>/</span>
+
+              <span>
+                Homeowner
+              </span>
+
+            </nav>
+
+
+            <div class="step-context">
+              Bathroom
+            </div>
+
+
+            <header class="step-header">
+
+              <h1>
+                What type of bathroom is it?
+              </h1>
+
+            </header>
+
+
+            <div class="bathroom-grid">
+
+              @for (
+                bathroom of bathroomTypes;
+                track bathroom.value
+              ) {
+
+                <button
+                  type="button"
+                  class="option-card bathroom-card"
+                  [class.selected]="
+                    selectedBathroomType ===
+                    bathroom.value
+                  "
+                  (click)="
+                    selectBathroomType(
+                      bathroom.value
+                    )
+                  "
+                >
+
+                  @if (
+                    selectedBathroomType ===
+                    bathroom.value
+                  ) {
+
+                    <span class="option-check">
+
+                      <i
+                        class="ph ph-check"
+                      ></i>
+
+                    </span>
+
+                  }
+
+
+                  <i
+                    class="option-icon ph"
+                    [ngClass]="
+                      bathroom.icon
+                    "
+                  ></i>
+
+
+                  <strong>
+                    {{ bathroom.title }}
+                  </strong>
+
+
+                  <span>
+                    {{ bathroom.description }}
+                  </span>
+
+                </button>
+
+              }
+
+            </div>
+
+
+            <footer class="wizard-footer">
+
+              <button
+                type="button"
+                class="back-button"
+                (click)="back()"
+              >
+
+                <i
+                  class="ph ph-arrow-left"
+                ></i>
+
+                Back
+
+              </button>
+
+
+              <button
+                type="button"
+                class="continue-button"
+                [disabled]="
+                  !selectedBathroomType
+                "
+                (click)="
+                  continueFromBathroom()
+                "
+              >
+
+                Next
+
+                <i
+                  class="ph ph-arrow-right"
+                ></i>
+
+              </button>
+
+            </footer>
+
+          </div>
+
+        </section>
+
+      }
+
+
+      <!-- ==================================================
+           H06 · WALLS
+      =================================================== -->
+
+      @case ('walls') {
+
+        <section class="wizard-step-page">
+
+          <div class="wizard-step-page__inner">
+
+            <nav class="wizard-breadcrumb">
+
+              <button
+                type="button"
+                (click)="back()"
+              >
+                Find My Installer
+              </button>
+
+              <span>/</span>
+
+              <span>
+                Homeowner
+              </span>
+
+            </nav>
+
+
+            @if (activeSpaceLabel) {
+
+              <div class="step-context">
+                {{ activeSpaceLabel }}
+              </div>
+
+            }
+
+
+            <header class="step-header">
+
+              <h1>
+                How many walls would you like wallpapered?
+              </h1>
+
+            </header>
+
+
+            <div class="walls-grid">
+
+              @for (
+                option of wallOptions;
+                track option.value
+              ) {
+
+                <button
+                  type="button"
+                  class="option-card wall-card"
+                  [class.selected]="
+                    selectedWallCoverage ===
+                    option.value
+                  "
+                  (click)="
+                    selectWallCoverage(
+                      option.value
+                    )
+                  "
+                >
+
+                  @if (
+                    selectedWallCoverage ===
+                    option.value
+                  ) {
+
+                    <span class="option-check">
+
+                      <i
+                        class="ph ph-check"
+                      ></i>
+
+                    </span>
+
+                  }
+
+
+                  <i
+                    class="option-icon ph"
+                    [ngClass]="
+                      option.icon
+                    "
+                  ></i>
+
+
+                  <strong>
+                    {{ option.label }}
+                  </strong>
+
+                </button>
+
+              }
+
+            </div>
+
+
+            <section class="paneling-question">
+
+              <h2>
+                Do your walls have trim or paneling on the lower half?
+              </h2>
+
+
+              <div class="binary-options">
+
+                <button
+                  type="button"
+                  class="binary-card"
+                  [class.selected]="
+                    lowerPaneling === true
+                  "
+                  (click)="
+                    selectLowerPaneling(true)
+                  "
+                >
+
+                  <span class="radio-indicator">
+
+                    @if (
+                      lowerPaneling === true
+                    ) {
+
+                      <span></span>
+
+                    }
+
+                  </span>
+
+                  Yes
+
+                </button>
+
+
+                <button
+                  type="button"
+                  class="binary-card"
+                  [class.selected]="
+                    lowerPaneling === false
+                  "
+                  (click)="
+                    selectLowerPaneling(false)
+                  "
+                >
+
+                  <span class="radio-indicator">
+
+                    @if (
+                      lowerPaneling === false
+                    ) {
+
+                      <span></span>
+
+                    }
+
+                  </span>
+
+                  No
+
+                </button>
+
+              </div>
+
+            </section>
+
+
+            <footer class="wizard-footer">
+
+              <button
+                type="button"
+                class="back-button"
+                (click)="back()"
+              >
+
+                <i
+                  class="ph ph-arrow-left"
+                ></i>
+
+                Back
+
+              </button>
+
+
+              <button
+                type="button"
+                class="continue-button"
+                [disabled]="
+                  !selectedWallCoverage ||
+                  lowerPaneling === null
+                "
+                (click)="
+                  continueFromWalls()
+                "
+              >
+
+                Next
+
+                <i
+                  class="ph ph-arrow-right"
+                ></i>
+
+              </button>
+
+            </footer>
+
+          </div>
+
+        </section>
+
+      }
+
+
+      <!-- ==================================================
+           H72 · MULTIPLE SPACES
+      =================================================== -->
+
+      @case ('spaces-progress') {
+
+        <section class="spaces-progress-page">
+
+          <div class="spaces-progress-page__inner">
+
+            <nav class="wizard-breadcrumb">
+
+              <button
+                type="button"
+                (click)="back()"
+              >
+                Find My Installer
+              </button>
+
+              <span>/</span>
+
+              <strong>
+                Homeowner
+              </strong>
+
+            </nav>
+
+
+            <header class="progress-header">
+
+              <h1>
+                Complete your space details
+              </h1>
+
+              <p>
+                Add the information for each space in your project.
+                You can review and edit the details at any time
+                before continuing.
+              </p>
+
+            </header>
+
+
+            <div class="progress-grid">
+
+              @for (
+                item of spacesProgress;
+                track item.space
+              ) {
+
+                <article
+                  class="progress-card"
+                  [class.completed]="
+                    item.completed
+                  "
+                >
+
+                  <div class="progress-card__icon">
+
+                    <i
+                      class="ph"
+                      [ngClass]="
+                        item.icon
+                      "
+                    ></i>
+
+                  </div>
+
+
+                  <div class="progress-card__content">
+
+                    <h2>
+                      {{ item.label }}
+                    </h2>
+
+
+                    @if (item.completed) {
+
+                      <span class="status-badge complete">
+
+                        <i
+                          class="ph ph-check-circle"
+                        ></i>
+
+                        Details complete
+
+                      </span>
+
+                    } @else {
+
+                      <span class="status-badge pending">
+
+                        <i
+                          class="ph ph-warning-circle"
+                        ></i>
+
+                        Details needed
+
+                      </span>
+
+                    }
+
+
+                    <p>
+
+                      @if (item.completed) {
+
+                        Space information completed.
+
+                      } @else {
+
+                        Add measurements, photos, or request
+                        an onsite estimate.
+
+                      }
+
+                    </p>
+
+
+                    <button
+                      type="button"
+                      class="space-detail-button"
+                      [class.primary]="
+                        !item.completed
+                      "
+                      (click)="
+                        editSpace(
+                          item.space
+                        )
+                      "
+                    >
+
+                      @if (item.completed) {
+
+                        Review details
+
+                      } @else {
+
+                        Add details
+
+                      }
+
+                    </button>
+
+                  </div>
+
+                </article>
+
+              }
+
+            </div>
+
+
+            <footer class="wizard-footer">
+
+              <button
+                type="button"
+                class="back-button"
+                (click)="back()"
+              >
+
+                <i
+                  class="ph ph-arrow-left"
+                ></i>
+
+                Back
+
+              </button>
+
+
+              <div class="footer-actions">
+
+                <span class="selection-count">
+
+                  {{ completedSpacesCount }}
+                  of
+                  {{ selectedCount }}
+                  spaces ready
+
+                </span>
+
+
+                @if (
+                  completedSpacesCount ===
+                  selectedCount &&
+                  selectedCount > 0
+                ) {
+
+                  <button
+                    type="button"
+                    class="continue-button"
+                    (click)="
+                      goTo('review')
+                    "
+                  >
+
+                    Next
+
+                    <i
+                      class="ph ph-arrow-right"
+                    ></i>
+
+                  </button>
+
+                }
+
+              </div>
+
+            </footer>
+
+          </div>
+
+        </section>
+
+      }
+
+
+      <!-- ==================================================
+           H07 · SPACE DETAILS
+      =================================================== -->
+
+      @case ('space-details') {
+
+        <section class="space-details-page">
+
+          <div class="space-details-page__inner">
+
+            <nav class="wizard-breadcrumb">
+
+              <button
+                type="button"
+                (click)="back()"
+              >
+                Find My Installer
+              </button>
+
+              <span>/</span>
+
+              <span>
+                Homeowner
+              </span>
+
+              @if (activeSpaceDetailLabel) {
+
+                <span>/</span>
+
+                <strong>
+                  {{ activeSpaceDetailLabel }}
+                </strong>
+
+              }
+
+            </nav>
+
+
+            <header class="step-header">
+
+              <h1>
+                Add your space details
+              </h1>
+
+              <p>
+                Add photos, measurements, or both.
+              </p>
+
+            </header>
+
+
+            <section class="details-section">
+
+              <div class="details-section__heading">
+
+                <h2>Photos</h2>
+
+                <label class="add-details-button">
+
+                  <i class="ph ph-plus"></i>
+
+                  Add photos
+
+                  <input
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    (change)="onPhotosSelected($event)"
+                  />
+
+                </label>
+
+              </div>
+
+
+              @if (spacePhotos.length > 0) {
+
+                <div class="photos-grid">
+
+                  @for (photo of spacePhotos; track photo.id) {
+
+                    <article class="photo-card">
+
+                      <img
+                        [src]="photo.previewUrl"
+                        [alt]="photo.name"
+                      />
+
+                      <div class="photo-card__actions">
+
+                        <button
+                          type="button"
+                          aria-label="View photo"
+                          (click)="viewPhoto(photo)"
+                        >
+                          <i class="ph ph-magnifying-glass-plus"></i>
+                        </button>
+
+                        <button
+                          type="button"
+                          aria-label="Remove photo"
+                          (click)="removePhoto(photo)"
+                        >
+                          <i class="ph ph-trash"></i>
+                        </button>
+
+                      </div>
+
+                    </article>
+
+                  }
+
+                </div>
+
+              } @else {
+
+                <p class="details-empty-state">
+                  Add clear photos of the walls in this space.
+                </p>
+
+              }
+
+            </section>
+
+
+            <div class="details-divider"></div>
+
+
+            <section class="details-section">
+
+              <div class="details-section__heading measurements-heading">
+
+                <h2>Wall measurements</h2>
+
+                <label class="measurement-unit" for="measurement-unit">
+                  Units
+                  <select
+                    id="measurement-unit"
+                    class="cw-native-select"
+                    [ngModel]="measurementUnit"
+                    (ngModelChange)="selectMeasurementUnit($event)"
+                  >
+                    @for (unit of measurementUnits; track unit.value) {
+                      <option [value]="unit.value">{{ unit.label }}</option>
+                    }
+                  </select>
+                </label>
+
+              </div>
+
+
+              <div class="measurement-grid">
+
+                @for (
+                  wall of wallMeasurements;
+                  track wall.id;
+                  let wallIndex = $index
+                ) {
+
+                  <article class="measurement-card">
+
+                    <div class="measurement-card__header">
+
+                      <h3>Wall {{ wallIndex + 1 }}</h3>
+
+                      @if (wallMeasurements.length > 1) {
+
+                        <button
+                          type="button"
+                          aria-label="Remove wall"
+                          (click)="removeWall(wall.id)"
+                        >
+                          <i class="ph ph-trash"></i>
+                        </button>
+
+                      }
+
+                    </div>
+
+
+                    @if (measurementUnit === 'feet-inches') {
+                      <div class="measurement-row">
+                        <span>Width</span>
+                        <label>
+                          <input type="number" inputmode="numeric" min="0" step="1"
+                            [attr.aria-label]="'Wall ' + (wallIndex + 1) + ' width feet'"
+                            [ngModel]="wall.widthFeet" (ngModelChange)="updateWallValue(wall, 'widthFeet', $event)" />
+                          <small>ft</small>
+                        </label>
+                        <label>
+                          <input type="number" inputmode="numeric" min="0" max="11" step="0.01"
+                            [attr.aria-label]="'Wall ' + (wallIndex + 1) + ' width inches'"
+                            [ngModel]="wall.widthInches" (ngModelChange)="updateWallValue(wall, 'widthInches', $event)" />
+                          <small>in</small>
+                        </label>
+                      </div>
+                      <div class="measurement-row">
+                        <span>Height</span>
+                        <label>
+                          <input type="number" inputmode="numeric" min="0" step="1"
+                            [attr.aria-label]="'Wall ' + (wallIndex + 1) + ' height feet'"
+                            [ngModel]="wall.heightFeet" (ngModelChange)="updateWallValue(wall, 'heightFeet', $event)" />
+                          <small>ft</small>
+                        </label>
+                        <label>
+                          <input type="number" inputmode="numeric" min="0" max="11" step="0.01"
+                            [attr.aria-label]="'Wall ' + (wallIndex + 1) + ' height inches'"
+                            [ngModel]="wall.heightInches" (ngModelChange)="updateWallValue(wall, 'heightInches', $event)" />
+                          <small>in</small>
+                        </label>
+                      </div>
+                    } @else {
+                      <div class="measurement-row measurement-row--single-unit">
+                        <span>Width</span>
+                        <label>
+                          <input type="number" inputmode="decimal" min="0" step="any"
+                            [attr.aria-label]="'Wall ' + (wallIndex + 1) + ' width ' + selectedMeasurementUnit.label"
+                            [ngModel]="wall.widthValue" (ngModelChange)="updateRawWallValue(wall, 'widthValue', $event)" />
+                          <small>{{ selectedMeasurementUnit.suffix }}</small>
+                        </label>
+                      </div>
+                      <div class="measurement-row measurement-row--single-unit">
+                        <span>Height</span>
+                        <label>
+                          <input type="number" inputmode="decimal" min="0" step="any"
+                            [attr.aria-label]="'Wall ' + (wallIndex + 1) + ' height ' + selectedMeasurementUnit.label"
+                            [ngModel]="wall.heightValue" (ngModelChange)="updateRawWallValue(wall, 'heightValue', $event)" />
+                          <small>{{ selectedMeasurementUnit.suffix }}</small>
+                        </label>
+                      </div>
+                    }
+
+                  </article>
+
+                }
+
+              </div>
+
+
+              <button
+                type="button"
+                class="add-details-button add-wall-button"
+                (click)="addWall()"
+              >
+                <i class="ph ph-plus"></i>
+                Add wall
+              </button>
+
+            </section>
+
+
+            <section class="onsite-option">
+
+              <span>Prefer an onsite visit?</span>
+
+              <button
+                type="button"
+                (click)="requestOnsiteEstimate()"
+              >
+                View onsite option
+              </button>
+
+            </section>
+
+
+            <footer class="wizard-footer">
+
+              <button
+                type="button"
+                class="back-button"
+                (click)="back()"
+              >
+
+                <i
+                  class="ph ph-arrow-left"
+                ></i>
+
+                Back
+
+              </button>
+
+
+              <button
+                type="button"
+                class="continue-button"
+                [disabled]="!canContinueFromSpaceDetails"
+                (click)="continueFromSpaceDetails()"
+              >
+
+                Next
+
+                <i class="ph ph-arrow-right"></i>
+
+              </button>
+
+            </footer>
+
+          </div>
+
+        </section>
+
+
+        @if (enlargedPhoto) {
+
+          <div
+            class="photo-lightbox"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Photo preview"
+            tabindex="-1"
+            (keydown)="onPhotoModalKeydown($event)"
+          >
+
+            <button
+              type="button"
+              class="photo-lightbox__close"
+              aria-label="Close photo preview"
+              (click)="closePhotoPreview()"
+            >
+              <i class="ph ph-x"></i>
+            </button>
+
+            <img
+              [src]="enlargedPhoto.previewUrl"
+              [alt]="enlargedPhoto.name"
+            />
+
+          </div>
+
+        }
+
+      }
+
+
+      <!-- ==================================================
+           H11 · BASE INSTALLATION ESTIMATE
+      =================================================== -->
+
+      @case ('base-estimate') {
+
+        <section class="base-estimate-page">
+
+          <div class="base-estimate-page__inner">
+
+            <nav class="wizard-breadcrumb">
+              <button type="button" (click)="back()">
+                Find My Installer
+              </button>
+              <span>/</span>
+              <strong>Homeowner</strong>
+            </nav>
+
+            <header class="step-header base-estimate-header">
+              <h1>Your base installation estimate</h1>
+              <span class="estimate-status">{{ baseInstallationEstimate.statusLabel }}</span>
+            </header>
+
+            <section class="base-estimate-card" aria-label="Base installation estimate">
+              <h2>Installation labor</h2>
+              <strong class="base-estimate-amount">
+                {{ baseInstallationEstimate.laborAmountLabel }}
+              </strong>
+              <p>{{ baseInstallationEstimate.basisLabel }}</p>
+            </section>
+
+            <p class="base-estimate-disclaimer">
+              {{ baseInstallationEstimate.disclaimer }}
+            </p>
+
+            <button
+              type="button"
+              class="continue-button base-estimate-refine"
+              (click)="refineBaseEstimate()"
+            >
+              Refine my estimate
+              <i class="ph ph-arrow-right"></i>
+            </button>
+
+            <footer class="wizard-footer base-estimate-footer">
+              <button type="button" class="back-button" (click)="back()">
+                Back
+              </button>
+            </footer>
+
+          </div>
+
+        </section>
+
+      }
+
+      <!-- H12 -->
+      @case ('refine-estimate') {
+        <section class="estimate-flow-page"><div class="estimate-flow-shell">
+          <nav class="wizard-breadcrumb"><button type="button" (click)="back()">Find My Installer</button><span>/</span><strong>Homeowner</strong></nav>
+          <h1>A few details to refine your estimate</h1>
+          <div class="refinement-grid">
+            @if (hasRefinementQuestion('width')) { <article class="refinement-card"><i class="ph ph-scroll refinement-icon"></i><h2>Is your wallpaper wider than 36 inches?</h2>@if (refinementPotentialRates.width) { <strong>+{{ refinementPotentialRates.width }}</strong><span>If Yes</span> } @else { <span>We need this detail to complete your estimate.</span> }<div class="answer-row">@for (answer of ['yes', 'no', 'not-sure']; track answer) { <button type="button" [class.selected]="refinementAnswers.width === answer" (click)="selectRefinement('width', $any(answer))">{{ answer === 'not-sure' ? 'Not sure' : (answer | titlecase) }}</button> }</div></article> }
+            @if (refinementPotentialRates.height) { <article class="refinement-card"><i class="ph ph-arrows-vertical refinement-icon"></i><h2>Are any walls 10 feet or taller?</h2><strong>+{{ refinementPotentialRates.height }}</strong><span>If Yes</span><div class="answer-row">@for (answer of ['yes', 'no', 'not-sure']; track answer) { <button type="button" [class.selected]="refinementAnswers.height === answer" (click)="selectRefinement('height', $any(answer))">{{ answer === 'not-sure' ? 'Not sure' : (answer | titlecase) }}</button> }</div></article> }
+            @if (refinementPotentialRates.sloped) { <article class="refinement-card"><i class="ph ph-triangle refinement-icon"></i><h2>Do any walls have a sloped top?</h2><strong>+{{ refinementPotentialRates.sloped }} per wall</strong><span>If Yes</span><div class="answer-row">@for (answer of ['yes', 'no', 'not-sure']; track answer) { <button type="button" [class.selected]="refinementAnswers.sloped === answer" (click)="selectRefinement('sloped', $any(answer))">{{ answer === 'not-sure' ? 'Not sure' : (answer | titlecase) }}</button> }</div></article> }
+          </div>
+          @if (activePricingResult.pending_items.length) { <aside class="estimate-note"><i class="ph ph-info"></i><div>@for (item of activePricingResult.pending_items; track item.condition) { <strong>{{ item.condition }}</strong><span>@if (item.potential_rate_cents !== null) { Potential {{ formatCents(item.potential_rate_cents) }}. Not added yet. }</span> }</div></aside> }
+          <footer class="wizard-footer"><button type="button" class="back-button" (click)="back()">Back</button><button type="button" class="continue-button" (click)="continueFromRefinement()">Next</button></footer>
+        </div></section>
+      }
+
+      <!-- H37 -->
+      @case ('slanted-walls') {
+        <section class="estimate-flow-page"><div class="estimate-flow-shell wide">
+          <nav class="wizard-breadcrumb"><button type="button" (click)="back()">Homeowner</button><span>/</span><strong>Installation adjustments</strong></nav>
+          <h1>Which walls have a slanted top?</h1><p class="flow-subtitle">Select all walls that have a slanted or angled top (e.g. vaulted or sloped ceiling).</p>
+          <div class="slanted-grid">@for (wall of ['Wall 1', 'Wall 2', 'Wall 3', 'Wall 4']; track wall) { <button type="button" class="slanted-card" [class.selected]="selectedSlantedWalls.has(wall)" (click)="toggleSlantedWall(wall)"><strong>{{wall}}</strong><i class="ph" [ngClass]="selectedSlantedWalls.has(wall) ? 'ph-check-circle' : 'ph-circle'"></i><span class="wall-shape" [class.down]="wall === 'Wall 3'"></span></button> }</div>
+          <div class="slanted-summary"><span>Rate is calculated by your estimate</span><strong>{{ selectedSlantedWalls.size }} wall selected</strong></div><footer class="wizard-footer"><button type="button" class="back-button" (click)="back()">Back</button><button type="button" class="continue-button" (click)="continueFromSlantedWalls()">Next</button></footer>
+        </div></section>
+      }
+
+      <!-- H13 -->
+      @case ('installation-estimate') {
+        <section class="estimate-flow-page"><div class="estimate-flow-shell estimate-single">
+          <nav class="wizard-breadcrumb"><button type="button" (click)="back()">Find My Installer</button><span>/</span><strong>Homeowner</strong></nav><header class="step-header"><h1>Your installation estimate</h1><p>{{ activePricingResult.pricing_status.replaceAll('_', ' ') }}</p></header>
+          <section class="installation-card">@for (item of activePricingResult.line_items; track item.rule_id) { <div><span>{{ item.reason }}</span><strong>{{ item.amount_cents >= 0 ? '+' : '' }}{{ formatCents(item.amount_cents) }}</strong></div> }<hr><p>Current estimated labor</p><h2>{{ activePricingResult.known_subtotal_cents === null ? 'Installer review' : formatCents(activePricingResult.known_subtotal_cents) }}</h2></section>
+          @if (activePricingResult.pending_items.length || activePricingResult.review_reasons.length) { <aside class="estimate-note"><i class="ph ph-info"></i><span>@for (item of activePricingResult.pending_items; track item.condition) { {{ item.condition }} } @for (reason of activePricingResult.review_reasons; track reason) { {{ reason }} }</span></aside> }<p class="save-copy">Create your profile to keep this estimate and manage your projects.</p><button type="button" class="continue-button save-estimate-button" (click)="saveEstimateAndContinue()">Save &amp; continue</button><footer class="wizard-footer"><button type="button" class="back-button" (click)="back()">Back</button></footer>
+        </div></section>
+      }
+
+      <!-- H14 / H15 -->
+       @case ('create-profile') { <section class="account-page"><div class="account-shell"><aside><h1>Keep your project<br>in one place</h1><i class="ph ph-folder account-icon"></i><div class="account-summary"><h2>{{ activeSpaceLabel || 'Your project' }}</h2><strong>{{ estimateTotalLabel }}</strong><p>Pending details remain visible in your estimate.</p></div></aside><main><h1>Create your profile</h1><p>Save your estimate and manage your projects.</p><div class="name-fields"><label>First name<input [(ngModel)]="firstName" autocomplete="given-name"></label><label>Last name<input [(ngModel)]="lastName" autocomplete="family-name"></label></div><label>Email<input [(ngModel)]="accountEmail" type="email" autocomplete="email"></label><label>Mobile number<input [(ngModel)]="accountPhone" type="tel" autocomplete="tel"></label><label>Password<input [(ngModel)]="accountPassword" type="password" autocomplete="new-password"></label><small>By creating an account, you agree to the <u>Terms</u> and acknowledge the <u>Privacy Policy</u>.</small>@if (accountError) { <p class="field-error">{{ accountError }}</p> }<button type="button" class="continue-button" [disabled]="accountSaving" (click)="continueToProjectHome()">Create profile &amp; continue</button><p class="account-switch">Already have an account? <button type="button" (click)="showSignIn()">Sign in</button></p><button type="button" class="text-back" (click)="back()">← Back</button></main></div></section> }
+        @case ('sign-in') { <section class="account-page signin-page"><div class="account-shell"><aside><h1>Your estimate<br>stays with your<br>project</h1><i class="ph ph-folder account-icon"></i><div class="account-summary"><h2>{{ activeSpaceLabel || 'Your project' }}</h2><strong>{{ estimateTotalLabel }}</strong><p>Sign in to restore and save this project.</p></div></aside><main><h1>Welcome back</h1><p>Sign in to save this project to your profile.</p><label>Email<input [(ngModel)]="accountEmail" type="email" autocomplete="email"></label><label>Password<input [(ngModel)]="accountPassword" type="password" autocomplete="current-password"></label><button type="button" class="forgot" (click)="openPasswordReset()">Forgot password?</button>@if (accountError) { <p class="field-error">{{ accountError }}</p> }<button type="button" class="continue-button" [disabled]="accountSaving" (click)="continueToProjectHome()">Sign in &amp; continue</button><p class="account-switch">New to Walivio? <button type="button" (click)="showCreateProfile()">Create a profile</button></p><button type="button" class="text-back" (click)="back()">← Back</button></main></div></section> }
+
+      <!-- H16, H26, H28 -->
+        @case ('project-home') { <section class="dashboard-page"><aside class="dashboard-nav"><h1>Walivio</h1><span>⌂ &nbsp; Overview</span><span>▱ &nbsp; My projects</span><button type="button" (click)="openProfile()">♙ &nbsp; My profile</button><button type="button" (click)="signOut()">Sign out</button></aside><main><h1>Welcome, {{ auth.user?.name || 'Homeowner' }}</h1><p>Your projects, all in one place.</p><h2>My Projects</h2>@for (project of projectRecords; track project.id) { <article class="project-card"><div class="project-art"></div><div><h2>{{ project.project_name || 'Wallpaper installation project' }}</h2><p>Status: {{ project.status || 'sent' }}</p>@if (project.payment_status) { <p>Payment: {{ project.payment_status }}</p> }<p>{{ project.customer_role || 'homeowner' }} · {{ project.project_use || 'residential' }}</p><hr><span>Project location</span><strong>{{ project.city || project.zip_code || 'Location saved' }}</strong><button type="button" class="continue-button" (click)="openProject(project)">Open project</button></div></article> } @if (!projectRecords.length) { <p>No saved projects yet.</p> }</main></section> }
+
+       @case ('additional-info') { <section class="dashboard-page"><main class="review-panel"><h1>Additional information requested</h1><p>The review team needs more information before completing the estimate.</p><label>Information<textarea [(ngModel)]="additionalInfo" rows="6"></textarea></label>@if (additionalInfoError) { <p class="field-error">{{ additionalInfoError }}</p> }<div class="wizard-footer"><button type="button" class="back-button" (click)="back()">Back</button><button type="button" class="continue-button" (click)="submitAdditionalInfo()">Send information</button></div></main></section> }
+
+       @case ('profile') { <section class="dashboard-page"><main class="account-shell"><h1>Personal details</h1><label>Name<input [(ngModel)]="profileName" autocomplete="name"></label><label>Phone<input [(ngModel)]="profilePhone" autocomplete="tel"></label>@if (profileMessage) { <p>{{ profileMessage }}</p> }<div class="wizard-footer"><button type="button" class="back-button" (click)="back()">Back</button><button type="button" class="continue-button" (click)="saveProfile()">Save changes</button></div></main></section> }
+
+       @case ('reset-password') { <section class="account-page signin-page"><main><h1>Reset password</h1><p>We will email a reset link if the account exists.</p><label>Email<input [(ngModel)]="resetEmail" type="email" autocomplete="email"></label>@if (resetMessage) { <p>{{ resetMessage }}</p> }<button type="button" class="continue-button" (click)="sendPasswordReset()">Send reset link</button><button type="button" class="text-back" (click)="back()">Back to sign in</button></main></section> }
+
+       @case ('reset-email-sent') { <section class="account-page signin-page"><main><h1>Reset email sent</h1><p>{{ resetMessage }}</p><button type="button" class="continue-button" (click)="sendPasswordReset()">Resend</button><button type="button" class="text-back" (click)="goTo('sign-in')">Back to sign in</button></main></section> }
+       @case ('services') { <section class="estimate-flow-page"><div class="estimate-flow-shell"><nav class="wizard-breadcrumb"><button type="button" (click)="back()">My projects</button><span>/</span><strong>Services</strong></nav><h1>Services for your project</h1><p class="flow-subtitle">Choose only services shown in the Walivio project flow. Final scope is confirmed by the installer.</p><div class="refinement-grid">@for (service of serviceOptions; track service.key) { <button type="button" class="refinement-card" [class.selected]="isServiceSelected(service.key)" (click)="toggleAdditionalService(service.key)"><i class="ph ph-plus-circle refinement-icon"></i><h2>{{ service.label }}</h2><span>{{ service.description }}</span><strong>{{ isServiceSelected(service.key) ? 'Selected' : 'Request price' }}</strong></button> }</div><p class="estimate-note"><i class="ph ph-info"></i><span>Services requiring additional measurements remain pending or installer review. They are never priced as zero.</span></p><footer class="wizard-footer"><button type="button" class="back-button" (click)="back()">Back</button><button type="button" class="continue-button" (click)="continueWithoutExtras()">Continue to installers</button></footer></div></section> }
+       @case ('photos-review') { <section class="dashboard-page"><aside class="dashboard-nav"><h1>Walivio</h1><span>⌂ &nbsp; Overview</span><span>▱ &nbsp; My projects</span><span>♙ &nbsp; My profile</span></aside><main><header class="review-heading"><div><h1>Your photos are under review</h1><p>Bedroom · Raleigh</p></div><strong>◷ &nbsp; Review pending</strong></header><article class="review-panel"><h2>We’ll review your space before sharing an estimate.</h2><p>Our team is looking at your photos to understand your space, so we can provide an accurate estimate.</p><div class="photo-placeholders"><span></span><span></span><span></span></div><button type="button" class="continue-button" (click)="goTo('additional-info')">Provide requested information</button><button type="button" class="outline-button" (click)="back()">Back to My projects</button></article></main></section> }
+      @case ('onsite-estimate') { <section class="onsite-page"><div class="onsite-shell"><h1>Prefer an onsite estimate?</h1><p>Get an expert to assess your project in person.</p><article><div class="onsite-image"></div><h2>Onsite assessment</h2><strong>$68</strong><p>A professional visits your space to assess the project.</p><hr><span>♙ &nbsp; Professional acceptance first</span><span>▣ &nbsp; Pay after acceptance</span><span>▱ &nbsp; Installation is quoted separately</span><div class="wizard-footer"><button type="button" class="back-button" (click)="back()">Back</button><button type="button" class="continue-button" (click)="requestVisit()">Request a visit</button></div><small>Subject to availability.<br>No appointment confirmed.</small></article></div></section> }
+       @case ('onsite-request-sent') { <section class="onsite-page"><div class="onsite-shell"><h1>Your onsite visit request was sent</h1><p>We’ll let you know once a professional accepts your request.</p><article><i class="ph ph-paper-plane-tilt refinement-icon"></i><h2>Request pending</h2><p>Professional acceptance is required before payment. Installation will be quoted separately.</p><div class="wizard-footer"><button type="button" class="back-button" (click)="back()">Back</button><button type="button" class="continue-button" (click)="back()">My projects</button></div></article></div></section> }
+
+       @case ('onsite-payment') { <section class="onsite-page"><div class="onsite-shell"><h1>Payment provider pending</h1><p>The professional accepted the onsite request. Walivio does not have an approved payment provider configured yet.</p><article><h2>PAYMENT_PROVIDER_PENDING</h2><p>No payment was simulated or marked successful. The request remains available in My Projects.</p><div class="wizard-footer"><button type="button" class="back-button" (click)="back()">Back to request</button><button type="button" class="continue-button" (click)="markPaymentPending()">Continue to payment provider</button><button type="button" class="outline-button" (click)="goTo('project-home')">My projects</button></div></article></div></section> }
+
+
+      <!-- ==================================================
+           H73 · REVIEW SPACES
+      =================================================== -->
+
+      @case ('review') {
+
+        <section class="wizard-step-page">
+
+          <div class="wizard-step-page__inner">
+
+            <nav class="wizard-breadcrumb">
+
+              <button
+                type="button"
+                (click)="back()"
+              >
+                Find My Installer
+              </button>
+
+              <span>/</span>
+
+              <strong>
+                Homeowner
+              </strong>
+
+            </nav>
+
+
+            <header class="step-header">
+
+              <h1>
+                Review your spaces
+              </h1>
+
+              <p>
+                All spaces in your project are complete. You can edit
+                the details or add another space if needed.
+              </p>
+
+            </header>
+
+
+            <div class="progress-grid">
+
+              @for (
+                item of spacesProgress;
+                track item.space
+              ) {
+
+                <article class="progress-card">
+
+                  <div class="progress-card__icon">
+
+                    <i
+                      class="ph"
+                      [ngClass]="
+                        item.icon
+                      "
+                    ></i>
+
+                  </div>
+
+
+                  <div class="progress-card__content">
+
+                    <h2>
+                      {{ item.label }}
+                    </h2>
+
+                    <span class="status-badge complete">
+                      <i class="ph ph-check-circle"></i>
+                      Details complete
+                    </span>
+
+                    <p class="review-card-summary">
+                      {{ item.details?.walls?.length ?? 0 }} walls
+                      <span aria-hidden="true">·</span>
+                      Measurements and photos added
+                    </p>
+
+
+                    <button
+                      type="button"
+                      class="space-detail-button"
+                      (click)="editSpace(item.space, 'review')"
+                    >
+
+                      Edit details
+
+                    </button>
+
+                  </div>
+
+                </article>
+
+              }
+
+            </div>
+
+            <button
+              type="button"
+              class="add-space-link"
+              (click)="addAnotherSpace()"
+            >
+              <i class="ph ph-plus-circle"></i>
+              Add another space
+            </button>
+
+
+            <footer class="wizard-footer">
+
+              <button
+                type="button"
+                class="back-button review-back-button"
+                (click)="back()"
+              >
+
+                <i
+                  class="ph ph-arrow-left"
+                ></i>
+
+                Back
+
+              </button>
+
+              <button
+                type="button"
+                class="continue-button estimate-button"
+                (click)="viewProjectEstimate()"
+              >
+                View project estimate
+                <i class="ph ph-arrow-right"></i>
+              </button>
+
+            </footer>
+
+          </div>
+
+        </section>
+
+      }
+
+
+      <!-- ==================================================
+           H74 · COMBINED ESTIMATE
+      =================================================== -->
+
+      @case ('estimate') {
+
+        <section class="estimate-page">
+
+          <div class="estimate-page__inner">
+
+            <nav class="wizard-breadcrumb">
+              <button type="button" (click)="back()">
+                Find My Installer
+              </button>
+              <span>/</span>
+              <strong>Homeowner</strong>
+            </nav>
+
+            <header class="step-header estimate-header">
+              <h1>Your project estimate</h1>
+               <p>Calculated from the Walivio pricebook and PricingEngine.</p>
+            </header>
+
+            <section class="estimate-card" aria-label="Project estimate">
+
+              @for (item of estimateItems; track item.space) {
+                <article class="estimate-line">
+                  <div class="estimate-line__icon">
+                    <i class="ph" [ngClass]="spaceIcon(item.space)"></i>
+                  </div>
+
+                  <div class="estimate-line__copy">
+                    <h2>{{ item.label }}</h2>
+                    <p>{{ item.description }}</p>
+                    <p class="estimate-line__facts">
+                      {{ item.details?.walls?.length ?? 0 }} walls
+                      <span aria-hidden="true">·</span>
+                      {{ item.details?.hasPhotos ? 'Photos added' : 'No photos added' }}
+                    </p>
+                  </div>
+
+                  <div class="estimate-line__amount">
+                    <strong>{{ item.amount }}</strong>
+                    <button type="button" disabled>View breakdown</button>
+                  </div>
+                </article>
+              }
+
+              <div class="estimate-total">
+                <h2>Estimated total</h2>
+                <strong>{{ estimateTotalLabel }}</strong>
+              </div>
+
+              @if (hasApprovedMapEstimate) {
+                <aside class="estimate-notice">
+                  <i class="ph ph-warning-circle"></i>
+                  <div>
+                    <strong>Combined deterministic estimate.</strong>
+                    <span>Each space was calculated from the versioned pricebook.</span>
+                  </div>
+                </aside>
+              } @else {
+                <aside class="estimate-notice estimate-notice--neutral">
+                  <i class="ph ph-info"></i>
+                  <div>
+                    <strong>Project estimate needs additional information or review.</strong>
+                    <span>A closed project total is not shown until every space has a deterministic result.</span>
+                  </div>
+                </aside>
+              }
+
+            </section>
+
+            <p class="estimate-footnote">
+              Both spaces stay together in one project.
+            </p>
+
+            <footer class="wizard-footer estimate-footer">
+              <button type="button" class="back-button" (click)="back()">
+                <i class="ph ph-arrow-left"></i>
+                Back
+              </button>
+
+              <button
+                type="button"
+                class="continue-button"
+                 (click)="saveEstimateAndContinue()"
+              >
+                Save &amp; continue
+                <i class="ph ph-arrow-right"></i>
+              </button>
+            </footer>
+
+          </div>
+
+        </section>
+
+      }
+
+    }
+
+  </div>
+
+</section>

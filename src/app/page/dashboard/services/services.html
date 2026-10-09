@@ -4,7 +4,7 @@
             <div class="col-lg-10">
                 <div class="text-center mb-4">
                     <h1 class="display-4 fw-bold text-dark">Services</h1>
-                    <button *ngIf="!showForm" (click)="toggleForm()" class="btn btn-lg mt-3" style="background-color: #b87322;">
+                    <button *ngIf="!showForm" (click)="toggleForm()" class="btn btn-lg mt-3" style="background-color: #D4B076;">
                         <i class="fas fa-plus me-2"></i>Add Service
                     </button>
                 </div>
@@ -12,7 +12,7 @@
                 <!-- Form Section -->
                 <div *ngIf="showForm" class="mb-5">
                     <div class="card shadow-lg">
-                        <div class="card-header text-white" style="background: #b87322;">
+                        <div class="card-header text-white" style="background: #D4B076;">
                             <h4 class="mb-0">{{ isEditing ? 'Edit Service' : 'Upload Service' }}</h4>
                         </div>
                         <div class="card-body">

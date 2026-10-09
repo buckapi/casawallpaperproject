@@ -1,0 +1,21 @@
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter, Router } from '@angular/router';
+import { BuilderContractorWizard } from './builder-contractor-wizard';
+
+describe('BuilderContractorWizard', () => {
+  let component: BuilderContractorWizard; let fixture: ComponentFixture<BuilderContractorWizard>;
+  beforeEach(async () => { sessionStorage.clear(); await TestBed.configureTestingModule({ imports: [BuilderContractorWizard], providers: [provideRouter([{ path: 'installer', component: BuilderContractorWizard }, { path: 'installer/contractor/:step', component: BuilderContractorWizard }])] }).compileComponents(); fixture = TestBed.createComponent(BuilderContractorWizard); component = fixture.componentInstance; await fixture.whenStable(); });
+  const completeProject = () => Object.assign(component.draft, { projectName: 'Oakridge', company: 'Oakridge Builders', zipCode: '27601', location: 'Raleigh, NC', timeframe: 'Within 1 month' });
+  it('starts as Builder / Contractor with an isolated draft', () => { expect(component.draft.customerRole).toBe('builder_contractor'); expect(sessionStorage.getItem('installerRequestDraft')).toBeNull(); expect(sessionStorage.getItem('interiorDesignerRequestDraft')).toBeNull(); });
+  it('moves GC01 through GC04 and preserves data on back navigation', async () => { const router = TestBed.inject(Router); completeProject(); component.next(); await fixture.whenStable(); expect(router.url).toContain('/contractor/scope'); component.step = 'scope'; component.draft.areasIncluded = 'Lobby'; component.draft.areaUnknown = true; component.next(); await fixture.whenStable(); expect(router.url).toContain('/contractor/access'); component.step = 'access'; component.draft.access = 'scaffold'; component.next(); await fixture.whenStable(); expect(router.url).toContain('/contractor/review'); component.step = 'review'; component.back(); await fixture.whenStable(); expect(router.url).toContain('/contractor/access'); expect(component.draft.areasIncluded).toBe('Lobby'); });
+  it('never creates or calls the residential PricingEngine', () => { expect('engine' in component).toBe(false); expect(component.draft.wallcoveringArea).toBeNull(); });
+  it('does not inherit homeowner or designer pricing state', () => { sessionStorage.setItem('installerRequestDraft', JSON.stringify({ pricingAnswers: { slope: true }, estimates: [10] })); sessionStorage.setItem('interiorDesignerRequestDraft', JSON.stringify({ customerRole: 'interior_designer', projectUse: 'commercial' })); expect(component.draft.projectUse).toBe('residential'); expect(component.draft.customerRole).toBe('builder_contractor'); });
+  it('uses GC01 as the initial screen', () => expect(component.step).toBe('project'));
+  it('requires GC01 project details before Next', () => { expect(component.canProceed).toBe(false); completeProject(); expect(component.canProceed).toBe(true); });
+  it('requires scope and an area or unknown declaration in GC02', () => { component.step = 'scope'; component.draft.areasIncluded = 'Lobby'; expect(component.canProceed).toBe(false); component.draft.areaUnknown = true; expect(component.canProceed).toBe(true); });
+  it('requires an access choice in GC03', () => { component.step = 'access'; expect(component.canProceed).toBe(false); component.draft.access = 'standard_ladder'; expect(component.canProceed).toBe(true); });
+  it('stores only selected upload names in the frontend draft', () => { component.draft.plans = ['Floor-plan.pdf']; component.save(); expect(sessionStorage.getItem('builderContractorRequestDraft')).toContain('Floor-plan.pdf'); });
+  it('keeps wallcovering area as project data rather than an estimate', () => { component.draft.wallcoveringArea = 2500; expect(component.areaLabel).toBe('2500 sq ft'); expect(JSON.stringify(component.draft)).not.toContain('estimate'); });
+  it('uses the specific Review project CTA for GC03', () => { component.step = 'access'; component.draft.access = 'scaffold'; component.next(); expect(component.step).toBe('access'); });
+  it('renders Walivio branding and the shared Back/Next navigation', () => { fixture.detectChanges(); const text = fixture.nativeElement.textContent; expect(text).toContain('Find My Installer'); expect(text).toContain('Back'); expect(text).toContain('Next'); });
+});

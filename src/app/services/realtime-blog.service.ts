@@ -1,13 +1,13 @@
-import { Injectable } from '@angular/core';
-import PocketBase from 'pocketbase';
+import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { BlogModel } from '../models/blog.model';
+import { PocketBaseService } from './pocketbase.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RealtimeBlogService {
-  private pb = new PocketBase('https://db.buckapi.site:8055');
+  private pb = inject(PocketBaseService).client;
   private collectionName = 'blog';
 
   private blogSubject = new BehaviorSubject<BlogModel[]>([]);

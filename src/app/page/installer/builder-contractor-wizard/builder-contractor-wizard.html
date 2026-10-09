@@ -1,0 +1,31 @@
+<section class="builder-page"><div class="builder-shell">
+<header>
+  <img
+    src="/assets/img/logo/header-logo.png"
+    alt="Walivio — Better walls, brighter spaces"
+  >
+
+  <nav class="builder-breadcrumb" aria-label="Breadcrumb">
+    <span>Find My Installer</span>
+    <b>/</b>
+    <span>Contractor</span>
+    <b>/</b>
+    <span>
+      GC{{ step === 'project'
+        ? '01'
+        : step === 'scope'
+          ? '02'
+          : step === 'access'
+            ? '03'
+            : '04' }}
+    </span>
+  </nav>
+</header>  @if (step !== 'review') { <ol class="progress" aria-label="Project progress">@for (item of steps; track item; let index = $index) { <li [class.active]="step === item" [class.complete]="steps.indexOf(step) > index"><i>{{ index + 1 }}</i><span>{{ item === 'project' ? 'Project' : item === 'scope' ? 'Scope' : 'Access' }}</span></li> }</ol> }
+  @switch (step) {
+    @case ('project') { <main><h1>Tell us about your project</h1><div class="form-grid three"><label>Project name<input [(ngModel)]="draft.projectName" (ngModelChange)="save()"></label><label>Company<input [(ngModel)]="draft.company" (ngModelChange)="save()"></label><label>ZIP code<input [(ngModel)]="draft.zipCode" (ngModelChange)="save()"></label><label>Project location (city, state)<input [(ngModel)]="draft.location" (ngModelChange)="save()"></label><fieldset><legend>Project use</legend><button type="button" [class.selected]="draft.projectUse === 'residential'" (click)="draft.projectUse = 'residential'; save()">Residential</button><button type="button" [class.selected]="draft.projectUse === 'commercial'" (click)="draft.projectUse = 'commercial'; save()">Commercial</button></fieldset><label>Target timeframe<select [(ngModel)]="draft.timeframe" (ngModelChange)="save()"><option value="">Select</option><option>Within 1 month</option><option>1–3 months</option><option>Flexible</option></select></label></div></main> }
+    @case ('scope') { <main><h1>Share the project scope</h1><div class="form-grid scope"><label>Areas included<input [(ngModel)]="draft.areasIncluded" (ngModelChange)="save()"></label><label>Wallcovering area<input type="number" min="0" placeholder="Enter area if known" [(ngModel)]="draft.wallcoveringArea" (ngModelChange)="save()"><small>Wall surface to be covered, not floor area.</small></label><label>Units<select [(ngModel)]="draft.areaUnit" (ngModelChange)="save()"><option value="sq_ft">sq ft</option><option value="sq_m">sq m</option></select></label></div><label class="check"><input type="checkbox" [(ngModel)]="draft.areaUnknown" (ngModelChange)="save()"> Area not known yet</label><div class="split"><div><b>Add plans or layouts <small>(optional)</small></b><label class="upload"><input type="file" multiple (change)="addPlans($event)"><span>Choose files</span><small>Upload plans or layouts available for the project.</small></label>@for (plan of draft.plans; track plan) { <button type="button" class="file" (click)="removePlan(plan)">{{ plan }} ×</button> }</div><label>Wallpaper product link <small>(optional)</small><input placeholder="Enter product link if available" [(ngModel)]="draft.wallpaperProductLink" (ngModelChange)="save()"></label></div></main> }
+    @case ('access') { <main><h1>Height and site access</h1><label class="unit">Units<select [(ngModel)]="draft.units" (ngModelChange)="save()"><option value="feet_inches">Feet &amp; inches</option><option value="inches">Inches</option><option value="centimeters">Centimeters</option><option value="meters">Meters</option></select></label><div class="height"><b>Typical wall height</b><input type="number" min="0" [(ngModel)]="draft.typicalHeightFeet" (ngModelChange)="save()"><span>ft</span><input type="number" min="0" [(ngModel)]="draft.typicalHeightInches" (ngModelChange)="save()"><span>in</span><label class="check"><input type="checkbox" [(ngModel)]="draft.typicalHeightUnknown" (ngModelChange)="save()"> Not sure</label></div><div class="height"><b>Highest wall</b><input type="number" min="0" [(ngModel)]="draft.highestWallFeet" (ngModelChange)="save()"><span>ft</span><input type="number" min="0" [(ngModel)]="draft.highestWallInches" (ngModelChange)="save()"><span>in</span><label class="check"><input type="checkbox" [(ngModel)]="draft.highestWallUnknown" (ngModelChange)="save()"> Not sure</label></div><fieldset class="access"><legend>Access needed</legend>@for (option of accessOptions; track option.value) { <button type="button" [class.selected]="draft.access === option.value" (click)="draft.access = option.value; save()">{{ option.label }}</button> }</fieldset><label>Work hours <small>(optional)</small><input placeholder="Any site restrictions?" [(ngModel)]="draft.workHours" (ngModelChange)="save()"></label></main> }
+    @case ('review') { <main class="review"><p class="crumb">Find My Installer / Contractor</p><h1>Review your project</h1><h2>{{ draft.projectName || 'Project' }}</h2><dl><dt>Location</dt><dd>{{ draft.location || 'Pending' }}</dd><dt>Scope</dt><dd>{{ draft.areasIncluded || 'Pending' }}</dd><dt>Wallcovering area</dt><dd>{{ areaLabel }}</dd><dt>Documents</dt><dd>{{ draft.plans.length ? draft.plans.join(', ') : 'None provided' }}</dd><dt>Heights</dt><dd>{{ heightsLabel }}</dd><dt>Site access</dt><dd>{{ accessLabel }}</dd><dt>Target timeframe</dt><dd>{{ draft.timeframe || 'Pending' }}</dd></dl><p>An installer will review the scope before quoting.</p><aside><b>Backend event not implemented.</b> Saving or matching is not performed in this phase. Any quote is provided directly by the professional after a real match.</aside></main> }
+  }
+  <footer class="wizard-navigation"><button class="back" type="button" (click)="back()">← Back</button>@if (step === 'access') { <button class="next" type="button" [disabled]="!canProceed" (click)="next()">Review project →</button> } @else if (step === 'review') { <button class="next" type="button" (click)="saveAndContinue()">Save &amp; continue →</button> } @else { <button class="next" type="button" [disabled]="!canProceed" (click)="next()">Next →</button> }</footer>
+</div></section>

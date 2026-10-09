@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, ElementRef, NgZone, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, NgZone, ViewChild, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import PocketBase from 'pocketbase';
+import { PocketBaseService } from '../../../services/pocketbase.service';
 
 declare const google: any;
 
@@ -16,7 +16,7 @@ declare const google: any;
 export class CommercialWizard {
   @ViewChild('locationInput') locationInput!: ElementRef<HTMLInputElement>;
 
-  private pb = new PocketBase('https://db.buckapi.site:8055');
+  private pb = inject(PocketBaseService).client;
 
   currentStep = 1;
   totalSteps = 8;

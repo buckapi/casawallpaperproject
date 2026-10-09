@@ -12,7 +12,6 @@ export class Home {
   constructor(private authService: AuthPocketbaseService, private router: Router) {}
 
   logout() {
-  localStorage.removeItem('cw_admin_session');
-  this.router.navigate(['/dashboard/login']);
+  this.authService.logoutAdmin();
 }
 }
